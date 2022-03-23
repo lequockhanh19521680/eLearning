@@ -6,6 +6,8 @@ const cors = require('cors')
 const db = require('./config/index')
 
 const app = express();
+
+//Su dung port 5000
 const PORT = 5000;
 
 app.use(express.urlencoded({

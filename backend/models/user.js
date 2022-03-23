@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+//model cua 1 user trong collection users cua mongodb
 const userSchema = new mongoose.Schema({
     username:{
         type: String,
@@ -23,4 +23,6 @@ const userSchema = new mongoose.Schema({
 
     }
 })
+
+
 module.exports = mongoose.model('User',userSchema);

@@ -18,14 +18,16 @@ const connect = async () => {
 module.exports = {connect}*/
 
 const mongoose = require('mongoose')
-
+//ket noi phan mem voi mongodb qua string duoi
 const connectString = "mongodb+srv://khanh:khanh@cluster0.gsmj5.mongodb.net/db?retryWrites=true&w=majority"
 const connect = async () =>{
     mongoose.connect(connectString, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
+    //neu thanh cong thi tra ve :connect to db
     .then(() => console.log('connect to db'))
+    //neu that bai => bao loi
     .catch((err) => console.log(err))
 }
 
