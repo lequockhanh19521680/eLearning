@@ -1,6 +1,10 @@
 const userModel = require('../models/user')
 
 class UserController {
+
+    
+
+
     //Ham lay du lieu tu database
     async getAllUser(req, res, next) {
         try {
@@ -27,6 +31,31 @@ class UserController {
             res.send('Error' + err)
         }
     }
+
+    async changeSelect(req,res) {
+        try{
+            const _id = req.params.id;
+            const update = await userModel.findByIdAndUpdate(_id,{"isSelect": true})
+            res.send(update)
+        }
+        catch(err)
+        {
+            res.send('error' + err)
+        }
+    }
+    async changeTeacher(req,res) {
+        try{
+            const _id = req.params.id;
+            const update = await userModel.findByIdAndUpdate(_id,{"isTeacher": true})
+            res.send(update)
+        }
+        catch(err)
+        {
+            res.send('error' + err)
+        }
+    }
+    
+  
 }
 
 module.exports = new UserController

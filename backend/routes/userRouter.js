@@ -7,4 +7,7 @@ router.get('/',userController.getAllUser)
 router.post('/',userController.addUser)
 
 
+router.patch('/select/:id', userController.changeSelect)
+router.patch('/teacher/:id', userController.changeTeacher)
+
 module.exports = router
