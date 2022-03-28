@@ -8,6 +8,7 @@ router.post('/',userController.addUser)
 
 
 router.patch('/select/:id', userController.changeSelect)
+router.patch('/student/:id',userController.changeStudent)
 router.patch('/teacher/:id', userController.changeTeacher)
 
 module.exports = router

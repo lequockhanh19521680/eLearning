@@ -15,20 +15,18 @@ class UserController {
             res.send({ message: err.message })
         }
     }
-    // Ham them user vao database, trong do chi can them username vs password la dc, isTeacher va isSelect tu dong la false
+    // Ham them user vao database, trong do chi can them username vs password la dc, role tu dong la STUDENT va isSelect tu dong la false
     async addUser(req, res) {
         const user = await new userModel({
             username: req.body.username,
             password: req.body.password,
-            isTeacher: false,
-            isSelect: false
         })
 
         try {
             const temp = await user.save()
             res.json(temp)
         } catch (err) {
-            res.send('Error' + err)
+            res.send('Error ' + 'username khong duoc trung nhau')
         }
     }
 
@@ -46,7 +44,7 @@ class UserController {
     async changeTeacher(req,res) {
         try{
             const _id = req.params.id;
-            const update = await userModel.findByIdAndUpdate(_id,{"isTeacher": true})
+            const update = await userModel.findByIdAndUpdate(_id,{"role": 'TEACHER'})
             res.send(update)
         }
         catch(err)
@@ -55,6 +53,17 @@ class UserController {
         }
     }
     
+    async changeStudent(req,res) {
+        try{
+            const _id = req.params.id;
+            const update = await userModel.findByIdAndUpdate(_id,{"role": 'STUDENT'})
+            res.send(update)
+        }
+        catch(err)
+        {
+            res.send('error' + err)
+        }
+    }
   
 }
 

@@ -1,8 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { changeStudent } = require('../controllers/userController');
 //model cua 1 user trong collection users cua mongodb
 const userSchema = new mongoose.Schema({
     username:{
         type: String,
+        unique:true,
         required: true,
     },
     password:{
@@ -10,16 +12,18 @@ const userSchema = new mongoose.Schema({
         required: true,
 
     },
-    isTeacher:
+    role:
     {
-        type: Boolean,
-        required: true
+        type: String,
+        enum:['TEACHER','STUDENT'],
+        default: 'STUDENT',
 
     },
     isSelect:
     {
         type: Boolean,
-        required: true
+        required: true,
+        default: false,
 
     }
 })
