@@ -7,9 +7,29 @@ import setAuthToken from '../utils/SetAuthToken'
 export const AuthContext = createContext()
 
 const AuthContextProvider = ({ children }) => {
-    
+
+    const loginUser = async userForm => {
+        try {
+            const res = await axios.post('https://ecommerce-basic-by-tdn352001.herokuapp.com/user/login', userForm)
+
+            if (res.data.success) {
+                localStorage.setItem(
+                    LOCAL_STORAGE_TOKEN_NAME,
+                    res.data.accessToken
+                )
+            }
+            console.log(res.data);
+
+            return res.data
+
+        } catch (error) {
+            console.log({error});
+            return error.response.data
+        }
+    }
+
     return (
-        <AuthContext.Provider value={null}>
+        <AuthContext.Provider value={{ loginUser }}>
             {children}
         </AuthContext.Provider>
     )

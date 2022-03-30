@@ -15,10 +15,13 @@ const userSchema = new mongoose.Schema({
     role:
     {
         type: String,
-        enum:['TEACHER','STUDENT'],
-        default: 'STUDENT',
+
+        enum: ['STUDENT','TEACHER'],
+        default:'STUDENT',
+        required: true
 
     },
+
     isSelect:
     {
         type: Boolean,
@@ -26,6 +29,7 @@ const userSchema = new mongoose.Schema({
         default: false,
 
     }
+
 })
 
 
