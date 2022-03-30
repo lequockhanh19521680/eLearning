@@ -7,7 +7,7 @@ const userController = require('../controllers/userController');
 router.get('/',verifyToken,userController.getUser)
 router.post('/login',userController.Login)
 router.post('/register',userController.Register)
-
+router.patch('/student/:id',userController.changeStudent)
 router.patch('/teacher/:id', userController.changeTeacher)
 
 module.exports = router
