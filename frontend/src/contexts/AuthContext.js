@@ -10,7 +10,7 @@ const AuthContextProvider = ({ children }) => {
 
     const loginUser = async userForm => {
         try {
-            const res = await axios.post('https://ecommerce-basic-by-tdn352001.herokuapp.com/user/login', userForm)
+            const res = await axios.post(`${apiUrl}/user/login`, userForm)
 
             if (res.data.success) {
                 localStorage.setItem(

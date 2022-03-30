@@ -27,5 +27,5 @@ function App() {
         </AuthContextProvider>
     );
 }
-// <ProtectedRoute path='/example'  element={Example} />
+
 export default App;
