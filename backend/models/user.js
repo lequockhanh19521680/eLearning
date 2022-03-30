@@ -10,18 +10,14 @@ const userSchema = new mongoose.Schema({
         required: true,
 
     },
-    isTeacher:
+    role:
     {
-        type: Boolean,
+        type: String,
+        enum: ['STUDENT','TEACHER'],
+        default:'STUDENT',
         required: true
 
     },
-    isSelect:
-    {
-        type: Boolean,
-        required: true
-
-    }
 })
 
 
