@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Navigate ,Outlet, Routes } from 'react-router-dom'
+import { Route, Navigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../../contexts/AuthContext'
 import { Spinner } from 'react-bootstrap'

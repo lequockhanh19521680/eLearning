@@ -7,7 +7,8 @@ import setAuthToken from '../utils/SetAuthToken'
 export const AuthContext = createContext()
 
 const AuthContextProvider = ({ children }) => {
-
+    
+    //login
     const loginUser = async userForm => {
         try {
             const res = await axios.post(`${apiUrl}/user/login`, userForm)
@@ -27,9 +28,29 @@ const AuthContextProvider = ({ children }) => {
             return error.response.data
         }
     }
+    //register
+    const registerUser = async registerForm => {
+        try {
+            const response = await axios.post(`${apiUrl}/user/register`, registerForm)
+            if(response.data.success){
+                if (response.data.success) {
+                    localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME,
+                        response.data.accessToken)
+                }
+            }
+      
+            return response.data
+        } catch (error) {
+            if (error.response.data)
+                return error.response.data
+
+            return { success: false, message: error.message }
+        }
+    }
+   
 
     return (
-        <AuthContext.Provider value={{ loginUser }}>
+        <AuthContext.Provider value={{ loginUser,registerUser}}>
             {children}
         </AuthContext.Provider>
     )
