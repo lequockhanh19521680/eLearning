@@ -32,6 +32,17 @@ class UserController {
     }
     */
 
+    async getAllUser(req, res, next) {
+        try {
+            const user = await userModel.find()
+            res.send(user)
+        }
+        catch (err) {
+            res.send({ message: err.message })
+        }
+    }
+
+
 
     async getUser(req, res) {
         try {
@@ -45,7 +56,7 @@ class UserController {
         }
     }
 
-
+    
 
     async Register(req, res) {
         const { username, password } = req.body

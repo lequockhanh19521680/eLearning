@@ -4,7 +4,7 @@ import LoginForm from '../../components/login-form/LoginForm'
 
 
 
-const Login = (props) => {
+const Login = () => {
     return(
     <>
         <LoginForm />

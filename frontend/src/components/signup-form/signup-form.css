@@ -6,7 +6,7 @@
   .register-photo .image-holder {
     display: table-cell;
     width: 450px;
-    background: url("../../assets/img/register_photo.jpg") center / 580px;
+    background: url("../../assets/img/register_photo.jpg") center / contain no-repeat, #ffffff;
   }
   
   .register-photo .form-container {

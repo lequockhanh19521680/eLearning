@@ -2,35 +2,52 @@ import React, { useContext, useState } from 'react'
 import { logo } from '../../assets/img'
 import './login-form.css'
 import { AuthContext } from '../../contexts/AuthContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import AlertMessage from '../../pages/layout/AlertMessage'
+
+
 const LoginForm = () => {
+
+    let navigate = useNavigate();
 
     // Data trong form
     const [loginForm, setLoginForm] = useState({
         username: '',
         password: '',
     })
-
+    
     // cập nhật dữ liệu khi mà nhập trong input
     const onChangeLoginForm = e => setLoginForm({
         ...loginForm,
         [e.target.name]: e.target.value
-    })
+    },setAlert(null))
 
 
     // Xử lý đoạn submit form
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser} = useContext(AuthContext)
+    const [alert, setAlert] = useState(null)
 
     // khi ấn submit form   
     const handleLogin = async (e) => {
         e.preventDefault()
-        const result = await loginUser(loginForm)
-        if (result.success) {
-            alert("true")
-        } else {
-            alert("false")
-
+        try {
+           
+            const result = await loginUser(loginForm)
+            
+            if (result.success) {
+                
+                setAlert(null)
+                navigate('/main')
+            } else {
+                
+                setAlert({ type: 'danger', message: result.message })
+                //setTimeout(() => setAlert(null), 5000)
+            }
+        } catch (error) {
+            console.log(error)
         }
+
+
     }
 
 
@@ -42,6 +59,8 @@ const LoginForm = () => {
                         <div className="col-md-6 col-align-left"><img id="logo" src={logo} /></div>
                         <div className="col-md-6 col-align-right padding-top-18" style={{ marginTop: '50px' }}>
                             <form onSubmit={handleLogin}>
+                                
+                                <AlertMessage info={alert} />
                                 <h2 className="visually-hidden">Login Form</h2>
                                 <div className="illustration">
                                     <i className="icon ion-ios-navigate" style={{ color: '#5595f0' }}></i>
@@ -62,6 +81,7 @@ const LoginForm = () => {
                     </div>
                 </div>
             </section>
+        
 
 
         </>
