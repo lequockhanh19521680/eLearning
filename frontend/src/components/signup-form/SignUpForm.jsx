@@ -1,10 +1,11 @@
 import React from 'react'
 import './signup-form.css'
-import { register } from '../../assets/img'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useContext, useState } from 'react'
 import AlertMessage from '../../pages/layout/AlertMessage'
+import axios from 'axios'
+import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../contexts/constants'
 
 export const SignUpForm = () => {
 
@@ -13,7 +14,9 @@ export const SignUpForm = () => {
         username: '',
         password: '',
         confirmPassword: '',
+
     })
+    const [radio, setRadio] = useState("Student");
 
     const { username, password, confirmPassword } = registerForm
 
@@ -22,7 +25,7 @@ export const SignUpForm = () => {
         ...registerForm,
         [e.target.name]: e.target.value,
 
-    })
+    }, setAlert(null))
 
 
     // Xử lý đoạn submit form
@@ -31,12 +34,13 @@ export const SignUpForm = () => {
 
 
     // khi ấn submit form   
+
     const handleRegister = async (e) => {
         e.preventDefault()
 
         if (password !== confirmPassword) {
             setAlert({ type: 'danger', message: 'Incorrect repeat password!' })
-            setTimeout(() => setAlert(null), 5000)
+            //setTimeout(() => setAlert(null), 5000)
             return
         }
 
@@ -44,8 +48,33 @@ export const SignUpForm = () => {
             const registerData = await registerUser(registerForm)
             if (!registerData.success) {
                 setAlert({ type: 'danger', message: registerData.message })
-                setTimeout(() => setAlert(null), 5000)
+                //setTimeout(() => setAlert(null), 5000)            
+                console.log(radio, registerForm);
             }
+            else {
+                // xử lý thay đổi role trong khi signup thành công
+                const get = await axios.get(`${apiUrl}/user`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+                let data = {
+                    success: '',
+                    user:
+                    {
+                        isSelect: '',
+                        role: '',
+                        username: '',
+                        __v: '',
+                        _id: ''
+                    }
+                }
+                data = get.data
+                console.log(data, data.user._id, get.data)
+                if (radio === "Teacher") {
+                    const change = await axios.patch(`${apiUrl}/user/teacher/${data.user._id}`)
+                    console.log(change.data)
+
+                }
+                setAlert({ type: 'success', message: registerData.message })
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -62,10 +91,12 @@ export const SignUpForm = () => {
                         <div className="mb-3"><input className="form-control" value={password} onChange={onChangeRegisterForm} type="password" name="password" placeholder="Password" /></div>
                         <div className="mb-3"><input className="form-control" valie={confirmPassword} onChange={onChangeRegisterForm} type="password" name="confirmPassword" placeholder="Password (repeat)" /></div>
                         <div className="mb-3">
-                            <div className="form-check"><label className="form-check-label"><input className="form-check-input" type="checkbox" />Is teacher?</label></div>
+                            <p>Choose your role for your account:</p>
+                            <div className="form-check"><label className="form-check-label"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Student" checked={radio === "Student"} />Student</label></div>
+                            <div className="form-check"><label className="form-check-label"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Teacher" checked={radio === "Teacher"} />Teacher</label></div>
                         </div>
                         <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Sign Up</button></div>
-                        <Link className="already" to='/login' >You already have an account? Login here.</Link>
+                        <Link className="already" to='/login' >You already have an account?  <em style={{ color: 'blue' }}>Login here</em> </Link>
                     </form>
                 </div>
             </section>

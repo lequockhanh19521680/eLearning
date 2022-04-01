@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 
 const AuthContextProvider = ({ children }) => {
     
+   
     //login
     const loginUser = async userForm => {
         try {
@@ -19,6 +20,7 @@ const AuthContextProvider = ({ children }) => {
                     res.data.accessToken
                 )
             }
+          
             console.log(res.data);
 
             return res.data
