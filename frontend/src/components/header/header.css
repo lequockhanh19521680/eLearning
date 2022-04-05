@@ -1,0 +1,17 @@
+.avatar-a {
+    background-image: url("../../assets/img/account.png");
+    background-color: transparent;
+    background-repeat: no-repeat;    
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-size:cover;
+}
+#homeTxt
+{
+    padding-top: 5px;
+    margin: auto;
+    margin-left: 500px;
+   
+}

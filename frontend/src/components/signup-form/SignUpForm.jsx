@@ -1,6 +1,6 @@
 import React from 'react'
 import './signup-form.css'
-import { Link } from 'react-router-dom'
+import { Link,Navigate, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useContext, useState } from 'react'
 import AlertMessage from '../../pages/layout/AlertMessage'
@@ -9,6 +9,7 @@ import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../contexts/constants'
 
 export const SignUpForm = () => {
 
+    const Navigate = useNavigate();
     // Data trong form
     const [registerForm, setRegisterForm] = useState({
         username: '',
@@ -16,8 +17,10 @@ export const SignUpForm = () => {
         confirmPassword: '',
 
     })
+  
     const [radio, setRadio] = useState("Student");
-
+ 
+    
     const { username, password, confirmPassword } = registerForm
 
     // cập nhật dữ liệu khi mà nhập trong input
@@ -72,7 +75,12 @@ export const SignUpForm = () => {
                     console.log(change.data)
 
                 }
-                setAlert({ type: 'success', message: registerData.message })
+                setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page"})
+                setTimeout(
+                    () =>{ Navigate('/login')}
+                ,2000);
+                
+               
             }
 
         } catch (error) {
