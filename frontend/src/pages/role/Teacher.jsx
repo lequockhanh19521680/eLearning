@@ -9,7 +9,7 @@ const Teacher = () => {
             <div className='container-fluid page'>
                 <div className='row px-4'>
                     <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='  box '>
+                        <div className='  box ' >
                             <div className='col-mda-auto'>
                                 <img src={book} className="icon" />
                             </div>

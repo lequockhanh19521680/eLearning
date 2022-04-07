@@ -5,8 +5,8 @@
     width: 3em;
     height: 3em;
     animation: spin 1s linear infinite;
-    z-index: 99;
-    position: relative;
+    z-index: 990;
+    position: absolute;    
     
   }
   
