@@ -4,13 +4,11 @@ import './login-form.css'
 import { AuthContext } from '../../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import AlertMessage from '../../pages/layout/AlertMessage'
-import { Loading } from '../loading/Loading'
 
 
 const LoginForm = () => {
 
     let navigate = useNavigate();
-   
 
     // Data trong form
     const [loginForm, setLoginForm] = useState({
@@ -28,7 +26,6 @@ const LoginForm = () => {
     // Xử lý đoạn submit form
     const { loginUser} = useContext(AuthContext)
     const [alert, setAlert] = useState(null)
-    
 
     // khi ấn submit form   
     const handleLogin = async (e) => {
@@ -36,14 +33,9 @@ const LoginForm = () => {
         try {
            
             const result = await loginUser(loginForm)
-            if(result == undefined)
-            {
-                console.log(result)
-                console.log("waiting....")
-                return <Loading/>
-            }
-           
-            if (result.success) {                
+            
+            if (result.success) {
+                
                 setAlert(null)
                 navigate('/main')
             } else {
@@ -54,7 +46,10 @@ const LoginForm = () => {
         } catch (error) {
             console.log(error)
         }
+
+
     }
+
 
     return (
         <>
