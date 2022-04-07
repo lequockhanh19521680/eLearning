@@ -18,7 +18,7 @@ const Header = () => {
                     <span class="d-flex" id="homeTxt">Home</span>
                     <div class="d-flex col-1 ">
                         <a class="btn  btn-lg btn-floating  avatar-a" href="" type='button' role={'button'}></a>
-
+                        <a href='' style={{paddingTop: '5px',paddingLeft:'15px'} } id="signout">Sign out </a>
                     </div>
 
                 </div>

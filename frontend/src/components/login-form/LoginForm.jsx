@@ -10,6 +10,7 @@ import { Loading } from '../loading/Loading'
 const LoginForm = () => {
 
     let navigate = useNavigate();
+   
 
     // Data trong form
     const [loginForm, setLoginForm] = useState({
@@ -35,12 +36,11 @@ const LoginForm = () => {
         try {
            
             const result = await loginUser(loginForm)
-            if(result === undefined)
+            if(result == undefined)
             {
                 console.log(result)
                 console.log("waiting....")
-                return(
-                <Loading/>);
+                return <Loading/>
             }
            
             if (result.success) {                
@@ -54,10 +54,7 @@ const LoginForm = () => {
         } catch (error) {
             console.log(error)
         }
-
-
     }
-
 
     return (
         <>
