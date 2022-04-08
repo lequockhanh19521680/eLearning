@@ -1,6 +1,6 @@
 .footer-basic {
     padding: 40px 0;
-    background-color: #ffffff;
+    background-color: #ecf0f5;
     color: #4b4c4d;
   }
   
@@ -71,4 +71,6 @@
     margin-left: auto;
   }
   
-  
+  h2{
+    font-family: inherit;
+  }

@@ -1,0 +1,36 @@
+.icon
+{
+    width: 60px;
+    height: 60px;
+}
+.box
+{
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    border: 1px solid #e6e8e9;
+    padding: 20px !important;
+    cursor: pointer;
+}
+.box:hover{
+    background-color: white;
+}
+.alt-text
+{
+   padding-top: 15px;
+   font-weight: 300;
+   font-size: 14pt;
+}
+span{
+    font-weight: inherit;
+    font-family: Roboto,Helvetica Neue,sans-serif;
+}
+.page
+{
+    padding-top: 100px;
+    background-color: #ecf0f5 !important;
+   
+}
