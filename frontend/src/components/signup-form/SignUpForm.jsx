@@ -1,6 +1,6 @@
 import React from 'react'
 import './signup-form.css'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 import { useContext, useState } from 'react'
 import AlertMessage from '../../pages/layout/AlertMessage'
