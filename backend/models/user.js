@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
-const { changeStudent } = require('../controllers/userController');
+const shortId = require('short-id')
 //model cua 1 user trong collection users cua mongodb
 const userSchema = new mongoose.Schema({
+    userId:{
+        type:String,
+        default:shortId.generate(),
+    },
     username:{
         type: String,
         unique:true,
@@ -15,21 +19,13 @@ const userSchema = new mongoose.Schema({
     role:
     {
         type: String,
-
-        enum: ['STUDENT','TEACHER'],
+        enum: ['ADMIN','STUDENT','TEACHER'],
         default:'STUDENT',
-        required: true
-
     },
-
-    isSelect:
-    {
-        type: Boolean,
-        required: true,
-        default: false,
-
+    createAt:{
+        type: Date,
+        default: Date.now,
     }
-
 })
 
 
