@@ -25,6 +25,17 @@ class courseDetailController{
         }
     }
 
+    async getCourseFromClass(req,res){
+        try {
+            const classId = req.query.classId
+            const findCourse = await courseDetailSchema.find({"classId":[classId]})
+            res.send(findCourse)
+        }
+        catch (err) {
+            res.send({ message: err.message })
+        }
+    }
+
 
     async getSubject(req, res, next) {
         try {
@@ -65,6 +76,19 @@ class courseDetailController{
             const _id = req.params.id
             const course = await courseDetailSchema.findById(_id)
             res.send(course)
+        }
+        catch (err) {
+            res.send({ message: err.message })
+        }
+    }
+
+
+
+    async getCourseFromSubject(req,res){
+        try {
+            const subjectId = req.query.subjectId
+            const findCourse = await courseDetailSchema.find({"subjectId":[subjectId]})
+            res.send(findCourse)
         }
         catch (err) {
             res.send({ message: err.message })
@@ -118,7 +142,23 @@ class courseDetailController{
             res.send({ message: err.message })
         }
     }
+
+    async addCourse(req,res){
+        const subject = await new subjectSchema({
+            subjectName : req.body.subjectName
+        })
+        try {
+            const temp = await subject.save()
+            res.send(temp)
+        }
+        catch (err) {
+            res.send({ message: err.message })
+        }
+    }
         
+    
+
+
 }
 
 module.exports = new courseDetailController

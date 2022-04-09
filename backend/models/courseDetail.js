@@ -4,6 +4,7 @@ const courseDetail = new mongoose.Schema({
     courseId:{
         type:String,
         ref:'course',
+        default: shortId.generate()
     },
     classId:{
         type: String,
