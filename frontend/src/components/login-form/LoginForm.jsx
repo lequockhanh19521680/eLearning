@@ -36,7 +36,7 @@ const LoginForm = () => {
         try {
            
             const result = await loginUser(loginForm)
-            if(result == undefined)
+            if(result === undefined)
             {
                 console.log(result)
                 console.log("waiting....")
@@ -61,7 +61,7 @@ const LoginForm = () => {
             <section className="login-clean">
                 <div className="container">
                     <div className="row align-items-center padding-mobile">
-                        <div className="col-md-6 col-align-left"><img id="logo" src={logo} /></div>
+                        <div className="col-md-6 col-align-left"><img id="logo" src={logo} alt='logo' /></div>
                         <div className="col-md-6 col-align-right padding-top-18" style={{ marginTop: '50px' }}>
                             <form onSubmit={handleLogin}>
                                 

@@ -49,8 +49,7 @@ const AuthContextProvider = ({ children }) => {
             return { success: false, message: error.message }
         }
     }
-   
-
+  
     return (
         <AuthContext.Provider value={{ loginUser,registerUser}}>
             {children}
