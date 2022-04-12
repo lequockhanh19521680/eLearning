@@ -11,11 +11,11 @@ const Header = () => {
     }
     return (
         <>
-            <nav class="navbar navbar-expand-lg fixed-top sticky-top navbar-light bg-white">
-                <div class="container-fluid">
-                    <div class="d-flex">
+            <nav className="navbar navbar-expand-lg fixed-top sticky-top navbar-light bg-white">
+                <div className="container-fluid">
+                    <div className="d-flex">
 
-                        <Link to="/main" class="navbar-brand text-uppercase font-weight-bold">
+                        <Link to="/main" className="navbar-brand text-uppercase font-weight-bold">
                       
                                 <img  src={logo} className="logo" alt='logo'/>
                                 <span id="logoTxt">SimpleCode</span>
@@ -23,10 +23,10 @@ const Header = () => {
 
                         </Link>
                     </div>
-                    <span class="d-flex" id="homeTxt">Home</span>
-                    <div class="d-flex col-1 ">
-                        <Link class="btn  btn-lg btn-floating  avatar-a" to="" type='button' role={'button'}></Link>
-                        <a  onClick={handleSignout} role={'button'} style={{ paddingTop: '5px', paddingLeft: '15px' }} id="signout">Sign out </a>
+                    <span className="d-flex" id="homeTxt">Home</span>
+                    <div className="d-flex col-1 ">
+                        <Link className="btn  btn-lg btn-floating  avatar-a" to="" type='button' role={'button'}></Link>
+                        <a  onClick={handleSignout} role={'button'}  id="signout">Sign out </a>
                     </div>
 
                 </div>
