@@ -1,39 +1,24 @@
 import React, { useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import './teacher.css'
-import 'font-awesome/css/font-awesome.min.css'
+
 import ListItem from '../../components/table/ListItem'
 
 
 const Teacher = () => {
-    let List;
-    const [isLecture, setLecture] = useState();
-    const [isExercise, setExercise] = useState();
-    if (isLecture) {
-        List = <ListItem />
-    }
-    else if (isExercise) {
-        List = (
-            <div>
-                <h1>Exercise</h1>
-            </div>
-        )
-    }
-    else {
-        List = (
-            <div>
-                <h1>khong co gi</h1>
-            </div>
-        )
-    }
-    const handleExercise = () => {
-        setLecture(false);
-        setExercise(true);
+    const [State, setState] = useState(<ListItem Role={"Lecture"} />);
+    const handleCreate = () => {
 
     }
+    const handleExams = () => {
+        setState(<><div><h1>hello</h1></div></>)
+    }
+    const handleExercise = () => {
+        setState(<ListItem Role={"Exercise"} />)
+    }
     const handleLecture = () => {
-        setLecture(true);
-        setExercise(false);
+
+        setState(<ListItem Role={"Lecture"} />)
     }
     return (
         <React.Fragment>
@@ -48,43 +33,37 @@ const Teacher = () => {
                             <div className='col-md-auto alt-text'  >
                                 <span >Lectures</span>
                             </div>
-
                         </div>
 
                     </div>
                     <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-
                         <div className='  box ' onClick={handleExercise}>
-
                             <div className='col-mda-auto'>
                                 <img src={exercise} className="icon" alt='exercise.icon' />
-
                             </div>
                             <div className='col-md-auto alt-text'  >
                                 <span >Exercise</span>
                             </div>
-
-
                         </div>
-
                     </div>
                     <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-
-                        <div className='  box ' onClick={handleExercise}>
+                        <div className='  box ' onClick={handleExams}>
                             <div className='col-mda-auto'>
                                 <img src={exercise} className="icon" alt='exams.icon' />
                             </div>
                             <div className='col-md-auto alt-text'  >
                                 <span >Exams</span>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-                {List}
+                <div className='spacing'>
+                    {State}
+                </div>
                 <div className='container btn-box'>
-                    <button className='btn btn-primary create-btn'>Create
+                    <button className='btn btn-primary create-btn'
+                        onClick={handleCreate}
+                    >Create
                         <svg xmlns="http://www.w3.org/2000/svg"
                             width="18" height="18"
                             fill="currentColor"
@@ -95,6 +74,7 @@ const Teacher = () => {
                         </svg>
                     </button>
                 </div>
+
 
             </div>
 
