@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import ListItem from '../../components/table/ListItem'
-import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
+
 import './student.css'
+import Accordion from '../../components/accordion/Accordion';
+import NavbarItem from '../../components/navbar/NavbarItem';
+import EModal from '../../components/modal/EModal';
+import { useLocation } from 'react-router-dom';
 
 
-const Student = () => {
-    const [State, setState] = useState(<ListItem Role={"Lecture"}/>)
-    const [Find, setFind] = useState(true)
+const Student = (props) => {
+
+    const location = useLocation();
+    console.log(location)
+    const [State, setState] = useState(<ListItem Role={"Lectures"} />)
+    const [Find, setFind] = useState(false)
+    const [Accor, setAccor] = useState(<Accordion State={State} Title="Your Lectures" ></Accordion>)
+    const [Modal, setModal] = useState()
 
     const updateFind = Find => {
         if (Find)
@@ -15,79 +24,49 @@ const Student = () => {
         else
             setFind(true)
     }
-    const handleFindTeacher = () => {
+    const handleClose = () => {
+        setModal(<EModal props={{ isShow: false, function: handleClose }} />)
+        updateFind(Find)
+    }
+    const handleFindTeacher =  () => {
 
+        setModal(<EModal props={{ isShow: true, func: handleClose }} />)
+        
     }
     const handleExams = () => {
         setState(<><div><h1>Exams</h1></div></>)
+        setAccor(<Accordion State={<><div><h1>Exams</h1></div></>} Title="Your Lectures" />)
     }
-    const handleExercise = () => {
-        setState(<ListItem />)
-        updateFind(Find)
+    const handleExercises = () => {
+        setState(<ListItem Role="Exercises" />)
+        setAccor(<Accordion State={<ListItem Role="Exercises" />} Title="Your Lectures" ></Accordion>)
+    }
+    const handleLectures = () => {
+        setState(<ListItem Role={"Lectures"} />)
+        setAccor(<Accordion State={<ListItem Role="Lectures" />} Title="Your Lectures" />)
+    }
+    const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
+    { name: 'Exercises', func: handleExercises, src: exercise },
+    { name: 'Exams', func: handleExams, src: exercise }]
 
-    }
-    const handleLecture = () => {
-        setState(<ListItem />)
-        updateFind(Find)
-    }
     return (
         <React.Fragment>
             <div className='container-fluid page'>
-
                 <div className='row  ' style={{ paddingLeft: '200px' }}>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='box' onClick={handleLecture} >
-                            <div className='col-mda-auto'>
-                                <img src={book} className="icon" alt='lecture.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Lectures</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='box' onClick={handleExercise}>
-                            <div className='col-mda-auto'>
-                                <img src={exercise} className="icon" alt='exercise.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Exercise</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='  box ' onClick={handleExams}>
-                            <div className='col-mda-auto'>
-                                <img src={exercise} className="icon" alt='exams.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Exams</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div className="container">
-                    {(Find) ? (<div><h1>No loading</h1></div>) :
-                        (<div className='row' style={{ marginTop: '50px' }}>
-                            <MDBAccordion >
-                                <MDBAccordionItem collapseId={1} headerTitle='Teacher Lectures'>
-                                    {State}
-                                </MDBAccordionItem>
-                            </MDBAccordion>
-                        </div>
+                    {navItem.map((Item, index) => {
+                        return (
+                            <NavbarItem key={index} props={Item}></NavbarItem>
                         )
                     }
-                    <div className='row' style={{ marginTop: '50px' }}>
-                        <MDBAccordion initialActive={1}  >
-                            <MDBAccordionItem collapseId={1} headerTitle='Your Lectures'>
-                                {State}
-                            </MDBAccordionItem>
-                        </MDBAccordion>
-                    </div>
+                    )}
+                </div>
+                <div className="container">
+                    {(Find) ?
+                        <Accordion State={State} Title="Teacher Lectures" isCheck />
+                        :
+                        (<div><h1>No loading</h1></div>)
+                    }
+                    {Accor}
                 </div>
                 <div className='container btn-box'>
                     <button className='btn btn-primary create-btn'
@@ -105,6 +84,8 @@ const Student = () => {
                 </div>
 
             </div>
+            {Modal}
+
         </React.Fragment>
     )
 }

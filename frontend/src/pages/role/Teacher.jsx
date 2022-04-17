@@ -2,60 +2,47 @@ import React, { useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import './teacher.css'
 
+import NavbarItem from '../../components/navbar/NavbarItem'
 import ListItem from '../../components/table/ListItem'
+import { useNavigate } from 'react-router-dom'
 
 
-const Teacher = () => {
-    const [State, setState] = useState(<ListItem Role={"Lecture"} />);
+const Teacher = (props) => {
+    const navigate = useNavigate();
+    const [State, setState] = useState(<ListItem Role={"Lectures"} />);
+    const [Type, setType] = useState("Lectures")
     const handleCreate = () => {
-
+        if (Type === "Lectures") {
+            navigate("/main/lectures")
+        }
+        else if (Type === "Exercises") {
+            navigate("/main/exercises")
+        }
     }
     const handleExams = () => {
-        setState(<><div><h1>hello</h1></div></>)
+        setState(<><div><h1>Exams</h1></div></>)
     }
-    const handleExercise = () => {
-        setState(<ListItem Role={"Exercise"} />)
+    const handleExercises = () => {
+        setState(<ListItem Role={"Exercises"} />)
+        setType("Exercises")
     }
-    const handleLecture = () => {
-
-        setState(<ListItem Role={"Lecture"} />)
+    const handleLectures = () => {
+        setState(<ListItem Role={"Lectures"} />)
+        setType("Lectures")
     }
+    const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
+    { name: 'Exercises', func: handleExercises, src: exercise },
+    { name: 'Exams', func: handleExams, src: exercise }]
     return (
         <React.Fragment>
             <div className='container-fluid page'>
                 <div className='row  ' style={{ paddingLeft: '200px' }}>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-
-                        <div className='box' onClick={handleLecture} >
-                            <div className='col-mda-auto'>
-                                <img src={book} className="icon" alt='lecture.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Lectures</span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='  box ' onClick={handleExercise}>
-                            <div className='col-mda-auto'>
-                                <img src={exercise} className="icon" alt='exercise.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Exercise</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3'>
-                        <div className='  box ' onClick={handleExams}>
-                            <div className='col-mda-auto'>
-                                <img src={exercise} className="icon" alt='exams.icon' />
-                            </div>
-                            <div className='col-md-auto alt-text'  >
-                                <span >Exams</span>
-                            </div>
-                        </div>
-                    </div>
+                    {navItem.map((Item, index) => {
+                        return (
+                            <NavbarItem key={index} props={Item}></NavbarItem>
+                        )
+                    }
+                    )}
                 </div>
                 <div className='spacing'>
                     {State}
@@ -74,10 +61,7 @@ const Teacher = () => {
                         </svg>
                     </button>
                 </div>
-
-
             </div>
-
         </React.Fragment >
     )
 }
