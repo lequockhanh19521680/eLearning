@@ -2,6 +2,9 @@ import React from 'react'
 import './listitem.css'
 
 const ListItem = (props) => {
+    const handleView = (user) => {
+        console.log(user.target)
+    }
     return (
         <>
             <div className="container list-box" >
@@ -19,6 +22,9 @@ const ListItem = (props) => {
                             </thead>
                             <tbody>
                                 <tr>
+                                    {
+                                        
+                                    }
                                     <td>01</td>
                                     <td>History {props.Role} </td>
                                     <td>Tìm hiểu về cách mạng tháng 8</td>
@@ -46,7 +52,7 @@ const ListItem = (props) => {
                                                 <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                             </svg>
                                         </button>
-                                        <button type="button" className="btn btn-info">
+                                        <button type="button" className="btn btn-info" onClick={(e) => handleView(e)}>
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 width="16" height="16"
                                                 fill="currentColor"
@@ -57,7 +63,7 @@ const ListItem = (props) => {
                                         </button>
                                     </td>
                                 </tr>
-                                
+
 
                             </tbody>
                         </table>

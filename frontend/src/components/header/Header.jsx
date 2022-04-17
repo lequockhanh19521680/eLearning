@@ -1,14 +1,15 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { logo } from '../../assets/img/'
 import './header.css'
 
-const Header = () => {
+const Header = (user) => {
     const Navigate = useNavigate();
     const handleSignout = () => {
         Navigate('/login')
         /*   */
     }
+ 
     return (
         <>
             <nav className="navbar navbar-expand-lg fixed-top sticky-top navbar-light bg-white">
