@@ -28,14 +28,14 @@ const Student = (props) => {
         setModal(<EModal props={{ isShow: false, function: handleClose }} />)
         updateFind(Find)
     }
-    const handleFindTeacher =  () => {
+    const handleFindTeacher = () => {
 
         setModal(<EModal props={{ isShow: true, func: handleClose }} />)
-        
+
     }
     const handleExams = () => {
-        setState(<><div><h1>Exams</h1></div></>)
-        setAccor(<Accordion State={<><div><h1>Exams</h1></div></>} Title="Your Lectures" />)
+        setState(<ListItem Role="Exams" />)
+        setAccor(<Accordion State={<ListItem Role="Exams" />} Title="Your Exams" />)
     }
     const handleExercises = () => {
         setState(<ListItem Role="Exercises" />)
