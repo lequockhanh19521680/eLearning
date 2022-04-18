@@ -11,6 +11,7 @@ const Teacher = (props) => {
     const navigate = useNavigate();
     const [State, setState] = useState(<ListItem Role={"Lectures"} />);
     const [Type, setType] = useState("Lectures")
+    
     const handleCreate = () => {
         if (Type === "Lectures") {
             navigate("/main/lectures")
@@ -20,7 +21,8 @@ const Teacher = (props) => {
         }
     }
     const handleExams = () => {
-        setState(<><div><h1>Exams</h1></div></>)
+        setState(<ListItem Role={"Exams"}/>)
+        setType("Exams")
     }
     const handleExercises = () => {
         setState(<ListItem Role={"Exercises"} />)
