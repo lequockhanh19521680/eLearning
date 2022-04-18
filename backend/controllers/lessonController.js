@@ -1,9 +1,9 @@
-const courseDetailSchema = require('../models/courseDetail')
+const lessonSchema = require('../models/lesson')
 const classSchema = require('../models/class')
 const subjectSchema = require('../models/subject')
-class courseDetailController{
+class lessonController{
 
-    async getClass(req, res, next) {
+    async getClass(req, res) {
         try {
             const class1 = await classSchema.find()
             res.send(class1)
@@ -28,7 +28,7 @@ class courseDetailController{
     async getCourseFromClass(req,res){
         try {
             const classId = req.query.classId
-            const findCourse = await courseDetailSchema.find({"classId":[classId]})
+            const findCourse = await lessonSchema.find({"classId":[classId]})
             res.send(findCourse)
         }
         catch (err) {
@@ -48,7 +48,7 @@ class courseDetailController{
     }
 
 
-    async getSubjectById(req, res, next) {
+    async getSubjectById(req, res) {
         try {
             const _id = req.params._id
             const subject = await subjectSchema.findById(_id)
@@ -62,7 +62,7 @@ class courseDetailController{
 
     async getCourse(req,res){
         try {
-            const course = await courseDetailSchema.find()
+            const course = await lessonSchema.find()
             res.send(course)
         }
         catch (err) {
@@ -74,7 +74,7 @@ class courseDetailController{
     async getCourseById(req,res){
         try {
             const _id = req.params.id
-            const course = await courseDetailSchema.findById(_id)
+            const course = await lessonSchema.findById(_id)
             res.send(course)
         }
         catch (err) {
@@ -87,7 +87,7 @@ class courseDetailController{
     async getCourseFromSubject(req,res){
         try {
             const subjectId = req.query.subjectId
-            const findCourse = await courseDetailSchema.find({"subjectId":[subjectId]})
+            const findCourse = await lessonSchema.find({"subjectId":[subjectId]})
             res.send(findCourse)
         }
         catch (err) {
@@ -143,9 +143,11 @@ class courseDetailController{
         }
     }
 
-    async addCourse(req,res){
-        const subject = await new subjectSchema({
-            subjectName : req.body.subjectName
+    async addLesson(req,res){
+        const lesson = await new lessonSchema({
+            classId: req.body.classId,
+            subjectId: req.body.subjectId,
+            
         })
         try {
             const temp = await subject.save()
@@ -161,4 +163,4 @@ class courseDetailController{
 
 }
 
-module.exports = new courseDetailController
+module.exports = new lessonController

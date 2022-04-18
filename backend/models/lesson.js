@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
-const shortId = require('short-id')
-const courseDetail = new mongoose.Schema({
-    courseId:{
-        type:String,
-        ref:'course',
-        default: shortId.generate()
-    },
+const lessonDetail = new mongoose.Schema({
     classId:{
-        type: String,
-        ref:'class'
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Class'
     },
     subjectId:{
-        type:String,
-        ref:'subject'
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Subject'
     },
     lesson:{
         type:[
@@ -27,14 +21,19 @@ const courseDetail = new mongoose.Schema({
                     type: String,
                 }
             }
-        ]
+        ],
+        default: []
     },
     createAt:{
         type: Date,
         default: Date.now
-    }
-
+    },
+    type:{
+        type: String,
+        enum:["LESSON","EXERCISE","EXAM"],
+        default: "LESSON",
+    },
 })
 
 
-module.exports = mongoose.model('Course',courseDetail);
+module.exports = mongoose.model('Lesson',lessonDetail);

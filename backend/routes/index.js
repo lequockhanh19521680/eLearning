@@ -1,8 +1,8 @@
 const userRouter = require('./userRouter')
-const courseRouter = require('./courseRouter')
+const lessonRouter = require('./lessonRouter')
 function route(app) {
     app.use('/user', userRouter)
-    app.use('/course',courseRouter)
+    app.use('/lesson',lessonRouter)
 }
 
 

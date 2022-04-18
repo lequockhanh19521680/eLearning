@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
-const shortId = require('short-id')
-//model cua 1 user trong collection users cua mongodb
 const userSchema = new mongoose.Schema({
-    userId:{
-        type:String,
-        default:shortId.generate(),
+    lessonId:{
+        type:[mongoose.Schema.Types.ObjectId]
     },
     username:{
         type: String,
