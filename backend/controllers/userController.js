@@ -1,6 +1,7 @@
 const userModel = require('../models/user')
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
+const user = require('../models/user')
 class UserController {
 
 
@@ -177,18 +178,22 @@ class UserController {
         }
     }
 
-    async possLesson(req,res){
-        try{
-            const _id = req.params.id;
+    
 
-        }catch(err){
-            
+    async deleteProduct(req,res){
+        try{
+            const flag = false
+        const invoice = await invoiceSchema.findByIdAndUpdate(
+            {_id:req.params.id},
+            {$pop: {productId:  req.body.productId}})
+        res.send(invoice)
+        }catch(err)
+        {
+            throw new Error(err)
         }
     }
-
-    
   
 
 }
 
-module.exports = new UserController
+
