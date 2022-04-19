@@ -1,5 +1,9 @@
 const userModel = require('../models/user')
 class TeacherController{
+    async findListLesson(req,res){
+        
+    }
+
     async postLesson(req,res){
         const _id = req.params.id;
         const lesson = req.body.lesson
