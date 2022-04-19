@@ -142,11 +142,13 @@ class lessonController{
             res.send({ message: err.message })
         }
     }
-
+    
     async addLesson(req,res){
         const lesson = await new lessonSchema({
             classId: req.body.classId,
             subjectId: req.body.subjectId,
+            lesson: req.body.lesson,
+            lessonType: req.body.lessonType
             
         })
         try {

@@ -177,6 +177,15 @@ class UserController {
         }
     }
 
+    async possLesson(req,res){
+        try{
+            const _id = req.params.id;
+
+        }catch(err){
+            
+        }
+    }
+
     
   
 

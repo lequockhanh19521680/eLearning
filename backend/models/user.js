@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
-    lessonId:{
-        type:[mongoose.Schema.Types.ObjectId]
+    lesson:{
+        type:[{
+            lessonId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref:"Lesson",
+                unique: true,
+            }
+        }]
     },
     username:{
         type: String,

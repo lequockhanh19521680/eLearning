@@ -28,7 +28,7 @@ const lessonDetail = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    type:{
+    lessonType:{
         type: String,
         enum:["LESSON","EXERCISE","EXAM"],
         default: "LESSON",
