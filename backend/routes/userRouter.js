@@ -3,8 +3,9 @@ const verifyToken = require('../middleware/auth')
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-router.get('/',verifyToken,userController.getUser)
-router.get('/getAll',userController.getAllUser)
+router.get('/verify',verifyToken,userController.getUser)
+router.get('/',userController.getAllUser)
+router.get('/:id',userController.getOneUser)
 router.post('/login',userController.Login)
 router.post('/register',userController.Register)
 router.patch('/student/:id',userController.changeStudent)

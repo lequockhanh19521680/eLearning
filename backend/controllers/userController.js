@@ -35,7 +35,7 @@ class UserController {
 
     async getAllUser(req, res, next) {
         try {
-            const user = await userModel.find()
+            const user = await userModel.find(req.query)
             res.send(user)
         }
         catch (err) {
@@ -60,7 +60,7 @@ class UserController {
     
 
     async Register(req, res) {
-        const { username, password } = req.body
+        const { username, password, role, nameAccount } = req.body
 
         // Simple validation
         if (!username || !password) {
@@ -81,10 +81,8 @@ class UserController {
 
             // All good
             const hashedPassword = await argon2.hash(password)
-            const newUser = new userModel({ username, password: hashedPassword })
+            const newUser = new userModel({ username, password: hashedPassword, role, nameAccount })
             await newUser.save()
-
-            console.log( process.env.ACCESS_TOKEN_SECRET);
             // Return token
             const accessToken = jwt.sign(
                 { userId: newUser._id },
@@ -97,7 +95,7 @@ class UserController {
                 accessToken
             })
         } catch (error) {
-            console.log(error)
+            throw new Error(error)
             res.status(500).json({ success: false, message: 'Internal server error' })
         }
     }
@@ -147,7 +145,9 @@ class UserController {
         }
     }
 
-
+    async getOneUser(req,res){
+        
+    }
 
 
 
@@ -196,4 +196,4 @@ class UserController {
 
 }
 
-
+module.exports = new UserController

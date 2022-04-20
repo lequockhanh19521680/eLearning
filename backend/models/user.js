@@ -1,14 +1,5 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
-    lesson:{
-        type:[{
-            lessonId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref:"Lesson",
-                unique: true,
-            }
-        }]
-    },
     username:{
         type: String,
         unique:true,
@@ -17,6 +8,10 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true,
+    },
+    nameAccount:{
+        type: String,
+        default: "Le Quoc Test"
 
     },
     role:

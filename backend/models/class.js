@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const shortId = require('short-id')
 const classSchema = new mongoose.Schema({
     className:{
         type: String,

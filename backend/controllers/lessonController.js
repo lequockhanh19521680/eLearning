@@ -3,6 +3,19 @@ const classSchema = require('../models/class')
 const subjectSchema = require('../models/subject')
 class lessonController{
 
+
+    async getLessonFromTeacher(req,res){
+        try{
+            const _id = req.params.id
+            const lesson = await  lessonSchema.find({'userId' : _id}).populate('userId')
+    
+            res.send(lesson)
+    
+        }catch(err){
+            throw new Error(err)
+        }
+    }
+
     async getClass(req, res) {
         try {
             const class1 = await classSchema.find()
@@ -25,10 +38,10 @@ class lessonController{
         }
     }
 
-    async getCourseFromClass(req,res){
+    async getLessonFromClass(req,res){
         try {
-            const classId = req.query.classId
-            const findCourse = await lessonSchema.find({"classId":[classId]})
+            const _id = req.params.id
+            const findCourse = await lessonSchema.find({"classId":_id})
             res.send(findCourse)
         }
         catch (err) {
@@ -60,7 +73,7 @@ class lessonController{
     }
 
 
-    async getCourse(req,res){
+    async getLesson(req,res){
         try {
             const course = await lessonSchema.find()
             res.send(course)
@@ -71,7 +84,7 @@ class lessonController{
     }
 
 
-    async getCourseById(req,res){
+    async getLessonFromId(req,res){
         try {
             const _id = req.params.id
             const course = await lessonSchema.findById(_id)
@@ -84,10 +97,10 @@ class lessonController{
 
 
 
-    async getCourseFromSubject(req,res){
+    async getLessonFromSubject(req,res){
         try {
-            const subjectId = req.query.subjectId
-            const findCourse = await lessonSchema.find({"subjectId":[subjectId]})
+            const _id = req.params.id
+            const findCourse = await lessonSchema.find({"subjectId":_id})
             res.send(findCourse)
         }
         catch (err) {
@@ -145,23 +158,37 @@ class lessonController{
     
     async addLesson(req,res){
         const lesson = await new lessonSchema({
+            userId: req.body.userId,
             classId: req.body.classId,
             subjectId: req.body.subjectId,
-            lesson: req.body.lesson,
-            lessonType: req.body.lessonType
-            
+            name: req.body.name,
+            header: req.body.header,
+            content: req.body.content,
+            type: req.body.type,
         })
         try {
-            const temp = await subject.save()
+            const temp = await lesson.save()
             res.send(temp)
         }
         catch (err) {
             res.send({ message: err.message })
         }
     }
-        
     
+    
+    //delete
 
+
+    async deleteLessonFromId(req,res){
+        const _id = req.params.id
+        try{
+        const lesson = await lessonSchema.findByIdAndDelete(_id)
+        res.send(lesson)
+        }catch(err)
+        {
+            throw new Error(err)
+        }
+    }
 
 }
 

@@ -1,34 +1,47 @@
 const mongoose = require('mongoose');
 const lessonDetail = new mongoose.Schema({
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required: true,
+    },
     classId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Class'
+        ref:'Class',
+        required: true,
     },
     subjectId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Subject'
+        ref:'Subject',
+        required: true,
     },
-    lesson:{
-        type:[
-            {
-                title:{
-                    type: String
-                },
-                content:{
-                    type: String,
-                },
-                image:{
-                    type: String,
-                }
-            }
-        ],
-        default: []
+    name:{
+        type: String,
+        required: true,
+    },
+    header:{
+        type:String,
+        default:''
+    },
+    content:{
+        type: [{
+            headerContent:{
+                type: String,
+            },
+            imageContent:{
+                type: String,
+            },
+            mainContent:{
+                type: String,
+            },
+        }],
+        default: [],
     },
     createAt:{
         type: Date,
         default: Date.now
     },
-    lessonType:{
+    type:{
         type: String,
         enum:["LESSON","EXERCISE","EXAM"],
         default: "LESSON",
