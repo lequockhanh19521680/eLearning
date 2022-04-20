@@ -15,7 +15,8 @@ const Main = () => {
   const [user, setuser] = useState({})
   useEffect(async () => {
 
-    let result = await axios.get(`${apiUrl}/user`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+    let result = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+
     if (result.data.user['role'] === "TEACHER") {
       setBody(<Teacher user={result.data.user} />)
     }

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Teacher = (props) => {
     const navigate = useNavigate();
-    const [State, setState] = useState(<ListItem Role={"Lectures"} />);
+    const [State, setState] = useState(<ListItem Title={"Lectures"} Role />);
     const [Type, setType] = useState("Lectures")
     
     const handleCreate = () => {
@@ -21,15 +21,15 @@ const Teacher = (props) => {
         }
     }
     const handleExams = () => {
-        setState(<ListItem Role={"Exams"}/>)
+        setState(<ListItem Title={"Exams"}/>)
         setType("Exams")
     }
     const handleExercises = () => {
-        setState(<ListItem Role={"Exercises"} />)
+        setState(<ListItem Title={"Exercises"} />)
         setType("Exercises")
     }
     const handleLectures = () => {
-        setState(<ListItem Role={"Lectures"} />)
+        setState(<ListItem Title={"Lectures"} />)
         setType("Lectures")
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
