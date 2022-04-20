@@ -146,7 +146,7 @@ class UserController {
     }
 
     async getOneUser(req,res){
-        
+
     }
 
 

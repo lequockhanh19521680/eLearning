@@ -75,7 +75,7 @@ class lessonController{
 
     async getLesson(req,res){
         try {
-            const course = await lessonSchema.find()
+            const course = await lessonSchema.find().populate('userId').populate('classId').populate('subjectId')
             res.send(course)
         }
         catch (err) {
