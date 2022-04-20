@@ -13,7 +13,7 @@ const Student = (props) => {
 
     const location = useLocation();
     console.log(location)
-    const [State, setState] = useState(<ListItem Role={"Lectures"} />)
+    const [State, setState] = useState(<ListItem Title={"Lectures"} />)
     const [Find, setFind] = useState(false)
     const [Accor, setAccor] = useState(<Accordion State={State} Title="Your Lectures" ></Accordion>)
     const [Modal, setModal] = useState()
@@ -25,24 +25,27 @@ const Student = (props) => {
             setFind(true)
     }
     const handleClose = () => {
-        setModal(<EModal props={{ isShow: false, function: handleClose }} />)
+        setModal(<EModal props={{ isShow: false, func: handleClose }} />)
+    }
+    const handleFind = () => {
+        handleClose();
         updateFind(Find)
     }
     const handleFindTeacher = () => {
 
-        setModal(<EModal props={{ isShow: true, func: handleClose }} />)
+        setModal(<EModal props={{ isShow: true, funcClose: handleClose,funcFind: handleFind}} />)      
 
     }
     const handleExams = () => {
-        setState(<ListItem Role="Exams" />)
+        setState(<ListItem Title="Exams" />)
         setAccor(<Accordion State={<ListItem Role="Exams" />} Title="Your Exams" />)
     }
     const handleExercises = () => {
-        setState(<ListItem Role="Exercises" />)
+        setState(<ListItem Title="Exercises" />)
         setAccor(<Accordion State={<ListItem Role="Exercises" />} Title="Your Lectures" ></Accordion>)
     }
     const handleLectures = () => {
-        setState(<ListItem Role={"Lectures"} />)
+        setState(<ListItem Title={"Lectures"} />)
         setAccor(<Accordion State={<ListItem Role="Lectures" />} Title="Your Lectures" />)
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },

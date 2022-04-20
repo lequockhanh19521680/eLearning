@@ -9,7 +9,7 @@ import './modal.css'
 
 
 const EModal = ({ props }) => {
-    console.log(props)
+    console.log(props.funcClose)
 
     return (
         <Modal
@@ -18,7 +18,7 @@ const EModal = ({ props }) => {
             backdrop="static"
             keyboard={false}
         >
-            <ModalHeader closeButton >
+            <ModalHeader  >
                 <Modal.Title>Find your teacher through ID</Modal.Title>
             </ModalHeader>
             <ModalBody>
@@ -40,10 +40,10 @@ const EModal = ({ props }) => {
                 </Form>
             </ModalBody>
             <ModalFooter>
-                <button className='btn btn-secondary' onClick={props.func}>
+                <button className='btn btn-secondary' onClick={props.funcClose}>
                     Close
                 </button>
-                <button className='btn btn-primary px-4'>Find  </button>
+                <button className='btn btn-primary px-4' onClick={props.funcFind}>Find  </button>
             </ModalFooter>
         </Modal>
     )
