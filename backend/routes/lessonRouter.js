@@ -7,13 +7,14 @@ router.get('/class/:id',lessonController.getClassById)
 router.get('/subject',lessonController.getSubject)
 router.get('/subject/:id',lessonController.getSubjectById)
 router.get('/',lessonController.getLesson)
-router.get('/:id',lessonController.getLessonFromId)
+router.get('/:id',lessonController.getLessonFromId)//Duong, Tam
 router.get('/fromClass/:id',lessonController.getLessonFromClass)//dung id class
 router.get('/fromSubject/:id',lessonController.getLessonFromSubject)// dung id subject
-router.get('/fromTeacher/:id',lessonController.getLessonFromTeacher)
+router.get('/fromTeacher/:id',lessonController.getLessonFromTeacher)//Tam
 
 router.post('/class',lessonController.addClass)
 router.post('/subject',lessonController.addSubject)
-router.post('/',lessonController.addLesson)
-router.delete('/:id',lessonController.deleteLessonFromId)
+router.post('/',lessonController.addLesson)//Duong
+router.delete('/:id',lessonController.deleteLessonFromId)//Duong
 module.exports = router
+

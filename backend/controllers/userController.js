@@ -2,6 +2,7 @@ const userModel = require('../models/user')
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 const user = require('../models/user')
+const { FindCursor } = require('mongodb')
 class UserController {
 
 
@@ -35,7 +36,7 @@ class UserController {
 
     async getAllUser(req, res, next) {
         try {
-            const user = await userModel.find(req.query)
+            const user = await userModel.find(req.query) 
             res.send(user)
         }
         catch (err) {
