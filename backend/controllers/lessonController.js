@@ -9,7 +9,7 @@ class lessonController{
     async getLessonFromTeacher(req,res){
         try{
             const _id = req.params.id
-            const lesson = await  lessonSchema.find({'userId' : _id}).populate('userId').populate('content')
+            const lesson = await  lessonSchema.find({'userId' : _id}).populate('userId')
     
             res.send(lesson)
     
@@ -77,7 +77,11 @@ class lessonController{
 
     async getLesson(req,res){
         try {
-            const course = await lessonSchema.find().populate('userId').populate('classId').populate('subjectId')
+            const course = await lessonSchema.find()
+            .populate('userId')
+            .populate('classId')
+            .populate('subjectId')
+            .populate('content.contentId')
             res.send(course)
         }
         catch (err) {
