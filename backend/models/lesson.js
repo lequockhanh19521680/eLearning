@@ -25,15 +25,11 @@ const lessonDetail = new mongoose.Schema({
     },
     content:{
         type: [{
-            headerContent:{
-                type: String,
-            },
-            imageContent:{
-                type: String,
-            },
-            mainContent:{
-                type: String,
-            },
+            contentId: 
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Content',
+            }
         }],
         default: [],
     },

@@ -11,10 +11,15 @@ router.get('/:id',lessonController.getLessonFromId)//Duong, Tam
 router.get('/fromClass/:id',lessonController.getLessonFromClass)//dung id class
 router.get('/fromSubject/:id',lessonController.getLessonFromSubject)// dung id subject
 router.get('/fromTeacher/:id',lessonController.getLessonFromTeacher)//Tam
+router.get('/content',lessonController.getAllContent)
+router.get('/content/:id',lessonController.getContentFromId)
 
 router.post('/class',lessonController.addClass)
 router.post('/subject',lessonController.addSubject)
 router.post('/',lessonController.addLesson)//Duong
+router.post('/content/:id',lessonController.addContentForLesson)
+
+router.delete('/content/:id',lessonController.deleteContentFromLesson)
 router.delete('/:id',lessonController.deleteLessonFromId)//Duong
 module.exports = router
 
