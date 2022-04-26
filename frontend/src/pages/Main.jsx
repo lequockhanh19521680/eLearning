@@ -12,29 +12,29 @@ import Lectures from '../components/lectures/Lectures'
 
 const Main = () => {
   const [body, setBody] = useState(<></>)
-  const [user, setuser] = useState({})
+  const [User, setUser] = useState({})
   useEffect(async () => {
 
     let result = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
 
     if (result.data.user['role'] === "TEACHER") {
-      setBody(<Teacher user={result.data.user} />)
+      setBody(<Teacher User={result.data.user} />)
     }
     else {
-      setBody(<Student user={result.data.user} />)
+      setBody(<Student User={result.data.user} />)
     }
-    setuser(result.data.user)
+    setUser(result.data.user)
 
   }, [])
   return (
     <>
-      <Header user={user} />
+      <Header user={User} />
       <Routes>
         <Route path="/" element={body} />
         <Route path="/exercises" element={<Exercise />} />
         <Route path="/lectures" element={<Lectures />} />
       </Routes>
-      <Footer user={user} />
+      <Footer user={User} />
     </>
   )
 }

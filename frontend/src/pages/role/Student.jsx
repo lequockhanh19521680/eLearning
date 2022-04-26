@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import ListItem from '../../components/table/ListItem'
+
 
 import './student.css'
 import Accordion from '../../components/accordion/Accordion';
@@ -9,21 +10,24 @@ import EModal from '../../components/modal/EModal';
 import { useLocation } from 'react-router-dom';
 
 
-const Student = (props) => {
+const Student = ({User}) => {
 
     const location = useLocation();
-    console.log(location)
-    const [State, setState] = useState(<ListItem Title={"Lectures"} />)
+    const [State, setState] = useState(<ListItem Title={"Lectures"} Check />)
     const [Find, setFind] = useState(false)
-    const [Accor, setAccor] = useState(<Accordion State={State} Title="Your Lectures" ></Accordion>)
+    const [Accor, setAccor] = useState()
     const [Modal, setModal] = useState()
-
+    const [Type, setType] = useState("Lectures")
     const updateFind = Find => {
         if (Find)
             setFind(false)
         else
             setFind(true)
     }
+    useEffect(() => {
+
+        setAccor(<Accordion State={State} Title={`Your ${Type}`} />)
+    }, [State])
     const handleClose = () => {
         setModal(<EModal props={{ isShow: false, func: handleClose }} />)
     }
@@ -33,20 +37,23 @@ const Student = (props) => {
     }
     const handleFindTeacher = () => {
 
-        setModal(<EModal props={{ isShow: true, funcClose: handleClose,funcFind: handleFind}} />)      
+        setModal(<EModal props={{ isShow: true, funcClose: handleClose, funcFind: handleFind }} />)
 
     }
     const handleExams = () => {
-        setState(<ListItem Title="Exams" />)
-        setAccor(<Accordion State={<ListItem Role="Exams" />} Title="Your Exams" />)
+
+        setState(<ListItem  Check/>)
+        setType("Exams")
+
     }
     const handleExercises = () => {
-        setState(<ListItem Title="Exercises" />)
-        setAccor(<Accordion State={<ListItem Role="Exercises" />} Title="Your Lectures" ></Accordion>)
+        setState(<ListItem  Check/>)
+        setType("Exercises")
+
     }
     const handleLectures = () => {
-        setState(<ListItem Title={"Lectures"} />)
-        setAccor(<Accordion State={<ListItem Role="Lectures" />} Title="Your Lectures" />)
+        setState(<ListItem  Check/>)
+        setType("Lectures")
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -67,7 +74,7 @@ const Student = (props) => {
                     {(Find) ?
                         <Accordion State={State} Title="Teacher Lectures" isCheck />
                         :
-                        (<div><h1>No loading</h1></div>)
+                        (<div><h4>You have not find Teacher yet! </h4></div>)
                     }
                     {Accor}
                 </div>

@@ -15,13 +15,14 @@ export const SignUpForm = () => {
         username: '',
         password: '',
         confirmPassword: '',
+        nameAccount: ''
 
     })
 
     const [radio, setRadio] = useState("Student");
 
 
-    const { username, password, confirmPassword } = registerForm
+    const { username, password, confirmPassword, nameAccount } = registerForm
 
     // cập nhật dữ liệu khi mà nhập trong input
     const onChangeRegisterForm = e => setRegisterForm({
@@ -52,28 +53,15 @@ export const SignUpForm = () => {
             if (!registerData.success) {
                 setAlert({ type: 'danger', message: registerData.message })
                 //setTimeout(() => setAlert(null), 5000)            
-                console.log(radio, registerForm);
+
             }
             else {
                 // xử lý thay đổi role trong khi signup thành công
-                const get = await axios.get(`${apiUrl}/user`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
-                let data = {
-                    success: '',
-                    user:
-                    {
-                        isSelect: '',
-                        role: '',
-                        username: '',
-                        __v: '',
-                        _id: ''
-                    }
-                }
-                data = get.data
-                console.log(data, data.user._id, get.data)
+                const get = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+                let data = get.data.user
                 if (radio === "Teacher") {
-                    const change = await axios.patch(`${apiUrl}/user/teacher/${data.user._id}`)
+                    const change = await axios.patch(`${apiUrl}/user/teacher/${data._id}`)
                     console.log(change.data)
-
                 }
                 setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page" })
                 setTimeout(
@@ -95,6 +83,7 @@ export const SignUpForm = () => {
                     <form onSubmit={handleRegister}>
                         <AlertMessage info={alert} />
                         <h2 className="text-center"><strong>Create</strong> an account.</h2>
+                        <div className="mb-3"><input className="form-control" value={nameAccount} onChange={onChangeRegisterForm} type="text" name="nameAccount" placeholder="Your Name" /></div>
                         <div className="mb-3"><input className="form-control" value={username} onChange={onChangeRegisterForm} type="email" name="username" placeholder="Email" /></div>
                         <div className="mb-3"><input className="form-control" value={password} onChange={onChangeRegisterForm} type="password" name="password" placeholder="Password" /></div>
                         <div className="mb-3"><input className="form-control" valie={confirmPassword} onChange={onChangeRegisterForm} type="password" name="confirmPassword" placeholder="Password (repeat)" /></div>
