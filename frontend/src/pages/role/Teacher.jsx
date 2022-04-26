@@ -7,9 +7,9 @@ import ListItem from '../../components/table/ListItem'
 import { useNavigate } from 'react-router-dom'
 
 
-const Teacher = (props) => {
+const Teacher = ({User}) => {
     const navigate = useNavigate();
-    const [State, setState] = useState(<ListItem Title={"Lectures"} Role />);
+    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />);
     const [Type, setType] = useState("Lectures")
     
     const handleCreate = () => {
@@ -21,15 +21,15 @@ const Teacher = (props) => {
         }
     }
     const handleExams = () => {
-        setState(<ListItem Title={"Exams"}/>)
+        setState(<ListItem Title={"Exams"} User={User} Check Change={Type}/>)
         setType("Exams")
     }
     const handleExercises = () => {
-        setState(<ListItem Title={"Exercises"} />)
+        setState(<ListItem Title={"Exercises"} Check Change={Type}/>)
         setType("Exercises")
     }
     const handleLectures = () => {
-        setState(<ListItem Title={"Lectures"} />)
+        setState(<ListItem Title={"Lectures"} Check Change={Type}/>)
         setType("Lectures")
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
