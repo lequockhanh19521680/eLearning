@@ -7,20 +7,22 @@ router.get('/class/:id',lessonController.getClassById)
 router.get('/subject',lessonController.getSubject)
 router.get('/subject/:id',lessonController.getSubjectById)
 router.get('/',lessonController.getLesson)
-router.get('/:id',lessonController.getLessonFromId)//Duong, Tam
+router.get('/:id',lessonController.getLessonFromId)
 router.get('/fromClass/:id',lessonController.getLessonFromClass)//dung id class
 router.get('/fromSubject/:id',lessonController.getLessonFromSubject)// dung id subject
-router.get('/fromTeacher/getAll',lessonController.getLessonFromTeacher)//Tam
-router.get('/fromTeacher/:id',lessonController.getLessonFromTeacherId)//Tam
+router.get('/fromTeacher/getAll',lessonController.getLessonFromTeacher)
+router.get('/fromTeacher/:id',lessonController.getLessonFromTeacherId)
 router.get('/content/getAll',lessonController.getAllContent)
 router.get('/content/:id',lessonController.getContentFromId)
+router.get('/save/:id',lessonController.getLessonFromSaveInStudent)
 
 router.post('/class',lessonController.addClass)
 router.post('/subject',lessonController.addSubject)
-router.post('/',lessonController.addLesson)//Duong
+router.post('/save',lessonController.saveStudentLesson)
+router.post('/',lessonController.addLesson)
 router.post('/content/:id',lessonController.addContentForLesson)
 
 router.delete('/content/:id',lessonController.deleteContentFromLesson)
-router.delete('/:id',lessonController.deleteLessonFromId)//Duong
+router.delete('/:id',lessonController.deleteLessonFromId)
 module.exports = router
 

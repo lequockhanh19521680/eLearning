@@ -2,8 +2,8 @@ const lessonSchema = require('../models/lesson')
 const classSchema = require('../models/class')
 const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
+const saveSchema = require('../models/save')
 const contentSchema = require('../models/content')
-const content = require('../models/content')
 class lessonController{
 
 
@@ -36,6 +36,9 @@ class lessonController{
             throw new Error(err)
         }
     }
+    
+
+    
 
     async getClass(req, res) {
         try {
@@ -108,6 +111,15 @@ class lessonController{
         }
     }
 
+    async getLessonFromSaveInStudent(req,res){
+        try {
+            const _id = req.params._id
+            const save = await saveSchema.find({'userId': _id})
+            res.send(save)
+        } catch (error) {
+            throw new Error(err)
+        }
+    }
 
     async getLessonFromId(req,res){
         try {
@@ -202,6 +214,20 @@ class lessonController{
         }
     }
     
+    async saveStudentLesson(req,res){
+        const save = await new saveSchema({
+            userId: req.body.userId,
+            lessonId: req.body.lessonId
+        })
+        try{
+            const temp = await save.save()
+            res.send(temp)
+        }catch(err)
+        {
+            throw new Error(err)
+        }
+    }
+
     async addLesson(req,res){
         const lesson = await new lessonSchema({
             userId: req.body.userId,
