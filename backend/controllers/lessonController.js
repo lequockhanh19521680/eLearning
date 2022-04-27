@@ -1,18 +1,37 @@
 const lessonSchema = require('../models/lesson')
 const classSchema = require('../models/class')
+const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
 const contentSchema = require('../models/content')
 const content = require('../models/content')
 class lessonController{
 
 
-    async getLessonFromTeacher(req,res){
+    async getLessonFromTeacherId(req,res){
         try{
             const _id = req.params.id
-            const lesson = await  lessonSchema.find({'userId' : _id}).populate('userId')
+            const lesson = await  lessonSchema.find({'userId' : _id})
+            .populate('userId')
+            .populate('classId')
+            .populate('subjectId')
+            .populate('content._id')
     
             res.send(lesson)
     
+        }catch(err){
+            throw new Error(err)
+        }
+    }
+    async getLessonFromTeacher(req,res){
+        try{
+            const user = await userSchema.find(req.query)
+            const temp = user[0].id
+            const lesson = await  lessonSchema.find({'userId': temp})
+            .populate('userId')
+            .populate('classId')
+            .populate('subjectId')
+            .populate('content._id')
+            res.send(lesson)
         }catch(err){
             throw new Error(err)
         }
@@ -81,7 +100,7 @@ class lessonController{
             .populate('userId')
             .populate('classId')
             .populate('subjectId')
-            .populate('content.contentId')
+            .populate('content._id')
             res.send(course)
         }
         catch (err) {
@@ -212,11 +231,9 @@ class lessonController{
    
         try {
             const lesson = await lessonSchema.findById(_id)
-            const content2 = {contentId: content.id}
-            lesson.content.push(content2)
+            lesson.content.push(content)
             lesson.save()
             const contentAdd = await content.save()
-            console.log(content2)
             res.send([lesson,contentAdd])
         } catch (error) {
             throw new Error(error)
@@ -230,7 +247,7 @@ class lessonController{
             const temp = req.body.contentId
             const lesson = await lessonSchema.findByIdAndUpdate(
                 {_id:req.params.id},
-                {$pull: {content: {contentId: temp}}})
+                {$pull: {content: {_id: temp}}})
             const content = await contentSchema.findByIdAndDelete(temp)
             res.send([lesson,content])
         } catch (err) {

@@ -10,8 +10,9 @@ router.get('/',lessonController.getLesson)
 router.get('/:id',lessonController.getLessonFromId)//Duong, Tam
 router.get('/fromClass/:id',lessonController.getLessonFromClass)//dung id class
 router.get('/fromSubject/:id',lessonController.getLessonFromSubject)// dung id subject
-router.get('/fromTeacher/:id',lessonController.getLessonFromTeacher)//Tam
-router.get('/content',lessonController.getAllContent)
+router.get('/fromTeacher/getAll',lessonController.getLessonFromTeacher)//Tam
+router.get('/fromTeacher/:id',lessonController.getLessonFromTeacherId)//Tam
+router.get('/content/getAll',lessonController.getAllContent)
 router.get('/content/:id',lessonController.getContentFromId)
 
 router.post('/class',lessonController.addClass)

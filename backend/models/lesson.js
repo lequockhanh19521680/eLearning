@@ -25,8 +25,7 @@ const lessonDetail = new mongoose.Schema({
     },
     content:{
         type: [{
-            contentId: 
-            {
+            _id:{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Content',
             }

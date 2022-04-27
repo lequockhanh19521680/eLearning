@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const shortId = require('shortid')
 const userSchema = new mongoose.Schema({
     username:{
         type: String,
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema({
     createAt:{
         type: Date,
         default: Date.now,
+    },
+    code:{
+        type: String,
+        default: shortId.generate()
     }
 })
 
