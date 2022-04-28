@@ -14,6 +14,7 @@ router.get('/fromTeacher/getAll',lessonController.getLessonFromTeacher)
 router.get('/fromTeacher/:id',lessonController.getLessonFromTeacherId)
 router.get('/content/getAll',lessonController.getAllContent)
 router.get('/content/:id',lessonController.getContentFromId)
+router.get('/save/getAll',lessonController.getAllSave)
 router.get('/save/:id',lessonController.getLessonFromSaveInStudent)
 
 router.post('/class',lessonController.addClass)

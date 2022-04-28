@@ -114,13 +114,25 @@ class lessonController{
         }
     }
 
+    async getAllSave(req,res){
+        try{
+            const save = await saveSchema.find()
+            res.send(save)
+        }
+        catch(err){
+            throw new Error(err)
+        }
+    }
+
     async getLessonFromSaveInStudent(req,res){
         try {
-            const _id = req.params._id
+            const _id = req.params.id
             const save = await saveSchema.find({'userId': _id})
+            .populate('lessonId')
+            .populate('userId')
             res.send(save)
         } catch (error) {
-            throw new Error(err)
+            throw new Error(error)
         }
     }
 
