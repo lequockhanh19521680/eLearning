@@ -25,7 +25,10 @@ class lessonController{
     async getLessonFromTeacher(req,res){
         try{
             const user = await userSchema.find(req.query)
-            const temp = user[0].id
+            let temp = null
+            if(user.length != 0){
+                temp = user[0].id
+            }
             const lesson = await  lessonSchema.find({'userId': temp})
             .populate('userId')
             .populate('classId')
