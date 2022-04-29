@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 const Student = ({User}) => {
 
     const location = useLocation();
-    const [State, setState] = useState(<ListItem Title={"Lectures"} Check />)
+    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
     const [Find, setFind] = useState(false)
     const [Accor, setAccor] = useState()
     const [Modal, setModal] = useState()

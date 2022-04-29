@@ -4,17 +4,25 @@ import { apiUrl } from '../../contexts/constants'
 import './listitem.css'
 
 import ReactPlayer from "react-player";
+import Modal from 'react-bootstrap/Modal'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalFooter from 'react-bootstrap/ModalFooter'
+
 
 
 const ListItem = (props) => {
     const [Lessons, setLessons] = useState([]);
+    const onUpdate = props.funcUpdate;
+    const [Id, setId] = useState('')
+    const [Show, setShow] = useState(false);
 
     //load Lessons by teacher id 
     useEffect(async () => {
         console.log('render');
         const loadLessons = async () => {
             try {
-                const result = await axios.get(`${apiUrl}/lesson/fromteacher/625fd5447f175ddd05556d1c`)
+                const result = await axios.get(`${apiUrl}/lesson/fromTeacher/${props.User._id}`)
                 return result.data
             }
             catch (error) {
@@ -26,10 +34,48 @@ const ListItem = (props) => {
         })
     }, [props.Change])
     console.log('lesson', Lessons);
-    const handleView = (prop) => {
-        console.log(prop)
-        console.log('link to youtube')
+    /*deleteLesson*/
+    const handleDelete = async () => {
+        console.log('hello');
+        try {
+            const result = await axios.delete(`${apiUrl}/lesson/${Id}`)
+            console.log(result)
+            onUpdate()
+            handleClose();
+
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
+    const handleClose = () => setShow(false)
+    const handleShow = (id) => { setShow(true); setId(id) ;console.log(Id);}
+    const ConfirmModal =
+        (<div>
+            <Modal
+                show={Show}
+                onHide={handleClose}
+                keyboard={false}
+                size="sm"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
+                <ModalHeader>
+                    <Modal.Title>Confirm to delete?</Modal.Title>
+                </ModalHeader>
+                <ModalBody>
+                 Do you sure to do this ?
+                </ModalBody>
+                <ModalFooter>
+                    <button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDelete}>Yes</button>
+                    <button className='btn btn-secondary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleClose}>
+                        No
+                    </button>
+                </ModalFooter>
+
+            </Modal>
+        </div>)
+
+
     return (
         <>
             <div className="container list-box" >
@@ -39,8 +85,9 @@ const ListItem = (props) => {
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Subject</th>
+                                    <th></th>
                                     <th>Title</th>
+                                    <th>Subject</th>
                                     <th>Class</th>
                                     <th></th>
                                 </tr>
@@ -51,16 +98,14 @@ const ListItem = (props) => {
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td className='videoTd'>
-
-                                                <ReactPlayer controls width="100%" height="100%" className="video" url={"https://www.youtube.com/watch?v=QpZoigC0KAs"}  ></ReactPlayer>
-
+                                                <ReactPlayer controls width="100%" height="100%" className="video" url={`${lesson.header}`}  ></ReactPlayer>
                                             </td>
-                                            <td>{lesson.subjectId}</td>
                                             <td>{lesson.name}</td>
-                                            <td>{lesson.classId}</td>
+                                            <td>{lesson.subjectId.subjectName}</td>
+                                            <td>{lesson.classId.className}</td>
                                             <td>
                                                 {(props.Check) ?
-                                                    <button type="button" className="btn btn-danger">
+                                                    <button type="button" className="btn btn-danger" onClick={() => handleShow(lesson._id)} >
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             width="16"
                                                             height="16"
@@ -74,7 +119,7 @@ const ListItem = (props) => {
                                                     :
                                                     <></>
                                                 }
-                                                <a role={'button'} className="btn btn-info" onClick={() => handleView(lesson.header)} href="https://www.youtube.com/watch?v=QpZoigC0KAs" target={'blank'}>
+                                                <a role={'button'} className="btn btn-info" href={`${lesson.header}`} target={'blank'}>
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         width="16" height="16"
                                                         fill="currentColor"
@@ -135,6 +180,7 @@ const ListItem = (props) => {
 
                             </tbody>
                         </table>
+                        {ConfirmModal}
                     </div>
 
                 </div>
