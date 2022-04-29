@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MDBAccordion, MDBAccordionItem, MDBAcc } from 'mdb-react-ui-kit';
+import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 const Accordion = (props) => {
     const [Collapsed, setCollapsed] = useState("collapsed")

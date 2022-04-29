@@ -7,7 +7,6 @@ import Teacher from './role/Teacher'
 import Student from './role/Student'
 import { Route, Routes } from 'react-router-dom'
 import Exercise from '../components/exercise/Exercise'
-import Lectures from '../components/lectures/Lectures'
 
 
 const Main = () => {
@@ -32,7 +31,6 @@ const Main = () => {
       <Routes>
         <Route path="/" element={body} />
         <Route path="/exercises" element={<Exercise />} />
-        <Route path="/lectures" element={<Lectures />} />
       </Routes>
       <Footer user={User} />
     </>

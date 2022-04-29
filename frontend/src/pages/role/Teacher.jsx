@@ -1,35 +1,78 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import './teacher.css'
 
 import NavbarItem from '../../components/navbar/NavbarItem'
 import ListItem from '../../components/table/ListItem'
 import { useNavigate } from 'react-router-dom'
+import CreateLesson from '../../components/createLesson/CreateLesson'
+import axios from 'axios'
+import { apiUrl } from '../../contexts/constants'
 
 
-const Teacher = ({User}) => {
+
+const Teacher = ({ User }) => {
     const navigate = useNavigate();
-    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />);
+    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
+    const [Modal, setModal] = useState(<></>)
     const [Type, setType] = useState("Lectures")
-    
+
+    //getclass
+    const [Classes, setClasses] = useState([])
+    useEffect(async () => {
+        try {
+            const result = await axios.get(`${apiUrl}/lesson/class`);
+            setClasses(result.data);
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }, [])
+    //getSubject
+    const [Subjects, setSubjects] = useState([])
+    useEffect(async () => {
+        try {
+            const result = await axios.get(`${apiUrl}/lesson/subject`);
+            setSubjects(result.data);
+            return result;
+        } catch (error) {
+            return error;
+        }
+    }, [])
+
+    //update cho create lesson va delete lesson
+    const Update = (update) => {
+        setType('null')
+    }
+    useEffect(() => {
+        handleLectures()
+    }, [Type])
+    /*createLesson*/
+    //create in modal
     const handleCreate = () => {
         if (Type === "Lectures") {
-            navigate("/main/lectures")
+            setModal(<CreateLesson props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }}></CreateLesson>)
+
         }
         else if (Type === "Exercises") {
             navigate("/main/exercises")
         }
     }
+    const handleClose = () => {
+        setModal(<CreateLesson props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }}></CreateLesson>)
+
+    }
+    //
     const handleExams = () => {
-        setState(<ListItem Title={"Exams"} User={User} Check Change={Type}/>)
+        setState(<ListItem Title={"Exams"} User={User} Check Change={Type} funcUpdate={Update} />)
         setType("Exams")
     }
     const handleExercises = () => {
-        setState(<ListItem Title={"Exercises"} Check Change={Type}/>)
+        setState(<ListItem Title={"Exercises"} User={User} Check Change={Type} funcUpdate={Update} />)
         setType("Exercises")
     }
     const handleLectures = () => {
-        setState(<ListItem Title={"Lectures"} Check Change={Type}/>)
+        setState(<ListItem Title={"Lectures"} User={User} Check Change={Type} funcUpdate={Update} />)
         setType("Lectures")
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
@@ -64,6 +107,7 @@ const Teacher = ({User}) => {
                     </button>
                 </div>
             </div>
+            {Modal}
         </React.Fragment >
     )
 }
