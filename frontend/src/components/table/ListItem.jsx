@@ -17,18 +17,42 @@ const ListItem = (props) => {
     const [Id, setId] = useState('')
     const [Show, setShow] = useState(false);
 
-    //load Lessons by teacher id 
+    //load Lessons by teacher id or code and sutdent lessons
     useEffect(async () => {
         console.log('render');
+        console.log(props.User.role)
         const loadLessons = async () => {
-            try {
-                const result = await axios.get(`${apiUrl}/lesson/fromTeacher/${props.User._id}`)
-                return result.data
+            //load Teacher
+            if (props.User.role === "TEACHER") {
+                try {
+                    if (props.Code !== undefined) {
+                        console.log(props.Code);
+                        const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${props.Code}`)
+                        console.log(result, 'hello');
+                        return result.data;
+                    }
+                    else {
+                        const result = await axios.get(`${apiUrl}/lesson/fromTeacher/${props.User._id}`)
+                        return result.data
+                    }
+                }
+                catch (error) {
+                    return error;
+                }
             }
-            catch (error) {
-                return error;
+            //Load Student
+            else if (props.User.role === "STUDENT") {
+                try {
+                    const result = await axios.get(`${apiUrl}/lesson/save/${props.User._id}`)
+                    return result.data
+                }
+                catch (error) {
+                    return error;
+                }
             }
         }
+
+        // the result is up to the code previous
         loadLessons().then((response) => {
             setLessons(response)
         })
@@ -42,14 +66,13 @@ const ListItem = (props) => {
             console.log(result)
             onUpdate()
             handleClose();
-
         }
         catch (error) {
             console.log(error)
         }
     }
     const handleClose = () => setShow(false)
-    const handleShow = (id) => { setShow(true); setId(id) ;console.log(Id);}
+    const handleShow = (id) => { setShow(true); setId(id); console.log(Id); }
     const ConfirmModal =
         (<div>
             <Modal
@@ -63,7 +86,7 @@ const ListItem = (props) => {
                     <Modal.Title>Confirm to delete?</Modal.Title>
                 </ModalHeader>
                 <ModalBody>
-                 Do you sure to do this ?
+                    Do you sure to do this ?
                 </ModalBody>
                 <ModalFooter>
                     <button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDelete}>Yes</button>
@@ -132,6 +155,9 @@ const ListItem = (props) => {
                                         </tr>
                                     )
                                     ))
+                                }
+                                {
+
                                 }
                                 {/* <tr>
 

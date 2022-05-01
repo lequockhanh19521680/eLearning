@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -6,11 +6,33 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import Form from 'react-bootstrap/Form'
 
 import './modal.css'
+import AlertMessage from '../../pages/layout/AlertMessage'
 
 
 const EModal = ({ props }) => {
-    console.log(props.funcClose)
+    const [code, setCode] = useState('');
+    const [validated, setValidated] = useState(false);
+    const [alert, setAlert] = useState(null)
 
+    const onInputChange = e => {
+        setCode(
+            e.target.value
+        )
+        setAlert(null)
+        console.log(code);
+    }
+    const handleSubmit = (bool, type) => {
+        setValidated(bool);
+        if (type === 'success') {
+            setAlert({ type: 'success', message: "Find successfully!" })
+        }
+        console.log('setValidated')
+    }
+    useEffect(() => {
+        setValidated(false)
+        setCode('')
+        setAlert(null)
+    }, [props.isShow])
     return (
         <Modal
             show={props.isShow}
@@ -21,15 +43,24 @@ const EModal = ({ props }) => {
             <ModalHeader  >
                 <Modal.Title>Find your teacher through ID</Modal.Title>
             </ModalHeader>
-            <ModalBody>
-                <Form>
+            <Form noValidate validated={validated} onSubmit={(e) => props.funcFind(code, e, handleSubmit)} >
+                <ModalBody>
+
                     <div className="container">
+                        <AlertMessage info={alert}></AlertMessage>
                         <Form.Control
                             type="text"
                             id="idTeacher"
                             aria-describedby="passwordHelpBlock"
-                            placeholder="Teacher id here"
+                            placeholder="Teacher code here"
+                            value={code}
+                            name="code"
+                            required
+                            onChange={onInputChange}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            Please input the Code.
+                        </Form.Control.Feedback>
                         <div className='px-1'>
                             <Form.Text className='idTeacherHelpBlock' id="idTeacherHelpBlock" muted>
                                 Your Teacher id must be 8-10 numbers, and
@@ -37,14 +68,15 @@ const EModal = ({ props }) => {
                             </Form.Text>
                         </div>
                     </div>
-                </Form>
-            </ModalBody>
-            <ModalFooter>
-                <button className='btn btn-secondary' onClick={props.funcClose}>
-                    Close
-                </button>
-                <button className='btn btn-primary px-4' onClick={props.funcFind}>Find  </button>
-            </ModalFooter>
+
+                </ModalBody>
+                <ModalFooter>
+                    <button className='btn btn-secondary' onClick={props.funcClose}>
+                        Close
+                    </button>
+                    <button className='btn btn-primary px-4' >Find</button>
+                </ModalFooter>
+            </Form>
         </Modal>
     )
 }

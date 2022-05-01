@@ -41,7 +41,7 @@ const Teacher = ({ User }) => {
     }, [])
 
     //update cho create lesson va delete lesson
-    const Update = (update) => {
+    const Update = () => {
         setType('null')
     }
     useEffect(() => {
