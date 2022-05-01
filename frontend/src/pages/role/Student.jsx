@@ -8,51 +8,81 @@ import Accordion from '../../components/accordion/Accordion';
 import NavbarItem from '../../components/navbar/NavbarItem';
 import EModal from '../../components/modal/EModal';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { apiUrl } from '../../contexts/constants';
 
 
-const Student = ({User}) => {
+const Student = ({ User }) => {
 
     const location = useLocation();
     const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
+    const [StateUp, setStateUp] = useState(<></>)
     const [Find, setFind] = useState(false)
-    const [Accor, setAccor] = useState()
-    const [Modal, setModal] = useState()
+    const [Accor, setAccor] = useState(<></>)
+    const [Modal, setModal] = useState(<></>)
+    const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
-    const updateFind = Find => {
-        if (Find)
-            setFind(false)
-        else
-            setFind(true)
-    }
-    useEffect(() => {
 
+    useEffect(() => {
         setAccor(<Accordion State={State} Title={`Your ${Type}`} />)
     }, [State])
-    const handleClose = () => {
+    //modale Find
+    const handleClose = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         setModal(<EModal props={{ isShow: false, func: handleClose }} />)
     }
-    const handleFind = () => {
-        handleClose();
-        updateFind(Find)
+    const handleFind = async (code, e, handleSubmit) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            handleSubmit(true);
+            console.log('fail')
+        }
+        else {
+            try {
+                const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
+                const data = result.data;
+                if (result.data !== undefined) {
+                    console.log('success', result);
+                    handleSubmit(false, "success");
+                    setFind(true);
+                    setStateUp(<ListItem Title={Type} Code={code} User={User} Change={Type}></ListItem>)
+                    console.log(data[0].userId.nameAccount, 'hello');
+                    setNameTeacher(data[0].userId.nameAccount);
+                }
+
+            }
+            catch (error) {
+                if (error.response.data) {
+                    console.log(error);
+                    return error.response.data;
+                }
+                console.log(error);
+                return { success: false, message: error.message }
+            }
+        }
+
+
     }
     const handleFindTeacher = () => {
-
         setModal(<EModal props={{ isShow: true, funcClose: handleClose, funcFind: handleFind }} />)
-
     }
+    //
     const handleExams = () => {
 
-        setState(<ListItem  Check/>)
+        setState(<ListItem Check />)
         setType("Exams")
 
     }
     const handleExercises = () => {
-        setState(<ListItem  Check/>)
+        setState(<ListItem Check />)
         setType("Exercises")
 
     }
     const handleLectures = () => {
-        setState(<ListItem  Check/>)
+        setState(<ListItem Check />)
         setType("Lectures")
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
@@ -72,9 +102,9 @@ const Student = ({User}) => {
                 </div>
                 <div className="container">
                     {(Find) ?
-                        <Accordion State={State} Title="Teacher Lectures" isCheck />
+                        <Accordion State={StateUp} Title={NameTeacher} isCheck />
                         :
-                        (<div><h4>You have not find Teacher yet! </h4></div>)
+                        (<div><h5>You have not find Teacher yet! </h5></div>)
                     }
                     {Accor}
                 </div>

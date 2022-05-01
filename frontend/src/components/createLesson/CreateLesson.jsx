@@ -12,26 +12,28 @@ import AlertMessage from '../../pages/layout/AlertMessage'
 
 
 const CreateLesson = ({ props }) => {
-    const [validated, setValidated] = useState(false);
-    const [alert, setAlert] = useState(null)
-    const [lessonForm, setlessonForm] = useState({
+    const initialForm = {
         name: '',
         subjectId: props.Subjects[0]._id,
         classId: props.Classes[0]._id,
         header: '',
         userId: props.UserId
 
-    })
+    }
+    const [validated, setValidated] = useState(false);
+    const [alert, setAlert] = useState(null)
+    const [lessonForm, setlessonForm] = useState(initialForm)
 
     const { name, subjectId, classId, header } = lessonForm
-    
+
     const onChangelessonForm = e => {
         setlessonForm({
             ...lessonForm,
             [e.target.name]: e.target.value,
 
         })
-        console.log(lessonForm)
+        setAlert(null)
+
     }
     const onUpdate = props.funcUpdate;
     const handleSubmit = async (event) => {
@@ -40,6 +42,7 @@ const CreateLesson = ({ props }) => {
         if (form.checkValidity() === false) {
 
             event.stopPropagation();
+            setValidated(true)
             console.log('fail')
         }
         else {
@@ -48,10 +51,10 @@ const CreateLesson = ({ props }) => {
                 console.log(response.data)
                 if (response.data !== undefined) {
                     console.log('success', response);
-                    setAlert({ type: 'success', message: "Your lesson created successfully!" })                 
+                    setAlert({ type: 'success', message: "Your lesson created successfully!" })
+                    setlessonForm(initialForm)
                     setValidated(false)
                     onUpdate();
-                    
                 }
             }
             catch (error) {
@@ -64,10 +67,12 @@ const CreateLesson = ({ props }) => {
             }
         }
 
-        setValidated(true);
+
     };
     useEffect(() => {
-        setValidated(false)
+        setlessonForm(initialForm)    
+        setAlert(null)
+
     }, [props.isShow])
     return (
         <Modal
