@@ -116,7 +116,17 @@ class lessonController{
 
     async getAllSave(req,res){
         try{
+            /*
+            const user = await userSchema.find(req.query)
+            let temp = null
+            if(user.length != 0){
+                temp = user[0].id
+            }
+            const lesson = await  lessonSchema.find({'userId': temp})*/
+            const lesson = await lessonSchema.find()
             const save = await saveSchema.find()
+            .populate('userId')
+            .populate('lessonId')
             res.send(save)
         }
         catch(err){
@@ -299,8 +309,9 @@ class lessonController{
     async deleteLessonFromId(req,res){
         const _id = req.params.id
         try{
+        const save = await saveSchema.deleteOne({"lessonId": _id})
         const lesson = await lessonSchema.findByIdAndDelete(_id)
-        res.send(lesson)
+        res.send([lesson,save])
         }catch(err)
         {
             throw new Error(err)
