@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MDBAccordion, MDBAccordionItem } from 'mdb-react-ui-kit';
 
 const Accordion = (props) => {
@@ -7,7 +7,7 @@ const Accordion = (props) => {
     const [show, setShow] = useState("")
     const [height, setheight] = useState("0px")
 
-    const handleClick = () => {
+  /*   const handleClick = () => {
         if (Collapsed === "collapsed") {
             setCollapsed("");
             setcollapse("collapsing")
@@ -32,10 +32,15 @@ const Accordion = (props) => {
 
         }
 
-    }
+    } */
+    useEffect(() => {
+       
+    
+    },[])
+
     return (
         <>
-            <div className='row' style={{ marginTop: '50px' }}>
+            <div id="hello" className='row' style={{ marginTop: '50px' }}>
                 <MDBAccordion initialActive={0} >
                     <MDBAccordionItem collapseId={1} headerTitle={props.Title}>
                         {props.State}

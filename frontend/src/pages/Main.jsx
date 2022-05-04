@@ -5,7 +5,7 @@ import Footer from '../components/footer/Footer'
 import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
-import { Route, Routes } from 'react-router-dom'
+
 import Exercise from '../components/exercise/Exercise'
 
 
@@ -28,10 +28,7 @@ const Main = () => {
   return (
     <>
       <Header user={User} />
-      <Routes>
-        <Route path="/" element={body} />
-        <Route path="/exercises" element={<Exercise />} />
-      </Routes>
+      {body}
       <Footer user={User} />
     </>
   )

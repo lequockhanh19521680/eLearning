@@ -7,13 +7,19 @@ import './student.css'
 import Accordion from '../../components/accordion/Accordion';
 import NavbarItem from '../../components/navbar/NavbarItem';
 import EModal from '../../components/modal/EModal';
-import { useLocation } from 'react-router-dom';
+
+import { Routes, useLocation,Route } from 'react-router-dom';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 
 
 const Student = ({ User }) => {
 
+    <Routes>
+        <Route path='/lectures' element={<></>}></Route>
+        <Route path='/exercises' element={<></>}></Route>
+        <Route path='/exams' element={<></>}></Route>
+    </Routes>
     const location = useLocation();
     const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
     const [StateUp, setStateUp] = useState(<></>)
@@ -22,9 +28,9 @@ const Student = ({ User }) => {
     const [Modal, setModal] = useState(<></>)
     const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
-
+    console.log(location)
     useEffect(() => {
-        setAccor(<Accordion State={State} Title={`Your ${Type}`} />)
+        setAccor((<Accordion  State={State} Title={`Your ${Type}`} Change={Type} />))
     }, [State])
     //modale Find
     const handleClose = (e) => {
@@ -72,18 +78,21 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListItem Check />)
-        setType("Exams")
+        setState(<ListItem User={User} Check  />)
+        setType("Exams")       
 
     }
     const handleExercises = () => {
-        setState(<ListItem Check />)
+        setState(<ListItem User={User} Check  />)
         setType("Exercises")
+      
 
     }
     const handleLectures = () => {
-        setState(<ListItem Check />)
+        setState(<ListItem User={User} Check  />)
         setType("Lectures")
+    
+    
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -100,6 +109,7 @@ const Student = ({ User }) => {
                     }
                     )}
                 </div>
+           
                 <div className="container">
                     {(Find) ?
                         <Accordion State={StateUp} Title={NameTeacher} isCheck />
