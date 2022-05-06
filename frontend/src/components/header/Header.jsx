@@ -27,7 +27,7 @@ const Header = () => {
     const onHangleState = (setParam) => {
       setTimeout(() => {
         return setParam(true);
-      }, );
+      },300 );
     };
   
     const [data, setData] = useState(true);
