@@ -8,7 +8,7 @@ import Accordion from '../../components/accordion/Accordion';
 import NavbarItem from '../../components/navbar/NavbarItem';
 import EModal from '../../components/modal/EModal';
 
-import { Routes, useLocation,Route } from 'react-router-dom';
+import { Routes, useLocation, Route } from 'react-router-dom';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 
@@ -30,7 +30,7 @@ const Student = ({ User }) => {
     const [Type, setType] = useState("Lectures")
     console.log(location)
     useEffect(() => {
-        setAccor((<Accordion  State={State} Title={`Your ${Type}`} Change={Type} />))
+        setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
     }, [State])
     //modale Find
     const handleClose = (e) => {
@@ -54,8 +54,7 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
-                    setStateUp(<ListItem Title={Type} Code={code} User={User} Change={Type}></ListItem>)
-                    console.log(data[0].userId.nameAccount, 'hello');
+                    setStateUp(<ListItem Title={Type} Code={code} User={data[0].userId} Change={Type}></ListItem>)
                     setNameTeacher(data[0].userId.nameAccount);
                 }
 
@@ -78,21 +77,21 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListItem User={User} Check  />)
-        setType("Exams")       
+        setState(<ListItem User={User} Check />)
+        setType("Exams")
 
     }
     const handleExercises = () => {
-        setState(<ListItem User={User} Check  />)
+        setState(<ListItem User={User} Check />)
         setType("Exercises")
-      
+
 
     }
     const handleLectures = () => {
-        setState(<ListItem User={User} Check  />)
+        setState(<ListItem User={User} Check />)
         setType("Lectures")
-    
-    
+
+
     }
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -109,7 +108,7 @@ const Student = ({ User }) => {
                     }
                     )}
                 </div>
-           
+
                 <div className="container">
                     {(Find) ?
                         <Accordion State={StateUp} Title={NameTeacher} isCheck />
