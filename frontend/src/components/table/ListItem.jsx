@@ -17,7 +17,7 @@ const ListItem = (props) => {
     const [Id, setId] = useState('')
     const [Show, setShow] = useState(false);
 
-    //load Lessons by teacher id or code and sutdent lessons
+    /*Load Lessons by teacher id or code and sutdent lessons*/
     useEffect(async () => {
 
         const loadLessons = async () => {
@@ -54,12 +54,11 @@ const ListItem = (props) => {
             setLessons(response)
         })
     }, [props.Change, props.User])
-    console.log('lesson', Lessons);
     /*deleteLesson*/
     const handleDelete = async () => {
         try {
-            const result = await axios.delete(`${apiUrl}/lesson/${Id}`)
-            onUpdate()
+            const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
+            onUpdate(props.Title);
             handleClose();
         }
         catch (error) {
@@ -67,7 +66,10 @@ const ListItem = (props) => {
         }
     }
     const handleClose = () => setShow(false)
-    const handleShow = (id) => { setShow(true); setId(id); console.log(Id); }
+    const handleShow = (id) => {
+        setShow(true);
+        setId(id);
+    }
     const ConfirmModal =
         (<div>
             <Modal

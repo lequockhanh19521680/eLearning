@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalFooter from 'react-bootstrap/ModalFooter'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/esm/FormGroup'
 import axios from 'axios'
@@ -54,7 +53,7 @@ const CreateLesson = ({ props }) => {
                     setAlert({ type: 'success', message: "Your lesson created successfully!" })
                     setlessonForm(initialForm)
                     setValidated(false)
-                    onUpdate();
+                    onUpdate("Lectures");
                 }
             }
             catch (error) {
@@ -70,7 +69,7 @@ const CreateLesson = ({ props }) => {
 
     };
     useEffect(() => {
-        setlessonForm(initialForm)    
+        setlessonForm(initialForm)
         setAlert(null)
 
     }, [props.isShow])
@@ -80,6 +79,7 @@ const CreateLesson = ({ props }) => {
             onHide={props.func}
             backdrop="static"
             keyboard={false}
+            size="lg"
 
         >
             <ModalHeader closeButton>
@@ -92,9 +92,10 @@ const CreateLesson = ({ props }) => {
                         <Form.Group controlId='1'>
                             <Form.Label>Title</Form.Label>
                             <Form.Control
+                                style={{ height: '200px' }}
                                 required
                                 as="textarea"
-                                row={2}
+                                row={3}
                                 onChange={onChangelessonForm}
                                 name="name"
                                 value={name}
@@ -150,12 +151,12 @@ const CreateLesson = ({ props }) => {
                             </Form.Control.Feedback>
                         </FormGroup>
                     </div>
-                    <button className='btn btn-primary px-4' type='submit' >Create</button>
+                    <div className='text-end mt-4'>
+                        <button className='btn btn-primary px-4 ' type='submit' >Create</button>
+                    </div>
 
                 </Form>
-                <ModalFooter>
 
-                </ModalFooter>
             </ModalBody>
         </Modal>
     )
