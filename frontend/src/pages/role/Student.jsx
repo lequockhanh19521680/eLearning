@@ -28,11 +28,8 @@ const Student = ({ User }) => {
     const [Modal, setModal] = useState(<></>)
     const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
-    console.log(location)
-    useEffect(() => {
-        setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
-    }, [State])
-    //modale Find
+
+    // Modal Find
     const handleClose = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -55,7 +52,7 @@ const Student = ({ User }) => {
                     handleSubmit(false, "success");
                     setFind(true);
                     setStateUp(<ListItem Title={Type} Code={code} User={data[0].userId} Change={Type}></ListItem>)
-                    setNameTeacher(data[0].userId.nameAccount);
+                    setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
             }
@@ -93,6 +90,10 @@ const Student = ({ User }) => {
 
 
     }
+    useEffect(() => {
+        setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
+    }, [State])
+
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
     { name: 'Exams', func: handleExams, src: exercise }]
