@@ -3,7 +3,7 @@ const shortId = require('short-id')
 const subjectSchema = new mongoose.Schema({
     subjectName:{
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
 })

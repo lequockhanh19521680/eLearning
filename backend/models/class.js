@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const classSchema = new mongoose.Schema({
     className:{
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
 })
