@@ -100,7 +100,7 @@ const Header = () => {
                       color: '#ffffff',
                       padding: "10px 0"
                     }}
-                    href="/hotel"
+                    href="/"
                   >
                     Teacher <i class="fa-solid fa-angle-down"></i>
                     <div
@@ -114,7 +114,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-lable log-btn btn-type"
-                                href="/hotel"
+                                href="/"
                                 style={{ fontSize: '0.9rem' }}
                               >
                                 Lectures
@@ -126,7 +126,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-label log-btn btn-type"
-                                href="/hotel"
+                                href="/"
                                 style={{
                                   textDecoration: "none",
                                   color: "black",
@@ -141,7 +141,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-label log-btn btn-type"
-                                href="/hotel"
+                                href="/"
                                 style={{
                                   textDecoration: "none",
                                   color: "black",
@@ -171,7 +171,7 @@ const Header = () => {
                     }}
                     onMouseLeave={() => onHangleState(setShowNg)}
                     onMouseEnter={() => setShowNg(false)}
-                    href="/restaurant"
+                    href="/"
                   >
                     Class <i class="fa-solid fa-angle-down"></i>
                     <div
@@ -185,7 +185,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-lable log-btn btn-type"
-                                href="/restaurant"
+                                href="/"
 
                               >
                                 Cấp 1
@@ -197,7 +197,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-label log-btn btn-type"
-                                href="/restaurant"
+                                href="/"
                                 style={{
                                   textDecoration: "none",
                                   color: "black",
@@ -212,7 +212,7 @@ const Header = () => {
                               <a
                                 exact="true"
                                 class="btn-ks-label log-btn btn-type"
-                                href="/restaurant"
+                                href="/"
                                 style={{
                                   textDecoration: "none",
                                   color: "black",
