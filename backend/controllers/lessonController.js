@@ -126,7 +126,11 @@ class lessonController{
             const lesson = await lessonSchema.find()
             const save = await saveSchema.find()
             .populate('userId')
-            .populate('lessonId')
+            .populate({
+                path: 'lessonId',
+                populate:{
+                    path: 'subjectId classId'
+                }})
             res.send(save)
         }
         catch(err){
@@ -138,8 +142,12 @@ class lessonController{
         try {
             const _id = req.params.id
             const save = await saveSchema.find({'userId': _id})
-            .populate('lessonId')
             .populate('userId')
+            .populate({
+                path: 'lessonId',
+                populate:{
+                    path: 'subjectId classId'
+                }})
             res.send(save)
         } catch (error) {
             throw new Error(error)
