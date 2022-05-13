@@ -71,6 +71,7 @@ const CreateLesson = ({ props }) => {
     useEffect(() => {
         setlessonForm(initialForm)
         setAlert(null)
+        setValidated(false)
 
     }, [props.isShow])
     return (
@@ -79,16 +80,17 @@ const CreateLesson = ({ props }) => {
             onHide={props.func}
             backdrop="static"
             keyboard={false}
-            size="lg"
+
 
         >
             <ModalHeader closeButton>
                 <Modal.Title>Create your lesson</Modal.Title>
             </ModalHeader>
             <ModalBody>
-                <Form noValidate validated={validated} onSubmit={handleSubmit} >
-                    <AlertMessage info={alert} />
-                    <div className="container">
+                <div className='container d-flex flex-column'>
+                    <Form noValidate validated={validated} onSubmit={handleSubmit} >
+                        <AlertMessage info={alert} />
+
                         <Form.Group controlId='1'>
                             <Form.Label>Title</Form.Label>
                             <Form.Control
@@ -99,6 +101,7 @@ const CreateLesson = ({ props }) => {
                                 onChange={onChangelessonForm}
                                 name="name"
                                 value={name}
+
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please input the title.
@@ -108,6 +111,7 @@ const CreateLesson = ({ props }) => {
                             <Form.Label>Subject</Form.Label>
                             <Form.Select aria-label="Default select example"
                                 name="subjectId"
+
                                 onChange={onChangelessonForm}
                                 value={subjectId}>
                                 {props.Subjects.map((subject, index) => {
@@ -124,6 +128,7 @@ const CreateLesson = ({ props }) => {
                             <Form.Label>Class</Form.Label>
                             <Form.Select aria-label="Default select example"
                                 name="classId"
+
                                 onChange={onChangelessonForm}
                                 value={classId}>
                                 {props.Classes.map((_class, index) => {
@@ -150,13 +155,11 @@ const CreateLesson = ({ props }) => {
                                 Input the url of the video
                             </Form.Control.Feedback>
                         </FormGroup>
-                    </div>
-                    <div className='text-end mt-4'>
-                        <button className='btn btn-primary px-4 ' type='submit' >Create</button>
-                    </div>
-
-                </Form>
-
+                        <div className='text-end mt-2'>
+                            <button className='btn btn-primary px-4 me-0 ' type='submit' >Create</button>
+                        </div>
+                    </Form>
+                </div>
             </ModalBody>
         </Modal>
     )
