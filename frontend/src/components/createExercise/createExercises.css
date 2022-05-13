@@ -1,0 +1,18 @@
+@media (min-width: 992px) {
+
+    #exercise.modal-lg,
+    #exercise.modal-xl {
+        max-width: 1480px !important;
+    }
+}
+
+.left-content {
+    position: fixed;
+    overflow: hidden;
+    width: 590px;
+
+}
+
+.right-content {
+    border-left: 1px solid #e0e3e7;
+}

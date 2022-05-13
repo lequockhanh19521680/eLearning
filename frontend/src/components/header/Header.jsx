@@ -63,9 +63,9 @@ const Header = () => {
                     style={{ cursor: "pointer", marginRight: "200px" }}
                   >
                     <img
-                    src="http://localhost:3000/static/media/logo_chu.03d47cf3ac2a0290e887.png"
-                    className="logo"
-                    alt="logo"
+                      src="http://localhost:3000/static/media/logo_chu.03d47cf3ac2a0290e887.png"
+                      className="logo"
+                      alt="logo"
                     />
                   </a>
                   <a
@@ -102,18 +102,18 @@ const Header = () => {
                     }}
                     href="/"
                   >
-                    Teacher <i class="fa-solid fa-angle-down"></i>
+                    Teacher <i className="fa-solid fa-angle-down"></i>
                     <div
                       className="ks-position"
                     >
-                      <div class="home-main ks-drop-down">
-                        <div class="home-main  ks-drop-down-main">
-                          <div class="home-main header-btn"></div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-lable">
+                      <div className="home-main ks-drop-down">
+                        <div className="home-main  ks-drop-down-main">
+                          <div className="home-main header-btn"></div>
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-lable">
                               <a
                                 exact="true"
-                                class="btn-ks-lable log-btn btn-type"
+                                className="btn-ks-lable log-btn btn-type"
                                 href="/"
                                 style={{ fontSize: '0.9rem' }}
                               >
@@ -121,11 +121,11 @@ const Header = () => {
                               </a>
                             </div>
                           </div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-label">
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-label">
                               <a
                                 exact="true"
-                                class="btn-ks-label log-btn btn-type"
+                                className="btn-ks-label log-btn btn-type"
                                 href="/"
                                 style={{
                                   textDecoration: "none",
@@ -136,11 +136,11 @@ const Header = () => {
                               </a>
                             </div>
                           </div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-label">
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-label">
                               <a
                                 exact="true"
-                                class="btn-ks-label log-btn btn-type"
+                                className="btn-ks-label log-btn btn-type"
                                 href="/"
                                 style={{
                                   textDecoration: "none",
@@ -155,7 +155,7 @@ const Header = () => {
                       </div>
                     </div>
                   </a>
-                 
+
                   <a
                     className="main-element link-event link-event-delay single-navbar color-main"
                     target="_blank"
@@ -173,18 +173,18 @@ const Header = () => {
                     onMouseEnter={() => setShowNg(false)}
                     href="/"
                   >
-                    Class <i class="fa-solid fa-angle-down"></i>
+                    Class <i className="fa-solid fa-angle-down"></i>
                     <div
                       className="ks-position"
                     >
-                      <div class="home-main ks-drop-down">
-                        <div class="home-main ks-drop-down-main">
-                          <div class="home-main header-btn"></div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-lable">
+                      <div className="home-main ks-drop-down">
+                        <div className="home-main ks-drop-down-main">
+                          <div className="home-main header-btn"></div>
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-lable">
                               <a
                                 exact="true"
-                                class="btn-ks-lable log-btn btn-type"
+                                className="btn-ks-lable log-btn btn-type"
                                 href="/"
 
                               >
@@ -192,11 +192,11 @@ const Header = () => {
                               </a>
                             </div>
                           </div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-label">
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-label">
                               <a
                                 exact="true"
-                                class="btn-ks-label log-btn btn-type"
+                                className="btn-ks-label log-btn btn-type"
                                 href="/"
                                 style={{
                                   textDecoration: "none",
@@ -207,11 +207,11 @@ const Header = () => {
                               </a>
                             </div>
                           </div>
-                          <div class="home-main btn-ks">
-                            <div class="home-main btn-ks-label">
+                          <div className="home-main btn-ks">
+                            <div className="home-main btn-ks-label">
                               <a
                                 exact="true"
-                                class="btn-ks-label log-btn btn-type"
+                                className="btn-ks-label log-btn btn-type"
                                 href="/"
                                 style={{
                                   textDecoration: "none",
@@ -226,16 +226,16 @@ const Header = () => {
                       </div>
                     </div>
                   </a>
-                 
+
                 </div>
                 <div className="home main home-navbar-right">
-                  
+
                   <a
                     className="main-element link-event link-event-delay home-header-gift color-main icon-main"
                     style={{ textDecoration: "none" }}
                     href="/contact"
                   >
-                    
+
                     <svg
                       width="17"
                       height="17"
@@ -253,7 +253,7 @@ const Header = () => {
                     </svg>
                     Contact us
                   </a>
-                <div className="home-main main-element">
+                  <div className="home-main main-element">
                     <div
                       className="home-main jss1759 home-header-ring"
                       style={{ color: "black" }}
@@ -313,7 +313,7 @@ const Header = () => {
                                 to="/login"
                                 exact="true"
                               >
-                                 Đăng nhập
+                                Đăng nhập
                               </NavLink>
                             </div>
                           </div>
@@ -324,7 +324,7 @@ const Header = () => {
                                 to="/register"
                                 exact="true"
                               >
-                                 Đăng ký
+                                Đăng ký
                               </NavLink>
                             </div>
                           </div>
@@ -333,7 +333,7 @@ const Header = () => {
                     </div>
                   </div>
                   <div onClick={() => onChangeSidebar()}>
-                    
+
                   </div>
                 </div>
               </div>
@@ -347,4 +347,3 @@ const Header = () => {
 };
 export default Header;
 
-                    

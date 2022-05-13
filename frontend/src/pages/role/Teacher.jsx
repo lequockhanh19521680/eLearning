@@ -47,7 +47,7 @@ const Teacher = ({ User }) => {
 
         }
         else if (Type === "Exercises") {
-            setModal(<CreateExercises props={{ isShow: true, func: handleClose }} />)
+            setModal(<CreateExercises props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id }} />)
         }
     }
     const handleClose = () => {
@@ -55,7 +55,7 @@ const Teacher = ({ User }) => {
             setModal(<CreateLesson props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }}></CreateLesson>)
         }
         else if (Type === "Exercises") {
-            setModal(<CreateExercises props={{ isShow: false, func: handleClose }} />)
+            setModal(<CreateExercises props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id }} />)
         }
     }
     //Nav click
@@ -80,7 +80,6 @@ const Teacher = ({ User }) => {
         setUpdateList(null)
     }
     useEffect(() => {
-
         if (Type == "Lectures")
             handleLectures()
         if (Type == "Exercises")
