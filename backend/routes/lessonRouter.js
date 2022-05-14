@@ -12,8 +12,6 @@ router.get('/fromClass/:id',lessonController.getLessonFromClass)//dung id class
 router.get('/fromSubject/:id',lessonController.getLessonFromSubject)// dung id subject
 router.get('/fromTeacher/getAll',lessonController.getLessonFromTeacher)
 router.get('/fromTeacher/:id',lessonController.getLessonFromTeacherId)
-router.get('/content/getAll',lessonController.getAllContent)
-router.get('/content/:id',lessonController.getContentFromId)
 router.get('/save/getAll',lessonController.getAllSave)
 router.get('/save/:id',lessonController.getLessonFromSaveInStudent)
 

@@ -3,7 +3,6 @@ const classSchema = require('../models/class')
 const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
 const saveSchema = require('../models/save')
-const contentSchema = require('../models/content')
 class lessonController{
 
 
@@ -45,7 +44,7 @@ class lessonController{
 
     async getClass(req, res) {
         try {
-            const class1 = await classSchema.find()
+            const class1 = await classSchema.find(req.query)
             res.send(class1)
         }
         catch (err) {
@@ -79,7 +78,7 @@ class lessonController{
 
     async getSubject(req, res, next) {
         try {
-            const subject = await subjectSchema.find()
+            const subject = await subjectSchema.find(req.query)
             res.send(subject)
         }
         catch (err) {
@@ -102,7 +101,7 @@ class lessonController{
 
     async getLesson(req,res){
         try {
-            const course = await lessonSchema.find()
+            const course = await lessonSchema.find(req.query)
             .populate('userId')
             .populate('classId')
             .populate('subjectId')
@@ -116,14 +115,6 @@ class lessonController{
 
     async getAllSave(req,res){
         try{
-            /*
-            const user = await userSchema.find(req.query)
-            let temp = null
-            if(user.length != 0){
-                temp = user[0].id
-            }
-            const lesson = await  lessonSchema.find({'userId': temp})*/
-            const lesson = await lessonSchema.find()
             const save = await saveSchema.find()
             .populate('userId')
             .populate({
@@ -178,26 +169,10 @@ class lessonController{
         }
     }
 
-    async getAllContent(req,res){
-        try {
-            const content = await contentSchema.find(req.query)
-            res.send(content)
-        }
-        catch (err) {
-            res.send({ message: err.message })
-        }
-    }
 
 
-    async getContentFromId(req,res){
-        try{
-            const _id = req.params.id
-            const findCourse = await contentSchema.findById(_id)
-            res.send(findCourse)
-        }catch(err){
-            throw new Error(err)
-        }
-    }
+
+
     /*
 
 
@@ -281,19 +256,16 @@ class lessonController{
     }
     async addContentForLesson(req,res){
         const _id = req.params.id
-        const content = await new contentSchema({
-            lessonId: _id,
-            header: req.body.header,
-            image: req.body.image,
-            main: req.body.main
-        })
+        const header = req.body.header
+        const image = req.body.image
+        const main = req.body.main
+        const content = {header,image,main}
    
         try {
             const lesson = await lessonSchema.findById(_id)
             lesson.content.push(content)
             lesson.save()
-            const contentAdd = await content.save()
-            res.send([lesson,contentAdd])
+            res.send(lesson)
         } catch (error) {
             throw new Error(error)
         }
@@ -307,8 +279,7 @@ class lessonController{
             const lesson = await lessonSchema.findByIdAndUpdate(
                 {_id:req.params.id},
                 {$pull: {content: {_id: temp}}})
-            const content = await contentSchema.findByIdAndDelete(temp)
-            res.send([lesson,content])
+            res.send(lesson)
         } catch (err) {
             throw new Error(err)
         }

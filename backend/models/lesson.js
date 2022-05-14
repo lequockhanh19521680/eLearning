@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const shortId = require('short-id')
 const lessonDetail = new mongoose.Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -24,11 +25,17 @@ const lessonDetail = new mongoose.Schema({
         default:''
     },
     content:{
-        type: [{
-            _id:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Content',
-            }
+        type: 
+        [{
+        header:{
+            type: String,
+        },
+        image:{
+            type: String,
+        },
+        main:{
+            type: String,
+        },
         }],
         default: [],
     },
