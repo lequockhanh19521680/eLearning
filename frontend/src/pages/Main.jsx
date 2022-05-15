@@ -6,7 +6,7 @@ import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
 import Banner from '../components/Banner'
-import Exercise from '../components/exercise/Exercise'
+
 
 
 const Main = () => {
