@@ -11,7 +11,7 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 
 
 
-const ListItem = (props) => {
+const ListLessonItem = (props) => {
     const [Lessons, setLessons] = useState([]);
     const onUpdate = props.funcUpdate;
     const [Id, setId] = useState('')
@@ -98,7 +98,7 @@ const ListItem = (props) => {
 
     return (
         <>
-            <div className="container list-box" >
+            <div className="container flex-column list-box" >
                 <div className='row'>
                     <div className="col-md-12">
                         <table id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
@@ -138,7 +138,7 @@ const ListItem = (props) => {
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td className='videoTd'>
-                                                            <ReactPlayer controls width="100%" height="100%" className="video" url={`${lesson.header}`}  ></ReactPlayer>
+                                                            <ReactPlayer controls width="100%"  className="video" url={`${lesson.header}`}  ></ReactPlayer>
                                                         </td>
                                                         <td>{lesson.name}</td>
                                                         <td>{lesson.subjectId.subjectName}</td>
@@ -235,4 +235,4 @@ const ListItem = (props) => {
     )
 }
 
-export default ListItem
+export default ListLessonItem

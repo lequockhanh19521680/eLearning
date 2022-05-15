@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
-import ListItem from '../../components/table/ListItem'
-
-
-import './student.css'
+import ListLessonItem from '../../components/table/ListLessonItem'
 import Accordion from '../../components/accordion/Accordion';
 import NavbarItem from '../../components/navbar/NavbarItem';
 import EModal from '../../components/modal/EModal';
-
 import { Routes, useLocation, Route } from 'react-router-dom';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
+import "./student.css"
 
 
 const Student = ({ User }) => {
@@ -21,7 +18,7 @@ const Student = ({ User }) => {
         <Route path='/exams' element={<></>}></Route>
     </Routes>
     const location = useLocation();
-    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
+    const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check />)
     const [StateUp, setStateUp] = useState(<></>)
     const [Find, setFind] = useState(false)
     const [Accor, setAccor] = useState(<></>)
@@ -51,7 +48,7 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
-                    setStateUp(<ListItem Title={Type} Code={code} User={data[0].userId} Change={Type}></ListItem>)
+                    setStateUp(<ListLessonItem Title={Type} Code={code} User={data[0].userId} Change={Type}></ListLessonItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
@@ -74,18 +71,18 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check />)
         setType("Exams")
 
     }
     const handleExercises = () => {
-        setState(<ListItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check />)
         setType("Exercises")
 
 
     }
     const handleLectures = () => {
-        setState(<ListItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check />)
         setType("Lectures")
 
 

@@ -3,7 +3,7 @@ import { book, exercise } from '../../assets/img'
 import './teacher.css'
 
 import NavbarItem from '../../components/navbar/NavbarItem'
-import ListItem from '../../components/table/ListItem'
+import ListLessonItem from '../../components/table/ListLessonItem'
 import { useNavigate } from 'react-router-dom'
 import CreateLesson from '../../components/createLesson/CreateLesson'
 import axios from 'axios'
@@ -13,7 +13,7 @@ import CreateExercises from '../../components/createExercise/CreateExercises'
 
 
 const Teacher = ({ User }) => {
-    const [State, setState] = useState(<ListItem Title={"Lectures"} User={User} Check />)
+    const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check />)
     const [Modal, setModal] = useState(<></>)
     const [onUpdateList, setUpdateList] = useState("Lectures")
     const [Type, setType] = useState("Lectures")
@@ -60,17 +60,17 @@ const Teacher = ({ User }) => {
     }
     //Nav click
     const handleExams = () => {
-        setState(<ListItem Title={"Exams"} User={User} Check Change={Type} funcUpdate={Update} />)
+        setState(<ListLessonItem Title={"Exams"} User={User} Check Change={Type} funcUpdate={Update} />)
         setType("Exams")
     }
     const handleExercises = () => {
-        /* setState(<ListItem Title={"Exercises"} User={User} Check Change={Type} funcUpdate={Update} />) */
+        /* setState(<ListLessonItem Title={"Exercises"} User={User} Check Change={Type} funcUpdate={Update} />) */
         setState(<div>hello</div>)
         setType("Exercises")
         setUpdateList("Exercises")
     }
     const handleLectures = () => {
-        setState(<ListItem Title={"Lectures"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
+        setState(<ListLessonItem Title={"Lectures"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Lectures")
         setUpdateList("Lectures")
     }
@@ -91,17 +91,12 @@ const Teacher = ({ User }) => {
     { name: 'Exams', func: handleExams, src: exercise }]
     return (
         <React.Fragment>
-            <div className='container-fluid page'>
-                <div className='row  ' style={{ paddingLeft: '200px' }}>
+            <div className='container-fluid page flex-column text-center d-flex '>
+                <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
-                        return (
-                            <NavbarItem key={index} props={Item}></NavbarItem>
-                        )
+                        return (<NavbarItem key={index} props={Item}></NavbarItem>)
                     }
                     )}
-                </div>
-                <div className='spacing'>
-                    {State}
                 </div>
                 <div className='container btn-box'>
                     <button className='btn btn-primary create-btn'
@@ -116,6 +111,9 @@ const Teacher = ({ User }) => {
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>
                     </button>
+                </div>
+                <div className='spacing'>
+                    {State}
                 </div>
             </div>
             {Modal}
