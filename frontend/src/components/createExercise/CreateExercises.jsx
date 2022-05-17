@@ -19,11 +19,12 @@ const CreateExercises = ({ props }) => {
         content: [],
         type: "EXERCISE"
     }
-    const initialList = [<Accordion key={1} State={<Content key={1} />} Title={"Câu 1"} />]
+
     const [validated, setValidated] = useState(false);
     const [exerciseForm, setexerciseForm] = useState(initialForm)
     const { name, subjectId, classId } = exerciseForm
     const [inputList, setInputList] = useState([]);
+    const [length, setLength] = useState(0);
     const [content, setContent] = useState(true)
     const onChangeexerciseForm = e => {
 
@@ -35,26 +36,38 @@ const CreateExercises = ({ props }) => {
     }
     const onAddBtnClick = event => {
         setContent(false)
-        setInputList(inputList.concat(<Accordion key={inputList.length + 1} State={<Content key={inputList.length + 1} />} Title={`Câu ${inputList.length + 1}`} />));
+        inputList.push(<Accordion State={<Content />} Title={`Question`} />)
+        setLength(length + 1)
     };
+    const handleDelete = (pos) => {
+        console.log(pos, inputList.length, inputList);
+        var rs = []
+        for (let i = 0; i < inputList.length; i++) {
+            if (i != pos)
+                rs.push(inputList[i])
+        
+        }
+        console.log(rs);
+        setInputList(rs)
+        setLength(length - 1)
+
+    }
     const handleSubmit = async () => {
         const form = document.getElementById('formExercise')
         if (form.checkValidity() === false) {
             setValidated(true)
             console.log('fail')
-            /*       console.log(document.getElementsByClassName("ques")[0][0].value); */
-
         }
         else {
-            let headers = document.getElementsByName('header')
-            let mains = document.getElementsByName('main')
-            //headers = mains in length
+            let ques = document.getElementsByName('ques')
+
 
             let rs = []
-            for (let i = 0; i < headers.length; i++) {
+            for (let i = 0; i < ques.length; i++) {
                 let tmp = {
-                    header: headers[i].value,
-                    main: mains[i].value
+
+                    header: ques[i][0].value, // ques
+                    main: ques[i][1].value // answer
                 }
                 rs.push(tmp)
             }
@@ -83,10 +96,16 @@ const CreateExercises = ({ props }) => {
         }
     }
     useEffect(() => {
+        setInputList(inputList)
+        if (length == 0)
+            setContent(true)
+    }, [inputList, length])
+    useEffect(() => {
         setexerciseForm(initialForm)
         setValidated(false)
         setInputList([])
         setContent(true)
+        setLength(0)
     }, [props.isShow])
     return (
         <Modal
@@ -160,8 +179,33 @@ const CreateExercises = ({ props }) => {
                         </div>
                     </div>
                     <div className={`col-lg-7 ${content ? '' : 'right-content'}  `} >
-                        <div className='container flex-column  overflow-auto'>
-                            {content ? <h1>Create your Question here</h1> : inputList}
+                        <div className='container px-0 flex-column  '>
+                            {content ? <h1>Create your Question here</h1> :
+                                inputList.map((item, index) => {
+                                    return (
+                                        <div key={index} className='row '>
+                                            <div className=' col-lg-11'>
+                                                {item}
+                                            </div>
+                                            <div className=' col-lg-1 px-0 pt-4 align-middle' onClick={() => { handleDelete(index) }}>
+                                                <button type="button" className="btn btn-danger"  >
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        width="16"
+                                                        height="16"
+                                                        fill="currentColor"
+                                                        className="bi bi-trash"
+                                                        viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                                        <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+
+
+                            }
 
                         </div>
 
@@ -169,13 +213,13 @@ const CreateExercises = ({ props }) => {
                 </div>
             </ModalBody>
             <ModalFooter>
-                <button className='btn btn-primary px-4 ' onClick={onAddBtnClick} >Add Question</button>
+                <button className='btn btn-primary px-4 add-btn' onClick={onAddBtnClick} >Add Question</button>
                 <button className='btn btn-primary px-4' onClick={handleSubmit} >Create</button>
             </ModalFooter>
         </Modal >
     )
 }
-const Content = (props) => {
+const Content = () => {
     const initialForm = {
         header: "",
         main: ""
@@ -191,8 +235,8 @@ const Content = (props) => {
         })
     }
     return (
-        <Form className='ques'>
-            <Form.Group controlId='1'>
+        <Form className='ques' name='ques'>
+            <Form.Group >
                 <Form.Label>Question</Form.Label>
                 <Form.Control
                     style={{ height: '100px' }}
@@ -209,7 +253,7 @@ const Content = (props) => {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group >
-                <Form.Label>Anser</Form.Label>
+                <Form.Label>Answer</Form.Label>
                 <Form.Control
                     style={{ height: '200px' }}
                     required
