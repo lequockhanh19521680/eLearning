@@ -40,7 +40,7 @@ const Accordion = (props) => {
 
     return (
         <>
-            <div id="hello" className='row' style={{ marginTop: '50px' }}>
+            <div  className='row' style={{ marginTop: '25px' }}>
                 <MDBAccordion initialActive={0} >
                     <MDBAccordionItem collapseId={1} headerTitle={props.Title}>
                         {props.State}
