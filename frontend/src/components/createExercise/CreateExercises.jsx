@@ -8,7 +8,7 @@ import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import FormGroup from 'react-bootstrap/esm/FormGroup'
 import Accordion from '../accordion/Accordion';
-
+import AlertMessage from '../../pages/layout/AlertMessage'
 import "./createExercises.css"
 const CreateExercises = ({ props }) => {
     const initialForm = {
@@ -19,13 +19,14 @@ const CreateExercises = ({ props }) => {
         content: [],
         type: "EXERCISE"
     }
-
     const [validated, setValidated] = useState(false);
     const [exerciseForm, setexerciseForm] = useState(initialForm)
     const { name, subjectId, classId } = exerciseForm
     const [inputList, setInputList] = useState([]);
     const [length, setLength] = useState(0);
     const [content, setContent] = useState(true)
+    const onUpdate = props.funcUpdate
+    const [alert, setAlert] = useState(null)
     const onChangeexerciseForm = e => {
 
         setexerciseForm({
@@ -33,24 +34,22 @@ const CreateExercises = ({ props }) => {
             [e.target.name]: e.target.value,
 
         })
+        setAlert(null)
     }
     const onAddBtnClick = event => {
         setContent(false)
-        inputList.push(<Accordion State={<Content />} Title={`Question`} />)
+        inputList.push(<Content />)
         setLength(length + 1)
     };
     const handleDelete = (pos) => {
-        console.log(pos, inputList.length, inputList);
         var rs = []
         for (let i = 0; i < inputList.length; i++) {
             if (i != pos)
                 rs.push(inputList[i])
-        
+
         }
-        console.log(rs);
         setInputList(rs)
         setLength(length - 1)
-
     }
     const handleSubmit = async () => {
         const form = document.getElementById('formExercise')
@@ -60,8 +59,6 @@ const CreateExercises = ({ props }) => {
         }
         else {
             let ques = document.getElementsByName('ques')
-
-
             let rs = []
             for (let i = 0; i < ques.length; i++) {
                 let tmp = {
@@ -72,24 +69,21 @@ const CreateExercises = ({ props }) => {
                 rs.push(tmp)
             }
             let exerciseform = { ...exerciseForm, 'content': rs }
-            console.log(exerciseform);
             try {
                 const response = await axios.post(`${apiUrl}/lesson/`, exerciseform)
                 console.log(response.data)
                 if (response.data !== undefined) {
                     console.log('success', response);
-                    /* setAlert({ type: 'success', message: "Your lesson created successfully!" }) */
+                    setAlert({ type: 'success', message: "Your lesson created successfully!" })
                     setexerciseForm(initialForm)
-                    setInputList(null)
-                    setValidated(false)
-                    console.log(exerciseForm);
+                    setInputList([])
+                    setValidated(false);
+                    onUpdate();
+
                 }
             }
             catch (error) {
-                if (error.response.data) {
-                    console.log(error);
-                    return error.response.data;
-                }
+
                 console.log(error);
                 return { success: false, message: error.message }
             }
@@ -106,6 +100,7 @@ const CreateExercises = ({ props }) => {
         setInputList([])
         setContent(true)
         setLength(0)
+        setAlert(null)
     }, [props.isShow])
     return (
         <Modal
@@ -174,6 +169,10 @@ const CreateExercises = ({ props }) => {
                                             Please choose a Class
                                         </Form.Control.Feedback>
                                     </FormGroup>
+                                    <div className='mt-5'>
+                                        <AlertMessage info={alert} />
+                                    </div>
+
                                 </Form>
                             </div>
                         </div>
@@ -185,7 +184,7 @@ const CreateExercises = ({ props }) => {
                                     return (
                                         <div key={index} className='row '>
                                             <div className=' col-lg-11'>
-                                                {item}
+                                                <Accordion State={item} Title={`Question ${index}`} />
                                             </div>
                                             <div className=' col-lg-1 px-0 pt-4 align-middle' onClick={() => { handleDelete(index) }}>
                                                 <button type="button" className="btn btn-danger"  >
