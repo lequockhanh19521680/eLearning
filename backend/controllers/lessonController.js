@@ -120,7 +120,7 @@ class lessonController{
             .populate({
                 path: 'lessonId',
                 populate:{
-                    path: 'subjectId classId'
+                    path: 'subjectId classId userId'
                 }})
             res.send(save)
         }
@@ -137,8 +137,9 @@ class lessonController{
             .populate({
                 path: 'lessonId',
                 populate:{
-                    path: 'subjectId classId'
-                }})
+                    path: 'userId classId subjectId'
+                }
+            })
             res.send(save)
         } catch (error) {
             throw new Error(error)
@@ -272,6 +273,15 @@ class lessonController{
     }
     
     //delete
+    async deleteSaveFromId(req,res){
+        try{
+            const _id = req.params.id
+            const save = await saveSchema.findByIdAndDelete(_id)
+            res.send(save)
+        }catch(err){
+            throw new Error(err)
+        }
+    }
 
     async deleteContentFromLesson(req,res){
         try {

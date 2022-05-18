@@ -21,6 +21,7 @@ router.post('/save',lessonController.saveStudentLesson)
 router.post('/',lessonController.addLesson)
 router.post('/content/:id',lessonController.addContentForLesson)
 
+router.delete('/save/:id',lessonController.deleteSaveFromId)
 router.delete('/content/:id',lessonController.deleteContentFromLesson)
 router.delete('/:id',lessonController.deleteLessonFromId)
 module.exports = router

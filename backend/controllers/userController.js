@@ -147,7 +147,13 @@ class UserController {
     }
 
     async getOneUser(req,res){
-
+        try{
+            const _id = req.params.id
+            const user = await userModel.findById(_id)
+            res.send(user)
+        }catch(err){
+            throw new Error(err)
+        }
     }
 
 
