@@ -22,7 +22,6 @@ const CreateLesson = ({ props }) => {
     const [validated, setValidated] = useState(false);
     const [alert, setAlert] = useState(null)
     const [lessonForm, setlessonForm] = useState(initialForm)
-
     const { name, subjectId, classId, header } = lessonForm
 
     const onChangelessonForm = e => {
@@ -53,7 +52,7 @@ const CreateLesson = ({ props }) => {
                     setAlert({ type: 'success', message: "Your lesson created successfully!" })
                     setlessonForm(initialForm)
                     setValidated(false)
-                    onUpdate("Lectures");
+                    onUpdate();
                 }
             }
             catch (error) {

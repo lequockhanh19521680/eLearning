@@ -48,7 +48,7 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
-                    setStateUp(<ListLessonItem Title={Type} Code={code} User={data[0].userId} Change={Type}></ListLessonItem>)
+                    setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type}></ListLessonItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
@@ -84,8 +84,6 @@ const Student = ({ User }) => {
     const handleLectures = () => {
         setState(<ListLessonItem User={User} Check />)
         setType("Lectures")
-
-
     }
     useEffect(() => {
         setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
@@ -97,8 +95,8 @@ const Student = ({ User }) => {
 
     return (
         <React.Fragment>
-            <div className='container-fluid page'>
-                <div className='row  ' style={{ paddingLeft: '200px' }}>
+            <div className='container-fluid page flex-column text-center d-flex '>
+                <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
                         return (
                             <NavbarItem key={index} props={Item}></NavbarItem>
@@ -107,7 +105,7 @@ const Student = ({ User }) => {
                     )}
                 </div>
 
-                <div className="container">
+                <div className="container d-flex flex-column">
                     {(Find) ?
                         <Accordion State={StateUp} Title={NameTeacher} isCheck />
                         :

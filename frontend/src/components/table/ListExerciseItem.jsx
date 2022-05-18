@@ -11,11 +11,13 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 
 
 
-const ListItem = (props) => {
+const ListExerciseItem = (props) => {
     const [Lessons, setLessons] = useState([]);
+    const [Exercises, setExercise] = useState([]);
     const onUpdate = props.funcUpdate;
     const [Id, setId] = useState('')
     const [Show, setShow] = useState(false);
+    const [count, setCount] = useState(1)
 
     /*Load Lessons by teacher id or code and sutdent lessons*/
     useEffect(async () => {
@@ -52,6 +54,12 @@ const ListItem = (props) => {
         // the result is up to the code previous
         loadLessons().then((response) => {
             setLessons(response)
+            let tmp = []
+            for (let i = 0; i < response.length; i++) {
+                if (response[i].type == "EXERCISE")
+                    tmp.push(response[i])
+            }
+            setExercise(tmp);
         })
     }, [props.Change, props.User])
     /*deleteLesson*/
@@ -107,7 +115,6 @@ const ListItem = (props) => {
                                     (
                                         <tr>
                                             <th>Id</th>
-                                            <th></th>
                                             <th>Title</th>
                                             <th>Subject</th>
                                             <th>Class</th>
@@ -131,18 +138,19 @@ const ListItem = (props) => {
                             <tbody>
                                 {(props.User.role === "TEACHER") ?
                                     (
-                                        (Lessons.length === 0) ?
-                                            (<tr><td>No lessons found</td></tr>) :
+                                        (Exercises.length === 0) ?
+                                            (<tr><td>No exercise found</td></tr>) :
                                             (
-                                                Lessons.map((lesson, index) => (
+                                                Exercises.map((exercise, index) =>
+                                                (
                                                     <tr key={index}>
-                                                        <td>{index + 1}</td>                                                     
-                                                        <td>{lesson.name}</td>
-                                                        <td>{lesson.subjectId.subjectName}</td>
-                                                        <td>{lesson.classId.className}</td>
+                                                        <td>{index + 1}</td>
+                                                        <td>{exercise.name}</td>
+                                                        <td>{exercise.subjectId.subjectName}</td>
+                                                        <td>{exercise.classId.className}</td>
                                                         <td>
                                                             {(props.Check) ?
-                                                                <button type="button" className="btn btn-danger" onClick={() => handleShow(lesson._id)} >
+                                                                <button type="button" className="btn btn-danger" onClick={() => handleShow(exercise._id)} >
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                         width="16"
                                                                         height="16"
@@ -156,7 +164,7 @@ const ListItem = (props) => {
                                                                 :
                                                                 <></>
                                                             }
-                                                            <a role={'button'} className="btn btn-info" href={`${lesson.header}`} target={'blank'}>
+                                                            <a role={'button'} className="btn btn-info" href={`${exercise.header}`} target={'blank'}>
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16" height="16"
                                                                     fill="currentColor"
@@ -166,10 +174,11 @@ const ListItem = (props) => {
                                                                 </svg>
                                                             </a>
                                                         </td>
-                                                    </tr>
+                                                    </tr>)
                                                 )
-                                                )
+
                                             )
+
                                     ) :
                                     (
                                         (Lessons.length === 0) ?
@@ -182,9 +191,7 @@ const ListItem = (props) => {
                                                         (<tr key={index}><td><div></div></td></tr>) :
                                                         (<tr key={index}>
                                                             <td>{index + 1}</td>
-                                                            <td className='videoTd'>
-                                                                <ReactPlayer controls width="100%" height="100%" className="video" url={`${lesson.lessonId.header}`}  ></ReactPlayer>
-                                                            </td>
+
                                                             <td>{lesson.lessonId.name}</td>
                                                             <td>{lesson.lessonId.subjectId}</td>
                                                             <td>{lesson.lessonId.classId}</td>
@@ -232,4 +239,4 @@ const ListItem = (props) => {
     )
 }
 
-export default ListItem
+export default ListExerciseItem

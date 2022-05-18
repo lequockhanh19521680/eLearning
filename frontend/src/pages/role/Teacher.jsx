@@ -4,6 +4,7 @@ import './teacher.css'
 
 import NavbarItem from '../../components/navbar/NavbarItem'
 import ListLessonItem from '../../components/table/ListLessonItem'
+import ListExerciseItem from '../../components/table/ListExerciseItem'
 import { useNavigate } from 'react-router-dom'
 import CreateLesson from '../../components/createLesson/CreateLesson'
 import axios from 'axios'
@@ -47,7 +48,7 @@ const Teacher = ({ User }) => {
 
         }
         else if (Type === "Exercises") {
-            setModal(<CreateExercises props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id }} />)
+            setModal(<CreateExercises props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }} />)
         }
     }
     const handleClose = () => {
@@ -55,7 +56,7 @@ const Teacher = ({ User }) => {
             setModal(<CreateLesson props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }}></CreateLesson>)
         }
         else if (Type === "Exercises") {
-            setModal(<CreateExercises props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id }} />)
+            setModal(<CreateExercises props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }} />)
         }
     }
     //Nav click
@@ -65,7 +66,7 @@ const Teacher = ({ User }) => {
     }
     const handleExercises = () => {
         /* setState(<ListLessonItem Title={"Exercises"} User={User} Check Change={Type} funcUpdate={Update} />) */
-        setState(<div>hello</div>)
+        setState(<ListExerciseItem Title={"Exercises"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
         setUpdateList("Exercises")
     }
