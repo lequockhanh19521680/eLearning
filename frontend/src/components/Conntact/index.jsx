@@ -75,7 +75,7 @@ function Contact_Component() {
           <div className="contact-right-content">
             <ul class="contact-info upper">
               <li>
-                <span>ADDRESS:</span> Navagio Zakynthos, Greece
+                <span>ADDRESS:</span> Trường ĐH Công Nghệ Thông Tin
               </li>
               <li>
                 <span>EMAIL:</span> example@site.com, contact@site.com
@@ -84,12 +84,12 @@ function Contact_Component() {
                 <span>WEB:</span> www.site.com
               </li>
               <li>
-                <span>PHONE:</span> +1 (330) <strong>993-443</strong> , +1 (330){" "}
-                <strong>995-445</strong>
+                <span>PHONE:</span> +84 <strong>999-999</strong> , +84 {" "}
+                <strong>999-555</strong>
               </li>
               <li>
                 <span>FAX:</span>
-                <strong>+1 123456780</strong>
+                <strong>+84 123456780</strong>
               </li>
             </ul>
           </div>

@@ -58,7 +58,7 @@ const Header = () => {
               <div className="home-main home-navbar-inside">
                 <div className="home-main home-navbar-left">
                   <a
-                    href="/"
+                    href="/main"
                     className="main-element link-event link-event-delay active color-main"
                     style={{ cursor: "pointer", marginRight: "200px" }}
                   >
@@ -82,7 +82,7 @@ const Header = () => {
                       padding: "10px 0"
 
                     }}
-                    href="/"
+                    href="/main"
                   >
                     Home
                   </a>
@@ -313,18 +313,7 @@ const Header = () => {
                                 to="/login"
                                 exact="true"
                               >
-                                Đăng nhập
-                              </NavLink>
-                            </div>
-                          </div>
-                          <div className="home-main btn-dangki hover-btn-dangnhap">
-                            <div className="home-main btn-dangki-label ">
-                              <NavLink
-                                className="btn-dangki-label log-btn"
-                                to="/register"
-                                exact="true"
-                              >
-                                Đăng ký
+                                LogOut
                               </NavLink>
                             </div>
                           </div>

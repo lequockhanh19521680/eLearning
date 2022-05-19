@@ -84,7 +84,10 @@
     display: flex;
     gap: 0 20px;
   }
-  
+  .button.btn_blue:hover 
+  { background-color:#c4b63c;
+    cursor: pointer;
+  }
   .button.btn_blue {
     background: #deb666;
     border-color: #deb666;

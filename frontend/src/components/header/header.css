@@ -162,19 +162,7 @@
     font-weight: 600;
     line-height: 19px;
   }
-  .home-header-cb-minus {
-    color: #ff3366;
-    border: 1px solid #ff3366;
-    background-color: #ffffff;
-    left: 28px;
-    bottom: 26px;
-    padding: 2px 4px;
-    position: absolute;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 13px;
-    border-radius: 5px 5px 5px 0px;
-  }
+
   .home-header-nh {
     cursor: pointer;
     display: flex;
@@ -184,19 +172,6 @@
     align-items: center;
     font-weight: 600;
     line-height: 19px;
-  }
-  .home-header-nh-minus {
-    color: #ff3366;
-    border: 1px solid #ff3366;
-    background-color: #ffffff;
-    left: 28px;
-    bottom: 26px;
-    padding: 2px 4px;
-    position: absolute;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 13px;
-    border-radius: 5px 5px 5px 0px;
   }
   .home-main-devider {
     left: 0;
@@ -365,36 +340,7 @@
     margin-bottom: -17px;
     background: transparent;
   }
-  .btn-header {
-    border: none;
-    margin-right: 20px;
-    width: 100px;
-    height: 56px;
-    box-shadow: none;
-    border-radius: 8px;
-    background-color: #ff3366;
-    color: #fff;
-    min-width: unset;
-    box-sizing: border-box;
-    min-height: 40px;
-    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-      border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 500;
-    padding: 0 8px;
-    font-size: 14px;
-    text-transform: none;
-    position: relative;
-    align-items: center;
-    user-select: none;
-    vertical-align: middle;
-    justify-content: center;
-    text-decoration: none;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent;
-    display: inline-flex;
-  }
+
   .home-header-span {
     top: 0;
     left: 0;
@@ -422,15 +368,15 @@
     color: #606060 !important;
   }
   .scroll-down .home-navbar-inside .home-navbar-left a:hover {
-    color: #deb666 !important;
+    color: #14130f !important;
   }
   .scroll-down .home-navbar-inside .home-navbar-right a:hover {
-    color: #deb666 !important;
+    color: #0f0f0d !important;
   }
   
   .btn-dn-dk {
-    top: 32px;
-    width: 220px;
+    top: 30px;
+    width: 100px;
     border: 1px solid #edf2f7;
     padding: 10px 8px;
     z-index: 1;
@@ -486,8 +432,9 @@
   .btn-dangnhap-lable {
     text-decoration: none;
     color: #1a202c;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 17px;
+    font-weight: bold;
   }
   
   .btn-ks-lable {
@@ -496,20 +443,7 @@
     font-size: 14px;
     line-height: 17px;
   }
-  .btn-dangki {
-    display: flex;
-    padding: 14px 0;
-    align-items: center;
-    padding-left: 8px;
-    border-radius: 8px;
-    outline: none;
-  }
-  .btn-dangki-label {
-    text-decoration: none;
-    color: #1a202c;
-    font-size: 14px;
-    line-height: 17px;
-  }
+
   .isdisplay {
     display: none;
   }
@@ -549,7 +483,7 @@
     color: #deb666 !important;
   }
   .scroll-down .number-contact:hover {
-    color: #00b6f3 !important;
+    color: #096888 !important;
   }
   a .fa-calendar-days {
     margin-right: 10px;
@@ -564,7 +498,7 @@
   }
   
   .hover-btn-dangnhap:hover{
-    background-color: #deb666;
+    background-color: #b68634;
     color: #ffffff;
   }
   .scroll-down .icon-main svg{
