@@ -25,6 +25,7 @@ const Student = ({ User }) => {
     const [Modal, setModal] = useState(<></>)
     const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
+    const [Change, setChange] = useState("")
 
     // Modal Find
     const handleClose = (e) => {
@@ -48,7 +49,7 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
-                    setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type}></ListLessonItem>)
+                    setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
@@ -71,23 +72,35 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListLessonItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
         setType("Exams")
-
+        setAccor(null)
+        setChange("")
     }
     const handleExercises = () => {
-        setState(<ListLessonItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
         setType("Exercises")
-
-
+        setAccor(null)
+        setChange("")
     }
     const handleLectures = () => {
-        setState(<ListLessonItem User={User} Check />)
+        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
         setType("Lectures")
+        setAccor(null)
+        setChange("")
+    }
+    const Update = () => {
+        setChange(null)
+        if (Type == "Lectures")
+            handleLectures()
+        if (Type == "Exercises")
+            handleExercises();
+        if (Type == "Exams")
+            handleExams();
     }
     useEffect(() => {
         setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
-    }, [State])
+    }, [State, Type, Change])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },

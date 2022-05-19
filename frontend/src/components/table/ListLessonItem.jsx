@@ -17,7 +17,6 @@ const ListLessonItem = (props) => {
     const [Id, setId] = useState('')
     const [Type, setType] = useState('')
     const [Show, setShow] = useState(false);
-    console.log(Lessons,props, "here");
     /*Load Lessons by teacher id or code and sutdent lessons*/
     useEffect(async () => {
 
@@ -42,7 +41,6 @@ const ListLessonItem = (props) => {
             else if (props.User.role === "STUDENT") {
                 try {
                     const result = await axios.get(`${apiUrl}/lesson/save/${props.User._id}`)
-                    console.log(result.data);
                     return result.data
 
                 }
@@ -91,13 +89,15 @@ const ListLessonItem = (props) => {
             }
             try {
                 const result = await axios.post(`${apiUrl}/lesson/save`, request);
-                /*  onUpdate(); */
+                onUpdate();
                 handleClose();
             }
             catch (error) {
                 console.log(error)
             }
         }
+
+
     }
     const handleClose = () => setShow(false)
     const handleShow = (id, type) => {
