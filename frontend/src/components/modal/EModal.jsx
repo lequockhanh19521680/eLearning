@@ -19,14 +19,12 @@ const EModal = ({ props }) => {
             e.target.value
         )
         setAlert(null)
-        console.log(code);
     }
     const handleSubmit = (bool, type) => {
         setValidated(bool);
         if (type === 'success') {
             setAlert({ type: 'success', message: "Find successfully!" })
         }
-        console.log('setValidated')
     }
     useEffect(() => {
         setValidated(false)
@@ -46,7 +44,7 @@ const EModal = ({ props }) => {
             <Form noValidate validated={validated} onSubmit={(e) => props.funcFind(code, e, handleSubmit)} >
                 <ModalBody>
 
-                    <div className="container">
+                    <div className="container d-flex flex-column">
                         <AlertMessage info={alert}></AlertMessage>
                         <Form.Control
                             type="text"
