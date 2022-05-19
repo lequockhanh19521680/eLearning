@@ -241,7 +241,7 @@ const ListLessonItem = (props) => {
                                                         <td>{lesson.lessonId.name}</td>
                                                         <td>{lesson.lessonId.subjectId.subjectName}</td>
                                                         <td>{lesson.lessonId.classId.className}</td>
-                                                        <td>{lesson.lessonId.userId}</td>
+                                                        <td>{lesson.lessonId.userId.nameAccount}</td>
                                                         <td>
 
                                                             <button type="button" className="btn btn-danger"  >

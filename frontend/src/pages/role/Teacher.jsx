@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import CreateLesson from '../../components/createLesson/CreateLesson'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
-import CreateExercises from '../../components/createExercise/CreateExercises'
+import CreateExercises from '../../components/exercise/CreateExercises'
 
 
 
@@ -61,11 +61,11 @@ const Teacher = ({ User }) => {
     }
     //Nav click
     const handleExams = () => {
-        setState(<ListLessonItem Title={"Exams"} User={User} Check Change={Type} funcUpdate={Update} />)
+        setState(<ListLessonItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exams")
+        setUpdateList("Exams")
     }
     const handleExercises = () => {
-        /* setState(<ListLessonItem Title={"Exercises"} User={User} Check Change={Type} funcUpdate={Update} />) */
         setState(<ListExerciseItem Title={"Exercises"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
         setUpdateList("Exercises")

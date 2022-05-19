@@ -4,12 +4,14 @@ import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import Form from 'react-bootstrap/Form'
+import FormGroup from 'react-bootstrap/esm/FormGroup'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
-import FormGroup from 'react-bootstrap/esm/FormGroup'
 import Accordion from '../accordion/Accordion';
 import AlertMessage from '../../pages/layout/AlertMessage'
-import "./createExercises.css"
+import { v4 as uuidv4 } from 'uuid';
+
+import "./Exercises.css"
 const CreateExercises = ({ props }) => {
     const initialForm = {
         name: '',
@@ -22,7 +24,7 @@ const CreateExercises = ({ props }) => {
     const [validated, setValidated] = useState(false);
     const [exerciseForm, setexerciseForm] = useState(initialForm)
     const { name, subjectId, classId } = exerciseForm
-    const [inputList, setInputList] = useState([]);
+    const [inputList, setInputList] = useState([<></>]);
     const [length, setLength] = useState(0);
     const [content, setContent] = useState(true)
     const onUpdate = props.funcUpdate
@@ -37,19 +39,23 @@ const CreateExercises = ({ props }) => {
         setAlert(null)
     }
     const onAddBtnClick = event => {
+
+        setInputList(inputList.concat(<Content key={uuidv4()} />))
         setContent(false)
-        inputList.push(<Content />)
-        setLength(length + 1)
+
     };
     const handleDelete = (pos) => {
-        var rs = []
+        console.log(pos);
+        let rs = []
         for (let i = 0; i < inputList.length; i++) {
-            if (i != pos)
-                rs.push(inputList[i])
+            if (i != pos) {
+                console.log(inputList[i], inputList[pos]);
+                rs = rs.concat(inputList[i])
+            }
 
         }
+        console.log(rs, "delete");
         setInputList(rs)
-        setLength(length - 1)
     }
     const handleSubmit = async () => {
         const form = document.getElementById('formExercise')
@@ -90,10 +96,13 @@ const CreateExercises = ({ props }) => {
         }
     }
     useEffect(() => {
-        setInputList(inputList)
-        if (length == 0)
-            setContent(true)
-    }, [inputList, length])
+        console.log(inputList, "effect");
+        setInputList(() => {
+            console.log(inputList, "eefffect2");
+            return inputList
+        })
+
+    }, [inputList])
     useEffect(() => {
         setexerciseForm(initialForm)
         setValidated(false)
@@ -182,9 +191,9 @@ const CreateExercises = ({ props }) => {
                             {content ? <h1>Create your Question here</h1> :
                                 inputList.map((item, index) => {
                                     return (
-                                        <div key={index} className='row '>
+                                        <div key={item.key} className='row '>
                                             <div className=' col-lg-11'>
-                                                <Accordion State={item} Title={`Question ${index}`} />
+                                                <Accordion State={item} Title={`Question ${index + 1}`} />
                                             </div>
                                             <div className=' col-lg-1 px-0 pt-4 align-middle' onClick={() => { handleDelete(index) }}>
                                                 <button type="button" className="btn btn-danger"  >
@@ -202,12 +211,8 @@ const CreateExercises = ({ props }) => {
                                         </div>
                                     )
                                 })
-
-
                             }
-
                         </div>
-
                     </div>
                 </div>
             </ModalBody>
@@ -226,7 +231,6 @@ const Content = () => {
     const [contentForm, setcontentForm] = useState(initialForm)
     const { header, main } = contentForm
     const onChangecontentForm = e => {
-        console.log(e.target.value);
         setcontentForm({
             ...contentForm,
             [e.target.name]: e.target.value,

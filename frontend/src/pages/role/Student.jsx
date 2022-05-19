@@ -7,6 +7,8 @@ import EModal from '../../components/modal/EModal';
 import { Routes, useLocation, Route } from 'react-router-dom';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
+import ListExerciseItem from '../../components/table/ListExerciseItem'
+
 import "./student.css"
 
 
@@ -19,14 +21,14 @@ const Student = ({ User }) => {
     </Routes>
     const location = useLocation();
     const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check />)
-    const [StateUp, setStateUp] = useState(<></>)
+    const [StateUp, setStateUp] = useState()
     const [Find, setFind] = useState(false)
     const [Accor, setAccor] = useState(<></>)
     const [Modal, setModal] = useState(<></>)
     const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
     const [Change, setChange] = useState("")
-
+    const [onUpdateList, setUpdateList] = useState("Lectures")
     // Modal Find
     const handleClose = (e) => {
         e.preventDefault();
@@ -49,7 +51,10 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
-                    setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
+                    if (Type == "Lectures")
+                        setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
+                    else if (Type == "Exercises")
+                        setStateUp(<ListExerciseItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExerciseItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
@@ -75,22 +80,31 @@ const Student = ({ User }) => {
         setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
         setType("Exams")
         setAccor(null)
+        setUpdateList("Exams")
         setChange("")
     }
     const handleExercises = () => {
-        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
+        setState(<ListExerciseItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
         setAccor(null)
+        setUpdateList("Exercises")
         setChange("")
+        if (StateUp != undefined) {
+            setFind(false)
+            setStateUp(undefined)
+        }
     }
     const handleLectures = () => {
-        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
+        setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Lectures")
         setAccor(null)
+        setUpdateList("Lectures")
         setChange("")
+
     }
     const Update = () => {
         setChange(null)
+        setUpdateList(null)
         if (Type == "Lectures")
             handleLectures()
         if (Type == "Exercises")
@@ -117,15 +131,6 @@ const Student = ({ User }) => {
                     }
                     )}
                 </div>
-
-                <div className="container d-flex flex-column">
-                    {(Find) ?
-                        <Accordion State={StateUp} Title={NameTeacher} isCheck />
-                        :
-                        (<div><h5>You have not find Teacher yet! </h5></div>)
-                    }
-                    {Accor}
-                </div>
                 <div className='container btn-box'>
                     <button className='btn btn-primary create-btn'
                         onClick={handleFindTeacher}
@@ -140,6 +145,16 @@ const Student = ({ User }) => {
                         </svg>
                     </button>
                 </div>
+
+                <div className="container d-flex flex-column">
+                    {(Find) ?
+                        <Accordion State={StateUp} Title={NameTeacher} isCheck />
+                        :
+                        (<div><h5>You have not find Teacher yet! </h5></div>)
+                    }
+                    {Accor}
+                </div>
+
 
             </div>
             {Modal}
