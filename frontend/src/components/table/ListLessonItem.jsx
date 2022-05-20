@@ -12,6 +12,7 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 
 
 const ListLessonItem = (props) => {
+    console.log(props);
     const [Lessons, setLessons] = useState([]);
     const onUpdate = props.funcUpdate;
     const [Id, setId] = useState('')
@@ -70,13 +71,26 @@ const ListLessonItem = (props) => {
     }, [props.Change, props.User])
     /*deleteLesson*/
     const handleDelete = async () => {
-        try {
-            const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-            onUpdate();
-            handleClose();
+        if (Type === "delete") {
+            try {
+                const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
+                onUpdate(props.Title);
+                handleClose();
+            }
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
+        else if (Type === "delete2") {
+            try {
+                const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
+                onUpdate(props.Title);
+                handleClose();
+            }
+            catch (error) {
+                console.log(error)
+            }
+
         }
 
     }
@@ -121,7 +135,7 @@ const ListLessonItem = (props) => {
                     Do you sure to do this ?
                 </ModalBody>
                 <ModalFooter>
-                    {Type === "delete" ? (
+                    {Type.startsWith("delete") ? (
                         <button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDelete}>Yes</button>
 
                     ) : (<button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleAdd}>Yes</button>
@@ -244,7 +258,7 @@ const ListLessonItem = (props) => {
                                                         <td>{lesson.lessonId.userId.nameAccount}</td>
                                                         <td>
 
-                                                            <button type="button" className="btn btn-danger"  >
+                                                            <button type="button" className="btn btn-danger" onClick={() => { handleShow(lesson._id, "delete2") }}  >
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16"
                                                                     height="16"

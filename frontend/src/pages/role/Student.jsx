@@ -19,16 +19,19 @@ const Student = ({ User }) => {
         <Route path='/exercises' element={<></>}></Route>
         <Route path='/exams' element={<></>}></Route>
     </Routes>
-    const location = useLocation();
-    const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check />)
+    const Update = () => {
+        setUpdateList(null)
+    }
+    const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check funcUpdate={Update} />)
     const [StateUp, setStateUp] = useState()
     const [Find, setFind] = useState(false)
     const [Accor, setAccor] = useState(<></>)
+    const [AccorFind, setAccorFind] = useState(<></>)
     const [Modal, setModal] = useState(<></>)
     const [NameTeacher, setNameTeacher] = useState('')
     const [Type, setType] = useState("Lectures")
-    const [Change, setChange] = useState("")
     const [onUpdateList, setUpdateList] = useState("Lectures")
+    const [code, setCode] = useState()
     // Modal Find
     const handleClose = (e) => {
         e.preventDefault();
@@ -51,6 +54,7 @@ const Student = ({ User }) => {
                     console.log('success', result);
                     handleSubmit(false, "success");
                     setFind(true);
+                    setCode(code);
                     if (Type == "Lectures")
                         setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
                     else if (Type == "Exercises")
@@ -77,44 +81,68 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListLessonItem User={User} Check funcUpdate={Update} />)
+        setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exams")
-        setAccor(null)
         setUpdateList("Exams")
-        setChange("")
+        setAccor(null)
+
+
     }
     const handleExercises = () => {
         setState(<ListExerciseItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
-        setAccor(null)
         setUpdateList("Exercises")
-        setChange("")
-        if (StateUp != undefined) {
-            setFind(false)
-            setStateUp(undefined)
-        }
+        setAccor(null)
+
+
     }
     const handleLectures = () => {
         setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Lectures")
-        setAccor(null)
         setUpdateList("Lectures")
-        setChange("")
+        setAccor(null)
 
     }
-    const Update = () => {
-        setChange(null)
-        setUpdateList(null)
+    useEffect(() => {
         if (Type == "Lectures")
             handleLectures()
         if (Type == "Exercises")
             handleExercises();
-        if (Type == "Exams")
-            handleExams();
-    }
+    }, [onUpdateList])
+
     useEffect(() => {
         setAccor((<Accordion State={State} Title={`Your ${Type}`} Change={Type} />))
-    }, [State, Type, Change])
+    }, [State, Type])
+    useEffect(() => {
+        setAccorFind(<Accordion State={StateUp} Title={NameTeacher} isCheck />)
+    }, [StateUp, NameTeacher])
+    useEffect(async () => {
+        if (code != undefined) {
+            try {
+                const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
+                const data = result.data;
+                if (result.data !== undefined) {
+                    console.log('success', result);
+                    setCode(code);
+                    if (Type == "Lectures")
+                        setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
+                    else if (Type == "Exercises")
+                        setStateUp(<ListExerciseItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExerciseItem>)
+                    setNameTeacher("Teacher: " + data[0].userId.nameAccount);
+                }
+
+            }
+            catch (error) {
+                if (error.response.data) {
+                    console.log(error);
+                    return error.response.data;
+                }
+                console.log(error);
+                return { success: false, message: error.message }
+            }
+        }
+     
+    }, [Type])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -148,7 +176,7 @@ const Student = ({ User }) => {
 
                 <div className="container d-flex flex-column">
                     {(Find) ?
-                        <Accordion State={StateUp} Title={NameTeacher} isCheck />
+                        AccorFind
                         :
                         (<div><h5>You have not find Teacher yet! </h5></div>)
                     }
