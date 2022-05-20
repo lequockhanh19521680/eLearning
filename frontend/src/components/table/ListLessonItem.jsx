@@ -74,7 +74,7 @@ const ListLessonItem = (props) => {
         if (Type === "delete") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-                onUpdate(props.Title);
+                onUpdate("delete");
                 handleClose();
             }
             catch (error) {
@@ -84,7 +84,7 @@ const ListLessonItem = (props) => {
         else if (Type === "delete2") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
-                onUpdate(props.Title);
+                onUpdate("delete");
                 handleClose();
             }
             catch (error) {
@@ -103,6 +103,7 @@ const ListLessonItem = (props) => {
             }
             try {
                 const result = await axios.post(`${apiUrl}/lesson/save`, request);
+                console.log(result);
                 onUpdate();
                 handleClose();
             }
