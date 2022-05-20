@@ -69,13 +69,26 @@ const ListExerciseItem = (props) => {
     }, [props.Change, props.User])
     /*deleteLesson*/
     const handleDelete = async () => {
-        try {
-            const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-            onUpdate(props.Title);
-            handleClose();
+        if (Type === "delete") {
+            try {
+                const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
+                onUpdate();
+                handleClose();
+            }
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
+        else if (Type === "delete2") {
+            try {
+                const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
+                onUpdate();
+                handleClose();
+            }
+            catch (error) {
+                console.log(error)
+            }
+
         }
     }
     //for student
@@ -95,11 +108,11 @@ const ListExerciseItem = (props) => {
             }
         }
     }
-    const handleView = (exercise) => {
-        setModal(<ViewExercise props={{ isShow: true, func: handleClose2 }} />)
+    const handleView = (exercise, user) => {
+        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user }} />)
     }
-    const handleClose2 = () => {
-        setModal(<ViewExercise props={{ isShow: false, func: handleClose2 }} />)
+    const handleClose2 = (exercise, user) => {
+        setModal(<ViewExercise props={{ isShow: false, func: handleClose2, exercise: exercise, User: user }} />)
     }
     //
     const handleClose = () => setShow(false)
@@ -124,18 +137,18 @@ const ListExerciseItem = (props) => {
                     Do you sure to do this ?
                 </ModalBody>
                 <ModalFooter>
-                    {Type === "delete" ? (
-                        <button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDelete}>Yes</button>
+                    {Type.startsWith("delete") ?
 
-                    ) : (<button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleAdd}>Yes</button>
-                    )}
+                        (<button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDelete}>Yes</button>)
+                        : (<button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleAdd}>Yes</button>
+                        )}
                     <button className='btn btn-secondary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleClose}>
                         No
                     </button>
                 </ModalFooter>
 
             </Modal>
-        </div>)
+        </div >)
 
     console.log(Exercises);
     return (
@@ -207,7 +220,7 @@ const ListExerciseItem = (props) => {
 
                                                                 </button>
                                                             }
-                                                            <a role={'button'} className="btn btn-info" target={'blank'}>
+                                                            <button className="btn btn-info" onClick={() => { handleView(exercise, props.User) }}>
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16" height="16"
                                                                     fill="currentColor"
@@ -215,7 +228,7 @@ const ListExerciseItem = (props) => {
                                                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
                                                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
                                                                 </svg>
-                                                            </a>
+                                                            </button>
                                                         </td>
                                                     </tr>)
                                                 )
@@ -229,8 +242,6 @@ const ListExerciseItem = (props) => {
                                             (
                                                 Exercises.map((exercise, index) =>
                                                 (
-
-
                                                     (<tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{exercise.lessonId.name}</td>
@@ -239,7 +250,7 @@ const ListExerciseItem = (props) => {
                                                         <td>{exercise.lessonId.userId.nameAccount}</td>
                                                         <td>
 
-                                                            <button type="button" className="btn btn-danger"  >
+                                                            <button type="button" className="btn btn-danger" onClick={() => { handleShow(exercise._id, "delete2") }} >
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16"
                                                                     height="16"
@@ -251,7 +262,7 @@ const ListExerciseItem = (props) => {
                                                                 </svg>
                                                             </button>
 
-                                                            <button className="btn btn-info" onClick={() => { handleView(exercise) }} >
+                                                            <button className="btn btn-info" onClick={() => { handleView(exercise.lessonId, props.User) }} >
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16"
                                                                     height="16"
