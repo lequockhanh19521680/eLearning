@@ -5,6 +5,7 @@ import Accordion from '../../components/accordion/Accordion';
 import NavbarItem from '../../components/navbar/NavbarItem';
 import EModal from '../../components/modal/EModal';
 import { Routes, useLocation, Route } from 'react-router-dom';
+import AlertMessage from '../layout/AlertMessage';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 import ListExerciseItem from '../../components/table/ListExerciseItem'
@@ -32,6 +33,7 @@ const Student = ({ User }) => {
     const [Type, setType] = useState("Lectures")
     const [onUpdateList, setUpdateList] = useState("Lectures")
     const [code, setCode] = useState()
+    const [alert, setAlert] = useState(null)
     // Modal Find
     const handleClose = (e) => {
         e.preventDefault();
@@ -92,22 +94,25 @@ const Student = ({ User }) => {
         setState(<ListExerciseItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
         setUpdateList("Exercises")
-        setAccor(null)
 
+        setAccor(null)
 
     }
     const handleLectures = () => {
         setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Lectures")
         setUpdateList("Lectures")
+
         setAccor(null)
 
     }
     useEffect(() => {
+
         if (Type == "Lectures")
-            handleLectures()
+            handleLectures(false)
         if (Type == "Exercises")
-            handleExercises();
+            handleExercises(false);
+
     }, [onUpdateList])
 
     useEffect(() => {
@@ -141,7 +146,7 @@ const Student = ({ User }) => {
                 return { success: false, message: error.message }
             }
         }
-     
+
     }, [Type])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
@@ -172,7 +177,10 @@ const Student = ({ User }) => {
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>
                     </button>
+                    <div className='mt-3'><AlertMessage info={alert} /></div>
+
                 </div>
+
 
                 <div className="container d-flex flex-column">
                     {(Find) ?
@@ -182,8 +190,6 @@ const Student = ({ User }) => {
                     }
                     {Accor}
                 </div>
-
-
             </div>
             {Modal}
 
