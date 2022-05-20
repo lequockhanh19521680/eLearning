@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./header.css";
 import { logo } from '../../assets/img'
 
@@ -88,7 +88,7 @@ const Header = () => {
                   </a>
                   <a
                     className="main-element link-event link-event-delay single-navbar color-main"
-                    target="_blank"
+
                     style={{
                       marginRight: "24px",
                       textDecoration: "none",
@@ -100,7 +100,7 @@ const Header = () => {
                       color: '#ffffff',
                       padding: "10px 0"
                     }}
-                    href="/"
+                    href={"/main/features"}
                   >
                     Teacher <i className="fa-solid fa-angle-down"></i>
                     <div

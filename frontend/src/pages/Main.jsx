@@ -6,7 +6,7 @@ import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
 import Banner from '../components/Banner'
-
+import { Route, Routes } from 'react-router-dom'
 
 
 const Main = () => {
@@ -23,14 +23,18 @@ const Main = () => {
       setBody(<Student User={result.data.user} />)
     }
     setUser(result.data.user)
-
+    console.log(result.data.user);
   }, [])
   return (
     <>
       <Header user={User} />
       <Banner />
-      {body}
+      <Routes>
+        <Route path='*/home' element={<></>}></Route>
+        <Route path='/features' element={body}></Route>
+      </Routes>
       <Footer user={User} />
+
     </>
   )
 }

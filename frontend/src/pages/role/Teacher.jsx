@@ -5,7 +5,7 @@ import './teacher.css'
 import NavbarItem from '../../components/navbar/NavbarItem'
 import ListLessonItem from '../../components/table/ListLessonItem'
 import ListExerciseItem from '../../components/table/ListExerciseItem'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import CreateLesson from '../../components/createLesson/CreateLesson'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
@@ -14,6 +14,7 @@ import CreateExercises from '../../components/exercise/CreateExercises'
 
 
 const Teacher = ({ User }) => {
+
     const [State, setState] = useState(<ListLessonItem Title={"Lectures"} User={User} Check />)
     const [Modal, setModal] = useState(<></>)
     const [onUpdateList, setUpdateList] = useState("Lectures")

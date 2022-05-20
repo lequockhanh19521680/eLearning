@@ -2,7 +2,7 @@
 .banner {
   width: 100%;
   height: 100vh;
-  margin-bottom: 150px;
+  /* margin-bottom: 150px; */
 }
 video {
   position: absolute;
