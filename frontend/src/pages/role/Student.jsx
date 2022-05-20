@@ -14,12 +14,7 @@ import "./student.css"
 
 
 const Student = ({ User }) => {
-
-    <Routes>
-        <Route path='/lectures' element={<></>}></Route>
-        <Route path='/exercises' element={<></>}></Route>
-        <Route path='/exams' element={<></>}></Route>
-    </Routes>
+  
     const Update = () => {
         setUpdateList(null)
     }
