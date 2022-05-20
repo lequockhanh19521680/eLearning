@@ -3,6 +3,7 @@ const classSchema = require('../models/class')
 const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
 const saveSchema = require('../models/save')
+const { checkout } = require('../routes/lessonRouter')
 class lessonController{
 
 
@@ -224,16 +225,28 @@ class lessonController{
     }
     
     async saveStudentLesson(req,res){
+        const userId = req.body.userId
+        const lessonId = req.body.lessonId
+        let check = false
         const save = await new saveSchema({
-            userId: req.body.userId,
-            lessonId: req.body.lessonId
+            userId: userId,
+            lessonId: lessonId,
         })
-        try{
-            const temp = await save.save()
-            res.send(temp)
-        }catch(err)
-        {
-            throw new Error(err)
+        const saveCheck = await saveSchema.find({"userId": userId})
+        for(let i = 0, l = saveCheck.length; i < l; i++){
+            const obj = saveCheck[i]
+            if(obj.lessonId == lessonId) check = true
+        }
+
+        if(check==true) { res.send("lesson da save trong user")}
+        else{
+            try{
+                const temp = await save.save()
+                res.send(temp)
+            }catch(err)
+            {
+                throw new Error(err)
+            }
         }
     }
 
