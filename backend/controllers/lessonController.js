@@ -284,7 +284,59 @@ class lessonController{
             throw new Error(error)
         }
     }
-    
+    //patch
+
+
+
+
+
+    async changeLesson(req,res){
+        try{
+            const _id = req.params.id
+            const lesson = await lessonSchema.findByIdAndUpdate(_id,req.body)
+            res.send(lesson)
+        }catch(err){
+            throw new Error(err)
+        }
+    }
+
+    async changeContent(req,res){
+        try{
+            const _id = req.params.id
+            const contentId = req.body._id
+            const main = req.body.main
+            const header = req.body.header
+            const image = req.body.image
+            const lesson = await lessonSchema.findByIdAndUpdate({_id:_id},
+                {'content.id': contentId}, 
+                {
+                    $set:{
+                    'content.$.main': main,
+                    'content.$.header': header,
+                    'content.$.image': image
+                    }
+                }
+                
+            )
+            res.send(lesson)
+        }catch(err){
+            throw new Error(err)
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //delete
     async deleteSaveFromId(req,res){
         try{
