@@ -6,8 +6,8 @@ import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalFooter from 'react-bootstrap/ModalFooter'
-import ViewExercise from '../exercise/ViewExercise'
-
+import ViewExercises from '../exercise/ViewExercises'
+import Table from 'react-bootstrap/Table'
 
 const ListExerciseItem = (props) => {
     const [Exercises, setExercise] = useState([]);
@@ -112,7 +112,7 @@ const ListExerciseItem = (props) => {
         }
     }
     const handleView = (exercise, user, view) => {
-        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view, Classes: props.Classes, Subjects: props.Subjects }} />)
+        setModal(<ViewExercises props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view, Classes: props.Classes, Subjects: props.Subjects }} />)
     }
     const handleClose2 = (exercise, user, view) => {
         setModal(null)
@@ -158,7 +158,7 @@ const ListExerciseItem = (props) => {
             <div className="container flex-column list-box" >
                 <div className='row'>
                     <div className="col-md-12">
-                        <table id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
+                        <Table responsive id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
                             <thead>
                                 {(props.User.role === "TEACHER") ?
                                     (
@@ -188,7 +188,7 @@ const ListExerciseItem = (props) => {
                                 {(props.User.role === "TEACHER") ?
                                     (
                                         (Exercises.length === 0) ?
-                                            (<tr><td>No exercises found</td></tr>) :
+                                            (<tr><td colSpan={8}><div className='text-secondary fs-3 fw-3'>No Exercises Found</div></td></tr>) :
                                             (
                                                 Exercises.map((exercise, index) =>
                                                 (
@@ -241,7 +241,7 @@ const ListExerciseItem = (props) => {
                                     ) :
                                     (
                                         (Exercises.length === 0) ?
-                                            (<tr><td>No exercises found</td></tr>) :
+                                            (<tr><td colSpan={8}><div className='text-secondary fs-3 fw-3'>No Exercises Found</div></td></tr>) :
                                             (
                                                 Exercises.map((exercise, index) =>
                                                 (
@@ -287,7 +287,7 @@ const ListExerciseItem = (props) => {
                                     )
                                 }
                             </tbody>
-                        </table>
+                        </Table>
                         {EModal}
                         {ConfirmModal}
                     </div>

@@ -16,7 +16,11 @@
 }
 
 .box:hover {
-    background-color: #ccc9c9;
+    background-color: #ccc9c9 ;
+}
+
+.activebox {
+    background-color: #ccc9c9 !important;
 }
 
 .alt-text {
@@ -35,26 +39,25 @@ span {
     background-color: #ecf0f5 !important;
 
 }
-.btn-box
-{
+
+.btn-box {
     margin-top: 20px;
 }
-.create-btn
-{
+
+.create-btn {
     margin-left: 0 !important;
     width: 100px;
     background-color: green !important;
     opacity: 0.6;
     border: none !important;
 }
-.create-btn-svg
-{
+
+.create-btn-svg {
     position: relative;
     left: 5px;
     top: -1px;
 }
-.spacing
-{
+
+.spacing {
     margin-top: 20px;
 }
-

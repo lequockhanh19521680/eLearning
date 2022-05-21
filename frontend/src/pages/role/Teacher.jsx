@@ -6,7 +6,7 @@ import NavbarItem from '../../components/navbar/NavbarItem'
 import ListLessonItem from '../../components/table/ListLessonItem'
 import ListExerciseItem from '../../components/table/ListExerciseItem'
 import { useLocation, useNavigate } from 'react-router-dom'
-import CreateLesson from '../../components/createLesson/CreateLesson'
+import CreateLesson from '../../components/lesson/CreateLesson'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import CreateExercises from '../../components/exercise/CreateExercises'
@@ -105,7 +105,7 @@ const Teacher = ({ User }) => {
             <div className='container-fluid page flex-column text-center d-flex '>
                 <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
-                        return (<NavbarItem key={index} props={Item}></NavbarItem>)
+                        return (<NavbarItem key={index} item={Item} type={Type}></NavbarItem>)
                     }
                     )}
                 </div>

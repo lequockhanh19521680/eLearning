@@ -66,3 +66,21 @@ span {
     left: 5px;
     top: -1px;
 }
+
+#font {
+    font-family: Georgia, 'Times New Roman', Times, serif !important;
+    background-color: #ecf0f5 !important;
+    border-radius: 10px;
+    opacity: 0.7;
+    width: 30% !important;
+    cursor: pointer;
+    font-size: 20px !important;
+}
+
+#font:hover {
+    font-size: 30px !important;
+    font-weight: 600;
+    opacity: 0.9;
+    width: 50% !important;
+
+}

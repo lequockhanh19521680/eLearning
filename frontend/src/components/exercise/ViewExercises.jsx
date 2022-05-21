@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/esm/FormGroup'
 import Accordion from '../accordion/Accordion'
 import "./Exercises.css"
-const ViewExercise = ({ props }) => {
+const ViewExercises = ({ props }) => {
     console.log(props);
     const initialForm = {
         name: props.exercise.name,
@@ -74,37 +74,56 @@ const ViewExercise = ({ props }) => {
                                         </Form.Group>
                                         <Form.Group>
                                             <Form.Label>Subject</Form.Label>
-                                            <Form.Select
-                                                name="subjectId"
-                                                value={subjectId}
-                                                onChange={onChangeexerciseForm}
-                                            >
-                                                {props.Subjects.map((subject, index) => {
-                                                    return (
-                                                        <option key={index} value={`${subject._id}`}>{`${subject.subjectName}`}</option>
-                                                    )
-                                                })}
-                                            </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                Please choose a Subject
-                                            </Form.Control.Feedback>
+                                            {(props.User.role == "STUDENT" || props.view) ?
+                                                <>
+                                                    <Form.Control
+                                                        defaultValue={props.exercise.subjectId.subjectName}
+                                                    >
+                                                    </Form.Control>
+                                                </> :
+                                                <React.Fragment>
+                                                    <Form.Select
+                                                        name="subjectId"
+                                                        value={subjectId}
+                                                        onChange={onChangeexerciseForm}
+                                                    >
+                                                        {props.Subjects.map((subject, index) => {
+                                                            return (
+                                                                <option key={index} value={`${subject._id}`}>{`${subject.subjectName}`}</option>
+                                                            )
+                                                        })}
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Please choose a Subject
+                                                    </Form.Control.Feedback>
+                                                </React.Fragment>}
                                         </Form.Group>
                                         <FormGroup>
                                             <Form.Label>Class</Form.Label>
-                                            <Form.Select
-                                                name="classId"
-                                                value={classId}
-                                                onChange={onChangeexerciseForm}
-                                            >
-                                                {props.Classes.map((_class, index) => {
-                                                    return (
-                                                        <option key={index} value={`${_class._id}`}>{`${_class.className}`}</option>
-                                                    )
-                                                })}
-                                            </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                Please choose a Class
-                                            </Form.Control.Feedback>
+                                            {(props.User.role == "STUDENT" || props.view) ?
+                                                <>
+                                                    <Form.Control
+                                                        defaultValue={props.exercise.classId.className}
+                                                    >
+                                                    </Form.Control>
+                                                </> :
+                                                <React.Fragment>
+                                                    <Form.Select
+                                                        name="classId"
+                                                        value={classId}
+                                                        onChange={onChangeexerciseForm}
+                                                    >
+                                                        {props.Classes.map((_class, index) => {
+                                                            return (
+                                                                <option key={index} value={`${_class._id}`}>{`${_class.className}`}</option>
+                                                            )
+                                                        })}
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Please choose a Class
+                                                    </Form.Control.Feedback>
+                                                </React.Fragment>
+                                            }
                                         </FormGroup>
                                     </fieldset>
                                     <fieldset className='border p-3' disabled >
@@ -163,8 +182,6 @@ const ViewExercise = ({ props }) => {
                                                                 />
                                                             </Form.Group>
                                                         </React.Fragment>
-
-
                                                         } />
                                                 </div>
                                                 <div className=' col-lg-1 px-0 pt-2 align-middle' /* onClick={() => { handleDelete(index) }} */>
@@ -219,8 +236,16 @@ const ViewExercise = ({ props }) => {
 
                 </div>
             </ModalBody>
-        </Modal>
+            {
+                (props.User.role === "TEACHER" && props.view == undefined) ?
+                    <></> :
+                    <ModalFooter>
+                        <button className='btn btn-primary px-4'  >Save</button>
+
+                    </ModalFooter>
+            }
+        </Modal >
     )
 }
 
-export default ViewExercise
+export default ViewExercises
