@@ -72,7 +72,7 @@ const ListExerciseItem = (props) => {
         if (Type === "delete") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-                onUpdate();
+                onUpdate(true, "delete");
                 handleClose();
             }
             catch (error) {
@@ -82,7 +82,7 @@ const ListExerciseItem = (props) => {
         else if (Type === "delete2") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
-                onUpdate();
+                onUpdate(true, "delete");
                 handleClose();
             }
             catch (error) {
@@ -99,8 +99,11 @@ const ListExerciseItem = (props) => {
                 userId: props.UserSave._id
             }
             try {
+                let bool = true
                 const result = await axios.post(`${apiUrl}/lesson/save`, request);
-                onUpdate();
+                if (result.data === "lesson da save trong user")
+                    bool = false
+                onUpdate(bool, "add");
                 handleClose();
             }
             catch (error) {
@@ -108,11 +111,11 @@ const ListExerciseItem = (props) => {
             }
         }
     }
-    const handleView = (exercise, user) => {
-        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user }} />)
+    const handleView = (exercise, user, view) => {
+        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view }} />)
     }
-    const handleClose2 = (exercise, user) => {
-        setModal(<ViewExercise props={{ isShow: false, func: handleClose2, exercise: exercise, User: user }} />)
+    const handleClose2 = (exercise, user, view) => {
+        setModal(<ViewExercise props={{ isShow: false, func: handleClose2, exercise: exercise, User: user, view: view }} />)
     }
     //
     const handleClose = () => setShow(false)
@@ -150,7 +153,6 @@ const ListExerciseItem = (props) => {
             </Modal>
         </div >)
 
-    console.log(Exercises);
     return (
         <>
             <div className="container flex-column list-box" >
@@ -220,7 +222,7 @@ const ListExerciseItem = (props) => {
 
                                                                 </button>
                                                             }
-                                                            <button className="btn btn-info" onClick={() => { handleView(exercise, props.User) }}>
+                                                            <button className="btn btn-info" onClick={() => { handleView(exercise, props.User, props.View) }}>
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     width="16" height="16"
                                                                     fill="currentColor"

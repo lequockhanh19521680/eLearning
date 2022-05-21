@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
@@ -8,9 +8,11 @@ import FormGroup from 'react-bootstrap/esm/FormGroup'
 import Accordion from '../accordion/Accordion'
 import "./Exercises.css"
 const ViewExercise = ({ props }) => {
+    console.log(props);
     const [inputList, setinputList] = useState(props.exercise.content);
-
-
+    useEffect(() => {
+        setinputList(props.exercise.content)
+    }, [props.isShow])
     return (
         <Modal
             show={props.isShow}
@@ -112,7 +114,7 @@ const ViewExercise = ({ props }) => {
                     <div className="col-lg-7 right-content">
                         <div className='container px-0 flex-column  '>
                             {
-                                props.User.role === "TEACHER" ?
+                                (props.User.role === "TEACHER" && props.view == undefined) ?
                                     <></> :
                                     inputList.map((item, index) => {
                                         return (

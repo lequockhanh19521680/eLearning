@@ -23,7 +23,6 @@ const Main = () => {
       setBody(<Student User={result.data.user} />)
     }
     setUser(result.data.user)
-    console.log(result.data.user);
   }, [])
   return (
     <>
