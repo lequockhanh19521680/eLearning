@@ -57,7 +57,7 @@ const Student = ({ User }) => {
                 const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
                 const data = result.data;
                 if (result.data !== undefined) {
-/*                     console.log('success', result); */
+                    /*                     console.log('success', result); */
                     handleSubmit(false, "success");
                     setFind(true);
                     setCode(code);
@@ -168,7 +168,7 @@ const Student = ({ User }) => {
                 <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
                         return (
-                            <NavbarItem key={index} props={Item}></NavbarItem>
+                            <NavbarItem key={index} item={Item} type={Type}></NavbarItem>
                         )
                     }
                     )}
@@ -194,7 +194,7 @@ const Student = ({ User }) => {
                     {(Find) ?
                         AccorFind
                         :
-                        (<div><h5>You have not find Teacher yet! </h5></div>)
+                        (<div id="font" className='container d-flex flex-column mb-4  shadow-lg font w-50'>You have not found Teacher yet!</div>)
                     }
                     <div className='mt-3 d-flex'><AlertMessage info={alert2} /></div>
                     {Accor}

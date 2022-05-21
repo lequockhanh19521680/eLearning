@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { apiUrl } from '../../contexts/constants'
 import './listitem.css'
-
+import Table from 'react-bootstrap/Table'
 import ReactPlayer from "react-player";
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -73,7 +73,7 @@ const ListLessonItem = (props) => {
         if (Type === "delete") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-                onUpdate(true,"delete");
+                onUpdate(true, "delete");
                 handleClose();
             }
             catch (error) {
@@ -83,7 +83,7 @@ const ListLessonItem = (props) => {
         else if (Type === "delete2") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
-                onUpdate(true,"delete");
+                onUpdate(true, "delete");
                 handleClose();
             }
             catch (error) {
@@ -105,7 +105,7 @@ const ListLessonItem = (props) => {
                 const result = await axios.post(`${apiUrl}/lesson/save`, request);
                 if (result.data === "lesson da save trong user")
                     bool = false
-                onUpdate(bool,"add");
+                onUpdate(bool, "add");
                 handleClose();
             }
             catch (error) {
@@ -155,12 +155,12 @@ const ListLessonItem = (props) => {
             <div className="container flex-column list-box" >
                 <div className='row'>
                     <div className="col-md-12">
-                        <table id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
+                        <Table responsive id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
                             <thead>
                                 {(props.User.role === "TEACHER") ?
                                     (
                                         <tr>
-                                            <th>Id</th>
+                                            <th >Id</th>
                                             <th>Video</th>
                                             <th>Title</th>
                                             <th>Subject</th>
@@ -187,7 +187,7 @@ const ListLessonItem = (props) => {
                                 {(props.User.role === "TEACHER") ?
                                     (
                                         (Lessons.length === 0) ?
-                                            (<tr><td className=''>No lessons found</td></tr>) :
+                                            (<tr><td colSpan={8}><div className='text-secondary fs-3 fw-3'>No Lessons Found</div></td></tr>) :
                                             (
                                                 Lessons.map((lesson, index) => {
                                                     return (
@@ -245,7 +245,7 @@ const ListLessonItem = (props) => {
                                     ) :
                                     (
                                         (Lessons.length === 0) ?
-                                            (<tr><td>No lessons found</td></tr>) :
+                                            (<tr><td colSpan={8}><div className='text-secondary fs-3 fw-3'>No Lessons Found</div></td></tr>) :
                                             (
                                                 Lessons.map((lesson, index) =>
                                                 (
@@ -293,7 +293,7 @@ const ListLessonItem = (props) => {
                                     )
                                 }
                             </tbody>
-                        </table>
+                        </Table>
                         {ConfirmModal}
                     </div>
 
