@@ -12,7 +12,6 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 
 
 const ListLessonItem = (props) => {
-    console.log(props);
     const [Lessons, setLessons] = useState([]);
     const onUpdate = props.funcUpdate;
     const [Id, setId] = useState('')
@@ -74,7 +73,7 @@ const ListLessonItem = (props) => {
         if (Type === "delete") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
-                onUpdate("delete");
+                onUpdate(true,"delete");
                 handleClose();
             }
             catch (error) {
@@ -84,7 +83,7 @@ const ListLessonItem = (props) => {
         else if (Type === "delete2") {
             try {
                 const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
-                onUpdate("delete");
+                onUpdate(true,"delete");
                 handleClose();
             }
             catch (error) {
@@ -102,9 +101,11 @@ const ListLessonItem = (props) => {
                 userId: props.UserSave._id
             }
             try {
+                let bool = true
                 const result = await axios.post(`${apiUrl}/lesson/save`, request);
-                console.log(result);
-                onUpdate();
+                if (result.data === "lesson da save trong user")
+                    bool = false
+                onUpdate(bool,"add");
                 handleClose();
             }
             catch (error) {

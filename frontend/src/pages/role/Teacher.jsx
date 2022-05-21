@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import './teacher.css'
-
+import AlertMessage from '../layout/AlertMessage'
 import NavbarItem from '../../components/navbar/NavbarItem'
 import ListLessonItem from '../../components/table/ListLessonItem'
 import ListExerciseItem from '../../components/table/ListExerciseItem'
@@ -19,6 +19,7 @@ const Teacher = ({ User }) => {
     const [Modal, setModal] = useState(<></>)
     const [onUpdateList, setUpdateList] = useState("Lectures")
     const [Type, setType] = useState("Lectures")
+    const [alert, setAlert] = useState(null)
 
     //getclass
     const [Classes, setClasses] = useState([])
@@ -78,7 +79,10 @@ const Teacher = ({ User }) => {
     }
 
     //Update for create lesson and delete lesson
-    const Update = () => {
+    const Update = (bool,type) => {
+        if (type == "delete") {
+            setAlert({ type: 'success', message: `Delete ${Type} successfully!` })
+        }
         setUpdateList(null)
     }
     useEffect(() => {
@@ -87,6 +91,11 @@ const Teacher = ({ User }) => {
         if (Type == "Exercises")
             handleExercises();
     }, [onUpdateList])
+    useEffect(() => {
+        setTimeout(() => {
+            setAlert(null)
+        }, 5000)
+    }, [alert])
     //
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -113,6 +122,9 @@ const Teacher = ({ User }) => {
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>
                     </button>
+                </div>
+                <div className=' container mt-3 d-flex mb-0'>
+                    <AlertMessage info={alert} />
                 </div>
                 <div className='spacing'>
                     {State}
