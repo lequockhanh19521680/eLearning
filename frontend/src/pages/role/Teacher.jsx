@@ -68,7 +68,7 @@ const Teacher = ({ User }) => {
         setUpdateList("Exams")
     }
     const handleExercises = () => {
-        setState(<ListExerciseItem Title={"Exercises"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
+        setState(<ListExerciseItem Title={"Exercises"} User={User} Check Change={onUpdateList} funcUpdate={Update} Classes={Classes} Subjects={Subjects} />)
         setType("Exercises")
         setUpdateList("Exercises")
     }
@@ -79,7 +79,7 @@ const Teacher = ({ User }) => {
     }
 
     //Update for create lesson and delete lesson
-    const Update = (bool,type) => {
+    const Update = (bool, type) => {
         if (type == "delete") {
             setAlert({ type: 'success', message: `Delete ${Type} successfully!` })
         }

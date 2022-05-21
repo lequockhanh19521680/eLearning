@@ -9,14 +9,35 @@ import Accordion from '../accordion/Accordion'
 import "./Exercises.css"
 const ViewExercise = ({ props }) => {
     console.log(props);
+    const initialForm = {
+        name: props.exercise.name,
+        subjectId: props.exercise.subjectId._id,
+        classId: props.exercise.classId._id,
+        userId: props.User._id,
+        content: props.exercise.content,
+        type: "EXERCISE"
+    }
+    console.log(initialForm);
+    const [exerciseForm, setexerciseForm] = useState(initialForm)
+    const { name, subjectId, classId } = exerciseForm
     const [inputList, setinputList] = useState(props.exercise.content);
+
+    const onChangeexerciseForm = e => {
+        setexerciseForm({
+            ...exerciseForm,
+            [e.target.name]: e.target.value,
+
+        })
+
+    }
     useEffect(() => {
         setinputList(props.exercise.content)
+
     }, [props.isShow])
     return (
         <Modal
             show={props.isShow}
-            onHide={() => { props.func(props.exercise, props.User) }}
+            onHide={() => { props.func() }}
             backdrop="static"
             keyboard={false}
             size="lg"
@@ -33,10 +54,9 @@ const ViewExercise = ({ props }) => {
                         <div className=' left-content overflow-hidden '>
                             <div className="container px-0 d-flex flex-column">
                                 <Form>
-                                    <fieldset className='border p-3' disabled >
+                                    <fieldset className='border p-3' disabled={props.User.role == "STUDENT" || props.view} >
                                         <legend className='float-none w-auto p-1'>Exercise</legend>
                                         {/* <AlertMessage info={alert} /> */}
-
                                         <Form.Group controlId='1'>
                                             <Form.Label>Title</Form.Label>
                                             <Form.Control
@@ -44,48 +64,47 @@ const ViewExercise = ({ props }) => {
                                                 required
                                                 as="textarea"
                                                 row={3}
-                                                /*   onChange={onChangelessonForm} */
+                                                onChange={onChangeexerciseForm}
                                                 name="name"
-                                                defaultValue={props.exercise.name}
-
+                                                value={name}
                                             />
-                                            {/*  <Form.Control.Feedback type="invalid">
-                                Please input the title.
-                            </Form.Control.Feedback> */}
+                                            <Form.Control.Feedback type="invalid">
+                                                Please input the title.
+                                            </Form.Control.Feedback>
                                         </Form.Group>
                                         <Form.Group>
                                             <Form.Label>Subject</Form.Label>
-                                            <Form.Control
+                                            <Form.Select
                                                 name="subjectId"
-                                                defaultValue={props.exercise.subjectId.subjectName}
-                               /*  onChange={onChangelessonForm}
-                                 value={subjectId} */ >
-                                                {/*     {props.Subjects.map((subject, index) => {
-                                    return (
-                                        <option key={index} value={`${subject._id}`}>{`${subject.subjectName}`}</option>
-                                    )
-                                })} */}
-                                            </Form.Control>
-                                            {/* <Form.Control.Feedback type="invalid">
-                                Please choose a Subject
-                            </Form.Control.Feedback> */}
+                                                value={subjectId}
+                                                onChange={onChangeexerciseForm}
+                                            >
+                                                {props.Subjects.map((subject, index) => {
+                                                    return (
+                                                        <option key={index} value={`${subject._id}`}>{`${subject.subjectName}`}</option>
+                                                    )
+                                                })}
+                                            </Form.Select>
+                                            <Form.Control.Feedback type="invalid">
+                                                Please choose a Subject
+                                            </Form.Control.Feedback>
                                         </Form.Group>
                                         <FormGroup>
                                             <Form.Label>Class</Form.Label>
-                                            <Form.Control
+                                            <Form.Select
                                                 name="classId"
-                                                defaultValue={props.exercise.classId.className}
-                               /*  onChange={onChangelessonForm}
-                                value={classId} */>
-                                                {/*  {props.Classes.map((_class, index) => {
-                                    return (
-                                        <option key={index} value={`${_class._id}`}>{`${_class.className}`}</option>
-                                    )
-                                })} */}
-                                            </Form.Control>
-                                            {/*     <Form.Control.Feedback type="invalid">
-                                Please choose a Class
-                            </Form.Control.Feedback> */}
+                                                value={classId}
+                                                onChange={onChangeexerciseForm}
+                                            >
+                                                {props.Classes.map((_class, index) => {
+                                                    return (
+                                                        <option key={index} value={`${_class._id}`}>{`${_class.className}`}</option>
+                                                    )
+                                                })}
+                                            </Form.Select>
+                                            <Form.Control.Feedback type="invalid">
+                                                Please choose a Class
+                                            </Form.Control.Feedback>
                                         </FormGroup>
                                     </fieldset>
                                     <fieldset className='border p-3' disabled >
@@ -115,33 +134,40 @@ const ViewExercise = ({ props }) => {
                         <div className='container px-0 flex-column  '>
                             {
                                 (props.User.role === "TEACHER" && props.view == undefined) ?
-                                    <></> :
                                     inputList.map((item, index) => {
                                         return (
                                             <div key={index} className='row '>
-                                                {/*      <div className=' col-lg-11'> */}
-                                                <Accordion
-                                                    Title={`Question ${index + 1}: ${item.header}`}
-                                                    State={
-                                                        (
+                                                <div className=' col-lg-11'>
+                                                    <Accordion Title={`Question ${index + 1}`}
+                                                        State={<React.Fragment>
+                                                            <Form.Group >
+                                                                <Form.Label>Question</Form.Label>
+                                                                <Form.Control
+                                                                    style={{ height: "100px" }}
+                                                                    required
+                                                                    as="textarea"
+                                                                    row={3}
+                                                                    name="main"
+                                                                    defaultValue={item.header}
+                                                                />
+                                                            </Form.Group>
                                                             <Form.Group >
                                                                 <Form.Label>Answer</Form.Label>
                                                                 <Form.Control
-                                                                    style={{ height: '200px' }}
+                                                                    style={{ height: "150px" }}
                                                                     required
                                                                     as="textarea"
                                                                     row={3}
                                                                     name="main"
                                                                     defaultValue={item.main}
                                                                 />
-                                                                <Form.Control.Feedback type="invalid">
-                                                                    Please input the question.
-                                                                </Form.Control.Feedback>
                                                             </Form.Group>
-                                                        )
-                                                    } />
-                                                {/*  </div> */}
-                                                {/*  <div className=' col-lg-1 px-0 pt-4 align-middle' >
+                                                        </React.Fragment>
+
+
+                                                        } />
+                                                </div>
+                                                <div className=' col-lg-1 px-0 pt-2 align-middle' /* onClick={() => { handleDelete(index) }} */>
                                                     <button type="button" className="btn btn-danger"  >
                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                             width="16"
@@ -153,7 +179,37 @@ const ViewExercise = ({ props }) => {
                                                             <path fillRule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                                                         </svg>
                                                     </button>
-                                                </div> */}
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                    :
+                                    inputList.map((item, index) => {
+                                        return (
+                                            <div key={index} className='row '>
+                                                <Accordion
+                                                    Title={`Question ${index + 1}: ${item.header}`}
+                                                    State={
+                                                        (
+                                                            <fieldset disabled>
+                                                                <Form.Group >
+                                                                    <Form.Label>Answer</Form.Label>
+                                                                    <Form.Control
+                                                                        style={{ height: "200px" }}
+                                                                        required
+                                                                        as="textarea"
+                                                                        row={3}
+                                                                        name="main"
+                                                                        defaultValue={item.main}
+                                                                    />
+                                                                    <Form.Control.Feedback type="invalid">
+                                                                        Please input the question.
+                                                                    </Form.Control.Feedback>
+                                                                </Form.Group>
+                                                            </fieldset>
+                                                        )
+                                                    } />
+
                                             </div>
                                         )
                                     })
