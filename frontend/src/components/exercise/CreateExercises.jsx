@@ -54,7 +54,6 @@ const CreateExercises = ({ props }) => {
             }
 
         }
-        console.log(rs, "delete");
         setInputList(rs)
     }
     const handleSubmit = async () => {
@@ -101,6 +100,8 @@ const CreateExercises = ({ props }) => {
             console.log(inputList, "eefffect2");
             return inputList
         })
+        if (inputList.length == 0)
+            setContent(true)
 
     }, [inputList])
     useEffect(() => {
@@ -108,7 +109,6 @@ const CreateExercises = ({ props }) => {
         setValidated(false)
         setInputList([])
         setContent(true)
-        setLength(0)
         setAlert(null)
     }, [props.isShow])
     return (
@@ -195,7 +195,7 @@ const CreateExercises = ({ props }) => {
                                             <div className=' col-lg-11'>
                                                 <Accordion State={item} Title={`Question ${index + 1}`} />
                                             </div>
-                                            <div className=' col-lg-1 px-0 pt-4 align-middle' onClick={() => { handleDelete(index) }}>
+                                            <div className=' col-lg-1 px-0 pt-2 align-middle' onClick={() => { handleDelete(index) }}>
                                                 <button type="button" className="btn btn-danger"  >
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         width="16"

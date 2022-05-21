@@ -112,10 +112,10 @@ const ListExerciseItem = (props) => {
         }
     }
     const handleView = (exercise, user, view) => {
-        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view }} />)
+        setModal(<ViewExercise props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view, Classes: props.Classes, Subjects: props.Subjects }} />)
     }
     const handleClose2 = (exercise, user, view) => {
-        setModal(<ViewExercise props={{ isShow: false, func: handleClose2, exercise: exercise, User: user, view: view }} />)
+        setModal(null)
     }
     //
     const handleClose = () => setShow(false)
@@ -178,6 +178,7 @@ const ListExerciseItem = (props) => {
                                             <th>Subject</th>
                                             <th>Class</th>
                                             <th>Teacher</th>
+                                            <th>Teacher Code</th>
                                             <th></th>
                                         </tr>
                                     )
@@ -250,6 +251,7 @@ const ListExerciseItem = (props) => {
                                                         <td>{exercise.lessonId.subjectId.subjectName}</td>
                                                         <td>{exercise.lessonId.classId.className}</td>
                                                         <td>{exercise.lessonId.userId.nameAccount}</td>
+                                                        <td>{exercise.lessonId.userId.code}</td>
                                                         <td>
 
                                                             <button type="button" className="btn btn-danger" onClick={() => { handleShow(exercise._id, "delete2") }} >

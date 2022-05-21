@@ -177,6 +177,7 @@ const ListLessonItem = (props) => {
                                             <th>Subject</th>
                                             <th>Class</th>
                                             <th>Teacher</th>
+                                            <th>Teacher Code</th>
                                             <th></th>
                                         </tr>
                                     )
@@ -258,6 +259,7 @@ const ListLessonItem = (props) => {
                                                         <td>{lesson.lessonId.subjectId.subjectName}</td>
                                                         <td>{lesson.lessonId.classId.className}</td>
                                                         <td>{lesson.lessonId.userId.nameAccount}</td>
+                                                        <td>{lesson.lessonId.userId.code}</td>
                                                         <td>
 
                                                             <button type="button" className="btn btn-danger" onClick={() => { handleShow(lesson._id, "delete2") }}  >
