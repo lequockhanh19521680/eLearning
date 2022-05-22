@@ -22,7 +22,6 @@ router.post('/',lessonController.addLesson)
 router.post('/content/:id',lessonController.addContentForLesson)
 
 router.patch('/:id',lessonController.changeLesson)
-router.patch('/content/:id',lessonController.changeContent)
 
 router.delete('/save/:id',lessonController.deleteSaveFromId)
 router.delete('/content/:id',lessonController.deleteContentFromLesson)

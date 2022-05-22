@@ -4,6 +4,7 @@ const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
 const saveSchema = require('../models/save')
 const { checkout } = require('../routes/lessonRouter')
+const { response } = require('express')
 class lessonController{
 
 
@@ -293,53 +294,45 @@ class lessonController{
     async changeLesson(req,res){
         try{
             const _id = req.params.id
-            const lesson = await lessonSchema.findByIdAndUpdate(_id,req.body)
-            res.send(lesson)
-        }catch(err){
-            throw new Error(err)
-        }
-    }
-
-    async changeContent(req,res){
-        try{
-            const _id = req.params.id
-            const contentId = req.body._id
-            const main = req.body.main
+            const userId = req.body.userId
+            const classId = req.body.classId
+            const subjectId = req.body.subjectId
+            const name = req.body.name
             const header = req.body.header
-            const image = req.body.image
+            const type = req.body.type
+            let content1 = req.body.content
             const lesson1 = await lessonSchema.findById(_id)
             const temp = lesson1.content
-            for(let i = 0, l = temp.length; i < l; i++){
-                const obj = temp[i]
-                if(obj._id==contentId){
-                    obj.header=header,
-                    obj.main=main,
-                    obj.image=image
-                    break
-                }
-                
+            for(let i = 0, l1 = content1.length; i < l1; i++){
+                for(let j = 0, l2 = temp.length;j < l2; j++)
+                {
+                    
+                    const obj1 = content1[i]
+                    if(obj1 == []) {res.send("Khong ton tai content can sua")}
+                    else{
+                        if(obj1._id==temp[j]._id){
+                        temp[j].header = obj1.header
+                        temp[j].main = obj1.main
+                        temp[j].image = obj1.image
+                        }
+                    }
+                }    
             }
             const lesson = await lessonSchema.findByIdAndUpdate(_id,
-                {
-                    "content": temp
-                }
-            )
-    
+            {
+                "userId": userId,
+                "classId": classId,
+                "subjectId": subjectId,
+                "name": name,
+                "header": header,
+                "type": type,
+                "content": temp
+            })
             res.send(lesson)
         }catch(err){
             throw new Error(err)
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
