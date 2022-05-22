@@ -8,6 +8,7 @@ import AlertMessage from '../layout/AlertMessage';
 import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 import ListExerciseItem from '../../components/table/ListExerciseItem'
+import ListExamItem from '../../components/table/ListExamItem';
 
 import "./student.css"
 
@@ -87,7 +88,7 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
+        setState(<ListExamItem /* User={User} Check Change={onUpdateList} funcUpdate={Update} */ />)
         setType("Exams")
         setUpdateList("Exams")
         setAccor(null)

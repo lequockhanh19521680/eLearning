@@ -1,8 +1,9 @@
 import React from 'react'
+import Quiz from '../quiz/Quiz'
 
-const ListExamItem = ({props}) => {
+const ListExamItem = ({ props }) => {
     return (
-        <div>ListExamItem</div>
+        <Quiz />
     )
 }
 
