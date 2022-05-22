@@ -307,17 +307,24 @@ class lessonController{
             const main = req.body.main
             const header = req.body.header
             const image = req.body.image
-            const lesson = await lessonSchema.findByIdAndUpdate({_id:_id},
-                {'content.id': contentId}, 
-                {
-                    $set:{
-                    'content.$.main': main,
-                    'content.$.header': header,
-                    'content.$.image': image
-                    }
+            const lesson1 = await lessonSchema.findById(_id)
+            const temp = lesson1.content
+            for(let i = 0, l = temp.length; i < l; i++){
+                const obj = temp[i]
+                if(obj._id==contentId){
+                    obj.header=header,
+                    obj.main=main,
+                    obj.image=image
+                    break
                 }
                 
+            }
+            const lesson = await lessonSchema.findByIdAndUpdate(_id,
+                {
+                    "content": temp
+                }
             )
+    
             res.send(lesson)
         }catch(err){
             throw new Error(err)
