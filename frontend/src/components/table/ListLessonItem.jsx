@@ -152,7 +152,7 @@ const ListLessonItem = (props) => {
 
     return (
         <>
-            <div className="container flex-column list-box" >
+            <div className="container flex-column list-box expand" >
                 <div className='row'>
                     <div className="col-md-12">
                         <Table responsive id="example" className="table table-striped table-bordered" cellSpacing="0" width="100%">
