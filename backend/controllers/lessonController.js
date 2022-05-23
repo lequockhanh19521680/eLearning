@@ -350,7 +350,7 @@ class lessonController{
 
     async deleteContentFromLesson(req,res){
         try {
-            const temp = req.body.contentId
+            const temp = req.body._id
             const lesson = await lessonSchema.findByIdAndUpdate(
                 {_id:req.params.id},
                 {$pull: {content: {_id: temp}}})
