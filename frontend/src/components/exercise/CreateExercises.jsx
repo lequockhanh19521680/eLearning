@@ -236,6 +236,7 @@ const CreateExercises = ({ props }) => {
         </Modal >
     )
 }
+
 const Content = () => {
     const initialForm = {
         header: "",

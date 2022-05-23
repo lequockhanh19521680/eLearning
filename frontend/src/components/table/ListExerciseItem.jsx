@@ -66,7 +66,7 @@ const ListExerciseItem = (props) => {
             }
             setExercise(tmp)
         })
-    }, [props.Change, props.User])
+    }, [props.Change, props.User, EModal])
     /*deleteLesson*/
     const handleDelete = async () => {
         if (Type === "delete") {

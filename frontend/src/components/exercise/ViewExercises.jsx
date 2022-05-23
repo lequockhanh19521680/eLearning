@@ -10,28 +10,39 @@ import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import { v4 as uuidv4 } from 'uuid';
 import "./Exercises.css"
+import AlertMessage from '../../pages/layout/AlertMessage'
 const ViewExercises = ({ props }) => {
 
+    /*  const initialForm = {
+         name: props.exercise.name,
+         subjectId: props.exercise.subjectId._id,
+         classId: props.exercise.classId._id,
+         userId: props.User._id,
+         content: props.exercise.content,
+         type: "EXERCISE"
+     } */
     const initialForm = {
-        name: props.exercise.name,
-        subjectId: props.exercise.subjectId._id,
-        classId: props.exercise.classId._id,
-        userId: props.User._id,
-        content: props.exercise.content,
+        name: "",
+        subjectId: "",
+        classId: "",
+        userId: "",
+        content: "",
         type: "EXERCISE"
     }
 
     const [exerciseForm, setexerciseForm] = useState(initialForm)
     const { name, subjectId, classId } = exerciseForm
-    const [inputList, setInputList] = useState(props.exercise.content);
+    const [inputList, setInputList] = useState([]);
     const [add, setAdd] = useState(<></>);
     const [confirm, setConfirm] = useState(<></>)
-
+    const [dis, setDis] = useState(true)
+    const [alert, setAlert] = useState(null)
     const onChangeexerciseForm = e => {
         setexerciseForm({
             ...exerciseForm,
             [e.target.name]: e.target.value,
         })
+        setDis(false)
     }
     //
     const onAddBtnClick = event => {
@@ -136,13 +147,10 @@ const ViewExercises = ({ props }) => {
         const close = () => {
             setConfirm(null)
         }
-        console.log(id);
         const ConfirmModal = (props) => {
             const handleDelete = async () => {
-                console.log(props.id,props.exercise._id,"hello")
                 try {
-                    const response = await axios.delete(`${apiUrl}/lesson/content/${props.exercise._id}`,{ contentId: props.id })
-                    console.log(response.data)
+                    const response = await axios.delete(`${apiUrl}/lesson/content/${props.exercise._id}`, { data: { _id: props.id } })
                     if (response.data !== undefined) {
                         console.log('success', response);
                     }
@@ -182,35 +190,29 @@ const ViewExercises = ({ props }) => {
             )
         }
         setConfirm(<ConfirmModal isShow func={close} id={id} exercise={props.exercise} />)
-        try {
-            /*      const response = await axios.post(`${apiUrl}/lesson/content/${props.exercise._id}`)
-                 console.log(response.data)
-                 if (response.data !== undefined) {
-                     console.log('success', response);
-                 } */
-        }
-        catch (error) {
-
-            console.log(error);
-            return { success: false, message: error.message }
-        }
     }
     //
-    const handleSubmit = async () => {
+    const handleSave = async () => {
+        let ques = document.getElementsByName('ques')
+        let rs = []
+        for (let i = 0; i < ques.length; i++) {
+            let tmp = {
 
-
+                header: ques[i][0].value, // ques
+                main: ques[i][1].value, // answer
+                _id: ques[i][2].value
+            }
+            rs.push(tmp)
+        }
+        let exerciseform = { ...exerciseForm, 'content': rs }
+        console.log(exerciseform, rs)
         try {
-            const response = await axios.patch(`${apiUrl}/lesson/`)
+            const response = await axios.patch(`${apiUrl}/lesson/${props.exercise._id}`, exerciseform)
             console.log(response.data)
-            /*  if (response.data !== undefined) {
-                 console.log('success', response);
-                 setAlert({ type: 'success', message: "Your lesson created successfully!" })
-                 setexerciseForm(initialForm)
-                 setInputList([])
-                 setValidated(false);
-                 onUpdate();
- 
-             } */
+            if (response.data !== undefined) {
+                console.log('success', response);
+                setAlert({ type: 'success', message: "Update successfully!" })
+            }
         }
         catch (error) {
             console.log(error);
@@ -218,11 +220,17 @@ const ViewExercises = ({ props }) => {
         }
 
     }
-    console.log(initialForm, props, exerciseForm, inputList);
+
     useEffect(async () => {
         const response = await axios.get(`${apiUrl}/lesson/${props.exercise._id}`);
+        setexerciseForm(response.data)
         setInputList(response.data.content)
     }, [props.isShow, add, confirm])
+    useEffect(() => {
+        setTimeout(() => {
+            setAlert(null)
+        }, 4000)
+    }, [alert])
     return (
         <React.Fragment>
             <Modal
@@ -246,7 +254,6 @@ const ViewExercises = ({ props }) => {
                                     <Form>
                                         <fieldset className='border p-3' disabled={props.User.role == "STUDENT" || props.view} >
                                             <legend className='float-none w-auto p-1'>Exercise</legend>
-                                            {/* <AlertMessage info={alert} /> */}
                                             <Form.Group controlId='1'>
                                                 <Form.Label>Title</Form.Label>
                                                 <Form.Control
@@ -345,34 +352,39 @@ const ViewExercises = ({ props }) => {
                                     (props.User.role === "TEACHER" && props.view == undefined) ?
                                         inputList.map((item, index) => {
                                             return (
-                                                <div key={index} className='row '>
+                                                <div key={uuidv4()} className='row '>
                                                     <div className=' col-lg-11'>
                                                         <Accordion Title={`Question ${index + 1}`}
-                                                            State={<React.Fragment>
-                                                                <Form.Group >
-                                                                    <Form.Label>Question</Form.Label>
-                                                                    <Form.Control
-                                                                        style={{ height: "100px" }}
-                                                                        required
-                                                                        as="textarea"
-                                                                        row={3}
-                                                                        name="main"
-                                                                        defaultValue={item.header}
-                                                                    />
-                                                                </Form.Group>
-                                                                <Form.Group >
-                                                                    <Form.Label>Answer</Form.Label>
-                                                                    <Form.Control
-                                                                        style={{ height: "150px" }}
-                                                                        required
-                                                                        as="textarea"
-                                                                        row={3}
-                                                                        name="main"
-                                                                        defaultValue={item.main}
-                                                                    />
-                                                                </Form.Group>
-                                                            </React.Fragment>
-                                                            } />
+                                                            State={< Content content={item} />}
+                                                        /* <React.Fragment>
+                                                            <Form.Group >
+                                                                <Form.Label>Question</Form.Label>
+                                                                <Form.Control
+                                                                    style={{ height: "100px" }}
+                                                                    required
+                                                                    as="textarea"
+                                                                    row={3}
+                                                                    name="header"
+                                                                    value={item.header}
+                                                                    onChange={(e) => { onChangeEditContent(e, index) }}
+
+                                                                />
+                                                            </Form.Group>
+                                                            <Form.Group >
+                                                                <Form.Label>Answer</Form.Label>
+                                                                <Form.Control
+                                                                    style={{ height: "150px" }}
+                                                                    required
+                                                                    as="textarea"
+                                                                    row={3}
+                                                                    name="main"
+                                                                    value={item.main}
+                                                                    onChange={(e) => { onChangeEditContent(e, index) }}
+                                                                />
+                                                            </Form.Group>
+                                                        </React.Fragment> */
+
+                                                        />
                                                     </div>
                                                     <div className=' col-lg-1 px-0 pt-2 align-middle' /* onClick={() => { handleDelete(index) }} */>
                                                         <button type="button" className="btn btn-danger" onClick={() => { handleDelete(item._id) }}  >
@@ -430,8 +442,10 @@ const ViewExercises = ({ props }) => {
                     (props.User.role === "TEACHER" && props.view == undefined) ?
 
                         <ModalFooter>
+                            <AlertMessage info={alert}></AlertMessage>
+                            <div className='justify-content-start text-secondary'>Save Edit just save only the edited one not Delete and Add Question</div>
                             <button className='btn btn-primary px-4 add-btn' onClick={onAddBtnClick} >Add Question</button>
-                            <button className='btn btn-primary px-4' disabled >Save Edit</button>
+                            <button className='btn btn-primary px-4' disabled={dis} onClick={handleSave}>Save Edit</button>
                         </ModalFooter>
                         :
                         <></>
@@ -444,6 +458,59 @@ const ViewExercises = ({ props }) => {
 
     )
 }
+const Content = (props) => {
+    const initialForm = {
+        header: props.content.header,
+        main: props.content.main
+    }
+    const [contentForm, setcontentForm] = useState(initialForm)
+    const { header, main } = contentForm
+    const onChangecontentForm = e => {
+        setcontentForm({
+            ...contentForm,
+            [e.target.name]: e.target.value,
+
+        })
+        console.log(props.content);
+    }
+    return (
+        <Form className='ques' name='ques'>
+            <Form.Group >
+                <Form.Label>Question</Form.Label>
+                <Form.Control
+                    style={{ height: '100px' }}
+                    required
+                    as="textarea"
+                    row={3}
+                    name="header"
+                    value={header}
+                    onChange={onChangecontentForm}
+
+                />
+                <Form.Control.Feedback type="invalid">
+                    Please input the question.
+                </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group >
+                <Form.Label>Answer</Form.Label>
+                <Form.Control
+                    style={{ height: '200px' }}
+                    required
+                    as="textarea"
+                    row={3}
+                    name="main"
+                    value={main}
+                    onChange={onChangecontentForm}
+                />
+                <Form.Control.Feedback type="invalid">
+                    Please input the question.
+                </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Control className='invisible' defaultValue={props.content._id}></Form.Control>
+        </Form>
+    )
+}
+
 
 
 export default ViewExercises
