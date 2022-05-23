@@ -1,7 +1,6 @@
 import React from 'react'
 
 const NavbarItem = (props) => {
-    console.log(props.type);
     return (
         <>
             <div className='col-sm-5 col-md-3 col-lg-2 col-5 py-3' >

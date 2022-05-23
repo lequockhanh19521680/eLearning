@@ -82,5 +82,7 @@ span {
     font-weight: 600;
     opacity: 0.9;
     width: 50% !important;
+    transition:  .5s ease-in-out;
+    transform: translateY(-50%) ;
 
 }
