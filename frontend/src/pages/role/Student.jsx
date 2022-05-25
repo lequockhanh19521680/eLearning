@@ -99,7 +99,6 @@ const Student = ({ User }) => {
         setState(<ListExerciseItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exercises")
         setUpdateList("Exercises")
-
         setAccor(null)
 
     }
@@ -107,7 +106,6 @@ const Student = ({ User }) => {
         setState(<ListLessonItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Lectures")
         setUpdateList("Lectures")
-
         setAccor(null)
 
     }

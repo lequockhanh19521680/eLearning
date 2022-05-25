@@ -5,8 +5,7 @@ import Footer from '../components/footer/Footer'
 import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
-import ImageGallery from '../components/ImageIntro'
-import Banner from '../components/Banner'
+import Home from './home/Home'
 import { Route, Routes } from 'react-router-dom'
 
 
@@ -28,10 +27,8 @@ const Main = () => {
   return (
     <>
       <Header user={User} />
-      <Banner />
-      <ImageGallery></ImageGallery>
       <Routes>
-        <Route path='*/home' element={<></>}></Route>
+        <Route path='/' element={<Home />}></Route>
         <Route path='/features' element={body}></Route>
       </Routes>
       <Footer user={User} />
