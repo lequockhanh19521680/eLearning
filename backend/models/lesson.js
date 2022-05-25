@@ -50,6 +50,10 @@ const lessonDetail = new mongoose.Schema({
                 },
                 correctAnswers:{
                     type: Object
+                },
+                time:{
+                    type: Date,
+                    default: new Date(0)
                 }
             },
             default: {}
