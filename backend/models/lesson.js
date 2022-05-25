@@ -39,6 +39,21 @@ const lessonDetail = new mongoose.Schema({
         }],
         default: [],
     },
+    exam:{
+        type:
+            {
+                questions:{
+                    type: Object
+                },
+                answers:{
+                    type: Object
+                },
+                correctAnswers:{
+                    type: Object
+                }
+            },
+            default: {}
+    },
     createAt:{
         type: Date,
         default: Date.now

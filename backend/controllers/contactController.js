@@ -38,22 +38,6 @@ class ContactController {
             throw new Error(err)
         }
     }
-
-    
-
-   
-
-
-
-
-    
-
-
-
-
-   
-  
-
 }
 
 module.exports = new ContactController

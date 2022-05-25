@@ -3,8 +3,7 @@ const classSchema = require('../models/class')
 const userSchema = require('../models/user')
 const subjectSchema = require('../models/subject')
 const saveSchema = require('../models/save')
-const { checkout } = require('../routes/lessonRouter')
-const { response } = require('express')
+const scoreSchema = require('../models/score')
 class lessonController{
 
 
@@ -259,6 +258,7 @@ class lessonController{
             name: req.body.name,
             header: req.body.header,
             content: req.body.content,
+            exam:req.body.exam,
             type: req.body.type,
         })
         try {
@@ -278,13 +278,22 @@ class lessonController{
    
         try {
             const lesson = await lessonSchema.findById(_id)
-            lesson.content.push(content)
-            lesson.save()
-            res.send(lesson)
+            if(type=="EXERCISE"){
+                lesson.content.push(content)
+                lesson.save()
+                res.send(lesson)
+            }
+            else{
+                res.send("Ban da push nham type, ko phai la exercise")
+            }
         } catch (error) {
             throw new Error(error)
         }
     }
+
+    
+
+
     //patch
 
 
@@ -334,7 +343,27 @@ class lessonController{
         }
     }
 
-
+    async changeExamForLesson(req,res){
+        const _id = req.params.id
+        const questions = req.body.questions
+        const answers = req.body.answers
+        const correctAnswers = req.body.correctAnswers
+        const exam = {questions,answers,correctAnswers}
+   
+        try {
+            const lesson = await lessonSchema.findById(_id)
+            if(lesson.type=="EXAM"){
+                lesson.exam = exam
+                lesson.save()
+                res.send(lesson)
+            }
+            else{
+                res.send("Ban da patch nham type")
+            }
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 
 
     //delete
@@ -360,12 +389,14 @@ class lessonController{
         }
     }
 
+
     async deleteLessonFromId(req,res){
         const _id = req.params.id
         try{
         const save = await saveSchema.deleteOne({"lessonId": _id})
+        const score = await scoreSchema.deleteOne({"lessonId":_id})
         const lesson = await lessonSchema.findByIdAndDelete(_id)
-        res.send([lesson,save])
+        res.send([lesson,score,save])
         }catch(err)
         {
             throw new Error(err)
