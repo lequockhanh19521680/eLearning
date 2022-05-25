@@ -52,8 +52,8 @@ const lessonDetail = new mongoose.Schema({
                     type: Object
                 },
                 time:{
-                    type: Date,
-                    default: new Date(0)
+                    type: Number,
+                    default: 0,
                 }
             },
             default: {}
