@@ -11,37 +11,37 @@ import Accordion from '../accordion/Accordion';
 import AlertMessage from '../../pages/layout/AlertMessage'
 import { v4 as uuidv4 } from 'uuid';
 
-import "./Exercises.css"
-const CreateExercises = ({ props }) => {
+import './Exams.css'
+const CreateExams = ({ props }) => {
     const initialForm = {
         name: '',
         subjectId: props.Subjects[0]._id,
         classId: props.Classes[0]._id,
         userId: props.UserId,
         content: [],
-        type: "EXERCISE"
+        exam: {},
+        type: "EXAM"
     }
     const [validated, setValidated] = useState(false);
-    const [exerciseForm, setexerciseForm] = useState(initialForm)
-    const { name, subjectId, classId } = exerciseForm
+    const [examForm, setexamForm] = useState(initialForm)
+    const { name, subjectId, classId } = examForm
     const [inputList, setInputList] = useState([]);
     const [content, setContent] = useState(true)
     const onUpdate = props.funcUpdate
     const [alert, setAlert] = useState(null)
-    const onChangeexerciseForm = e => {
-        setexerciseForm({
-            ...exerciseForm,
+    const onChangexamForm = e => {
+        setexamForm({
+            ...examForm,
             [e.target.name]: e.target.value,
 
         })
         setAlert(null)
     }
     const onAddBtnClick = event => {
-
         setInputList(inputList.concat(<Content key={uuidv4()} />))
         setContent(false)
 
-    };
+    }
     const handleDelete = (pos) => {
         console.log(pos);
         let rs = []
@@ -50,35 +50,47 @@ const CreateExercises = ({ props }) => {
                 console.log(inputList[i], inputList[pos]);
                 rs = rs.concat(inputList[i])
             }
-
         }
         setInputList(rs)
     }
+    //
     const handleSubmit = async () => {
-        const form = document.getElementById('formExercise')
+        const form = document.getElementById('formExam')
         if (form.checkValidity() === false) {
             setValidated(true)
+
             console.log('fail')
         }
         else {
             let ques = document.getElementsByName('ques')
-            let rs = []
-            for (let i = 0; i < ques.length; i++) {
-                let tmp = {
-
-                    header: ques[i][0].value, // ques
-                    main: ques[i][1].value // answer
-                }
-                rs.push(tmp)
+            let tmp = {
+                questions: new Object(),
+                answers: new Object(),
+                correctAnswers: new Object()
             }
-            let exerciseform = { ...exerciseForm, 'content': rs }
+            for (let i = 0; i < ques.length; i++) {
+                tmp.questions[i + 1] = ques[i][0].value // question
+                tmp.answers[i + 1] = {
+                    1: ques[i][1].value,
+                    2: ques[i][2].value,
+                    3: ques[i][3].value,
+                    4: ques[i][4].value
+                }
+                for (let j = 0; j < 4; j++) {
+                    if (ques[i][j + 5].checked === true) {
+                        tmp.correctAnswers[i + 1] = ques[i][j + 5].value
+                    }
+                }
+            }
+            let examform = { ...examForm, exam: tmp }
+
             try {
-                const response = await axios.post(`${apiUrl}/lesson/`, exerciseform)
+                const response = await axios.post(`${apiUrl}/lesson/`, examform)
                 console.log(response.data)
                 if (response.data !== undefined) {
                     console.log('success', response);
-                    setAlert({ type: 'success', message: "Your exercise created successfully!" })
-                    setexerciseForm(initialForm)
+                    setAlert({ type: 'success', message: "Your exam created successfully!" })
+                    setexamForm(initialForm)
                     setInputList([])
                     setValidated(false);
                     onUpdate();
@@ -91,15 +103,15 @@ const CreateExercises = ({ props }) => {
             }
         }
     }
-    useEffect(() => {    
+    useEffect(() => {
         if (inputList.length === 0)
             setContent(true)
     }, [inputList])
-    useEffect(() =>{
-        setTimeout(() =>{
+    useEffect(() => {
+        setTimeout(() => {
             setAlert(null)
-        },[5000])
-    },[alert])
+        }, [5000])
+    }, [alert])
     return (
         <Modal
             show={props.isShow}
@@ -109,17 +121,17 @@ const CreateExercises = ({ props }) => {
             size="lg"
             scrollable={true}
             dialogClassName="modal-100w"
-            id="exercise"
+            id="exam"
         >
             <ModalHeader closeButton>
-                <Modal.Title>Create your excercise</Modal.Title>
+                <Modal.Title>Create your exam</Modal.Title>
             </ModalHeader>
-            <ModalBody id="exercise-body">
+            <ModalBody id="exam-body">
                 <div className=' row  '>
                     <div className='col-lg-5 position-relative'>
                         <div className=' left-content overflow-hidden '>
                             <div className="container d-flex flex-column">
-                                <Form noValidate validated={validated} id="formExercise" >
+                                <Form noValidate validated={validated} id="formExam" >
                                     <Form.Group controlId='1'>
                                         <Form.Label>Title</Form.Label>
                                         <Form.Control
@@ -127,7 +139,7 @@ const CreateExercises = ({ props }) => {
                                             required
                                             as="textarea"
                                             row={3}
-                                            onChange={onChangeexerciseForm}
+                                            onChange={onChangexamForm}
                                             name="name"
                                             value={name}
                                         />
@@ -139,7 +151,8 @@ const CreateExercises = ({ props }) => {
                                         <Form.Label>Subject</Form.Label>
                                         <Form.Select aria-label="Default select example"
                                             name="subjectId"
-                                            onChange={onChangeexerciseForm}
+                                            required
+                                            onChange={onChangexamForm}
                                             value={subjectId}>
                                             {props.Subjects.map((subject, index) => {
                                                 return (
@@ -155,7 +168,8 @@ const CreateExercises = ({ props }) => {
                                         <Form.Label>Class</Form.Label>
                                         <Form.Select aria-label="Default select example"
                                             name="classId"
-                                            onChange={onChangeexerciseForm}
+                                            required
+                                            onChange={onChangexamForm}
                                             value={classId}>
                                             {props.Classes.map((_class, index) => {
                                                 return (
@@ -165,6 +179,23 @@ const CreateExercises = ({ props }) => {
                                         </Form.Select>
                                         <Form.Control.Feedback type="invalid">
                                             Please choose a Class
+                                        </Form.Control.Feedback>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Form.Label>Time</Form.Label>
+                                        <div className='d-flex  justify-content-start align-items-center'>
+                                            <Form.Control
+                                                className='w-25'
+                                                type='number'
+                                                min={1}
+                                                name="time"
+
+                                            >
+                                            </Form.Control>
+                                            <Form.Label className='mb-0 mx-3'>Minutes</Form.Label>
+                                        </div>
+                                        <Form.Control.Feedback type="invalid">
+                                            Please put the time
                                         </Form.Control.Feedback>
                                     </FormGroup>
                                     <div className='mt-5'>
@@ -178,7 +209,7 @@ const CreateExercises = ({ props }) => {
                     <div className={`col-lg-7 ${content ? '' : 'right-content'}  `} >
                         <div className='container px-0 flex-column  '  >
                             {content ?
-                                <div id="quescreate" className='  align-middle h-100 text-center fs-2 text-secondary ' style={{ marginTop: "250px" }} onClick={onAddBtnClick}>
+                                <div id="quescreate" className='  align-middle h-100 text-center fs-2 text-secondary ' style={{ marginTop: "250px" }} onClick={onAddBtnClick} >
                                     <svg xmlns="http://www.w3.org/2000/svg"
 
                                         width="35"
@@ -197,7 +228,7 @@ const CreateExercises = ({ props }) => {
                                             <div className=' col-lg-11'>
                                                 <Accordion State={item} Title={`Question ${index + 1}`} />
                                             </div>
-                                            <div className=' col-lg-1 px-0 pt-2 align-middle' onClick={() => { handleDelete(index) }}>
+                                            <div className=' col-lg-1 px-0 pt-2 align-middle' onClick={() => { handleDelete(index) }} >
                                                 <button type="button" className="btn btn-danger"  >
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         width="16"
@@ -219,29 +250,43 @@ const CreateExercises = ({ props }) => {
                 </div>
             </ModalBody>
             <ModalFooter>
-                <button className='btn btn-primary px-4 add-btn' onClick={onAddBtnClick} >Add Question</button>
+                <button className='btn btn-primary px-4 add-btn' onClick={onAddBtnClick}  >Add Question</button>
                 <button className='btn btn-primary px-4' onClick={handleSubmit} >Create</button>
             </ModalFooter>
         </Modal >
     )
-}
 
+}
 const Content = () => {
     const initialForm = {
-        header: "",
-        main: ""
+        question: "",
+        answer: {
+            1: "",
+            2: "",
+            3: "",
+            4: ""
+        },
     }
+    const [radio, setRadio] = useState("1")
     const [contentForm, setcontentForm] = useState(initialForm)
-    const { header, main } = contentForm
-    const onChangecontentForm = e => {
+    const { question, answer } = contentForm
+    const onChangecontentForm = (e) => {
         setcontentForm({
             ...contentForm,
             [e.target.name]: e.target.value,
 
         })
     }
+    const onChangeanswerForm = e => {
+        setcontentForm({
+            ...contentForm,
+            answer: {
+                [e.target.name]: e.target.value
+            }
+        })
+    }
     return (
-        <Form className='ques' name='ques'>
+        <Form id='ques' className='ques' name='ques' >
             <Form.Group >
                 <Form.Label>Question</Form.Label>
                 <Form.Control
@@ -249,8 +294,8 @@ const Content = () => {
                     required
                     as="textarea"
                     row={3}
-                    name="header"
-                    value={header}
+                    name="question"
+                    value={question}
                     onChange={onChangecontentForm}
 
                 />
@@ -260,22 +305,98 @@ const Content = () => {
             </Form.Group>
             <Form.Group >
                 <Form.Label>Answer</Form.Label>
-                <Form.Control
-                    style={{ height: '200px' }}
-                    required
-                    as="textarea"
-                    row={3}
-                    name="main"
-                    value={main}
-                    onChange={onChangecontentForm}
-                />
+                <div className='flex-column justify-content-start align-items-center'>
+                    <div className='d-flex flex-row justify-content-start align-items-center'>
+                        <Form.Label className='me-2'>1</Form.Label>
+                        <Form.Control
+                            style={{ height: '50px' }}
+                            as="textarea"
+                            required
+                            row={3}
+                            name="1"
+                            value={answer[1]}
+                            onChange={onChangeanswerForm}
+                        />
+                    </div>
+                    <div className='d-flex flex-row justify-content-start align-items-center'>
+                        <Form.Label className='me-2'>2</Form.Label>
+                        <Form.Control
+                            style={{ height: '50px' }}
+                            as="textarea"
+                            required
+                            row={3}
+                            name="2"
+                            value={answer[2]}
+                            onChange={onChangeanswerForm}
+                        />
+                    </div>
+                    <div className='d-flex flex-row justify-content-start align-items-center'>
+                        <Form.Label className='me-2'>3</Form.Label>
+                        <Form.Control
+                            style={{ height: '50px' }}
+                            as="textarea"
+                            required
+                            row={3}
+                            name="3"
+                            value={answer[3]}
+                            onChange={onChangeanswerForm}
+                        />
+                    </div>
+                    <div className='d-flex flex-row justify-content-start align-items-center'>
+                        <Form.Label className='me-2'>4</Form.Label>
+                        <Form.Control
+                            style={{ height: '50px' }}
+                            as="textarea"
+                            required
+                            row={3}
+                            name="4"
+                            value={answer[4]}
+                            onChange={onChangeanswerForm}
+                        />
+                    </div>
+                </div>
                 <Form.Control.Feedback type="invalid">
-                    Please input the question.
+                    Please input the answer.
                 </Form.Control.Feedback>
             </Form.Group>
+            <Form.Group>
+                <Form.Label>Correct Answer</Form.Label>
+                <div className='d-flex flex-row justify-content-center align-items-center'>
+                    <Form.Check className='me-3' type="radio">
+                        <Form.Check.Input type="radio"
+                            name='correctAnswer' value={"1"} id={`check-api-radio`}
+                            onChange={(e) => setRadio(e.target.value)} checked={radio === "1"}
+                        />
+                        <Form.Check.Label>1</Form.Check.Label>
+                    </Form.Check>
+                    <Form.Check className='me-3' type="radio" >
+                        <Form.Check.Input type="radio"
+                            name='correctAnswer' value={"2"} id={`check-api-radio`}
+                            onChange={(e) => setRadio(e.target.value)} checked={radio === "2"}
+                        />
+                        <Form.Check.Label>2</Form.Check.Label>
+                    </Form.Check>
+                    <Form.Check className='me-3' type="radio">
+                        <Form.Check.Input type="radio"
+                            name='correctAnswer' value={"3"} id={`check-api-radio`}
+                            onChange={(e) => setRadio(e.target.value)} checked={radio === "3"}
+                        />
+                        <Form.Check.Label>3</Form.Check.Label>
+                    </Form.Check>
+                    <Form.Check className='me-3' type="radio"  >
+                        <Form.Check.Input type="radio"
+                            name='correctAnswer' value={"4"} id={`check-api-radio`}
+                            onChange={(e) => setRadio(e.target.value)} checked={radio === "4"}
+                        />
+                        <Form.Check.Label>4</Form.Check.Label>
+                    </Form.Check>
+                </div>
+
+            </Form.Group>
+
         </Form>
     )
 }
 
 
-export default CreateExercises
+export default CreateExams
