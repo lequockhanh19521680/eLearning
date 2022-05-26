@@ -16,13 +16,13 @@ import "./student.css"
 const Student = ({ User }) => {
 
     const Update = (bool, type) => {
-        if (type == "add") {
+        if (type === "add") {
             if (!bool)
                 setAlert({ type: 'danger', message: `${Type} have been added!` })
             else
                 setAlert({ type: 'success', message: `Add ${Type} successfully!` })
         }
-        else if (type == "delete") {
+        else if (type === "delete") {
             setAlert2({ type: 'success', message: `Delete ${Type} successfully!` })
         }
         setUpdateList(null)
@@ -58,14 +58,15 @@ const Student = ({ User }) => {
                 const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
                 const data = result.data;
                 if (result.data !== undefined) {
-                    /*                     console.log('success', result); */
                     handleSubmit(false, "success");
                     setFind(true);
                     setCode(code);
-                    if (Type == "Lectures")
+                    if (Type === "Lectures")
                         setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
-                    else if (Type == "Exercises")
+                    else if (Type === "Exercises")
                         setStateUp(<ListExerciseItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExerciseItem>)
+                    else if (Type === "Exams")
+                        setStateUp(<ListExamItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExamItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
                 }
 
@@ -88,7 +89,7 @@ const Student = ({ User }) => {
     //
     const handleExams = () => {
 
-        setState(<ListExamItem /* User={User} Check Change={onUpdateList} funcUpdate={Update} */ />)
+        setState(<ListExamItem User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exams")
         setUpdateList("Exams")
         setAccor(null)
@@ -111,12 +112,14 @@ const Student = ({ User }) => {
     }
     useEffect(() => {
 
-        if (Type == "Lectures")
-            handleLectures(false)
-        if (Type == "Exercises")
-            handleExercises(false);
+        if (Type === "Lectures")
+            handleLectures()
+        if (Type === "Exercises")
+            handleExercises();
+        if (Type === "Exams")
+            handleExams();
 
-    }, [onUpdateList])
+    }, [onUpdateList,Type])
     useEffect(() => {
         setTimeout(() => {
             setAlert(null)
@@ -129,33 +132,37 @@ const Student = ({ User }) => {
     useEffect(() => {
         setAccorFind(<Accordion State={StateUp} Title={NameTeacher} isCheck />)
     }, [StateUp, NameTeacher])
-    useEffect(async () => {
-        if (code != undefined) {
-            try {
-                const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
-                const data = result.data;
-                if (result.data !== undefined) {
-                    /* console.log('success', result); */
-                    setCode(code);
-                    if (Type == "Lectures")
-                        setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
-                    else if (Type == "Exercises")
-                        setStateUp(<ListExerciseItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExerciseItem>)
-                    setNameTeacher("Teacher: " + data[0].userId.nameAccount);
+    useEffect(() => {
+        if (code !== undefined) {
+            const fetchData = async () => {
+                try {
+                    const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
+                    const data = result.data;
+                    if (result.data !== undefined) {
+                        /* console.log('success', result); */
+                        setCode(code);
+                        if (Type === "Lectures")
+                            setStateUp(<ListLessonItem Title={Type} Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListLessonItem>)
+                        else if (Type === "Exercises")
+                            setStateUp(<ListExerciseItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExerciseItem>)
+                        else if (Type === "Exams")
+                            setStateUp(<ListExamItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExamItem>)
+                        setNameTeacher("Teacher: " + data[0].userId.nameAccount);
+                    }
                 }
-
-            }
-            catch (error) {
-                if (error.response.data) {
+                catch (error) {
+                    if (error.response.data) {
+                        console.log(error);
+                        return error.response.data;
+                    }
                     console.log(error);
-                    return error.response.data;
+                    return { success: false, message: error.message }
                 }
-                console.log(error);
-                return { success: false, message: error.message }
             }
+            fetchData();
         }
 
-    }, [Type])
+    }, [Type,,User,code])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },

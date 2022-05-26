@@ -74,7 +74,7 @@ const Teacher = ({ User }) => {
     }
     //Nav click
     const handleExams = () => {
-        setState(<ListExamItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
+        setState(<ListExamItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} Classes={Classes} Subjects={Subjects}/>)
         setType("Exams")
         setUpdateList("Exams")
     }

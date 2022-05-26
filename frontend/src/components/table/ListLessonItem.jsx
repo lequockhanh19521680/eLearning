@@ -18,13 +18,13 @@ const ListLessonItem = (props) => {
     const [Type, setType] = useState('')
     const [Show, setShow] = useState(false);
     /*Load Lessons by teacher id or code and sutdent lessons*/
-    useEffect(async () => {
+    useEffect(() => {
 
         const loadLessons = async () => {
             //load Teacher
             if (props.User.role === "TEACHER") {
                 try {
-                    if (props.Code != undefined) {
+                    if (props.Code !== undefined) {
                         const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${props.Code}`)
                         return result.data;
                     }
@@ -55,24 +55,24 @@ const ListLessonItem = (props) => {
             let tmp = []
             if (props.User.role === "TEACHER") {
                 for (let i = 0; i < response.length; i++) {
-                    if (response[i].type == "LESSON")
+                    if (response[i].type === "LESSON")
                         tmp.push(response[i])
                 }
             }
             else if (props.User.role === "STUDENT") {
                 for (let i = 0; i < response.length; i++) {
-                    if (response[i].lessonId.type == "LESSON")
+                    if (response[i].lessonId.type === "LESSON")
                         tmp.push(response[i])
                 }
             }
             setLessons(tmp)
         })
-    }, [props.Change, props.User])
+    }, [props.Change, props.User,props.code])
     /*deleteLesson*/
     const handleDelete = async () => {
         if (Type === "delete") {
             try {
-                const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
+                await axios.delete(`${apiUrl}/lesson/${Id}`);
                 onUpdate(true, "delete");
                 handleClose();
             }
@@ -82,7 +82,7 @@ const ListLessonItem = (props) => {
         }
         else if (Type === "delete2") {
             try {
-                const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
+                await axios.delete(`${apiUrl}/lesson/save/${Id}`);
                 onUpdate(true, "delete");
                 handleClose();
             }
@@ -131,7 +131,7 @@ const ListLessonItem = (props) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <ModalHeader>
-                    <Modal.Title>{`Confirm to ${Type}?`}</Modal.Title>
+                    <Modal.Title>{`Confirm to ${Type.startsWith("delete") ? "delete":"add"}?`}</Modal.Title>
                 </ModalHeader>
                 <ModalBody>
                     Do you sure to do this ?
