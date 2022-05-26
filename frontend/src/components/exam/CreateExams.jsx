@@ -20,11 +20,12 @@ const CreateExams = ({ props }) => {
         userId: props.UserId,
         content: [],
         exam: {},
+        time: 10,
         type: "EXAM"
     }
     const [validated, setValidated] = useState(false);
     const [examForm, setexamForm] = useState(initialForm)
-    const { name, subjectId, classId } = examForm
+    const { name, subjectId, classId,time } = examForm
     const [inputList, setInputList] = useState([]);
     const [content, setContent] = useState(true)
     const onUpdate = props.funcUpdate
@@ -189,7 +190,8 @@ const CreateExams = ({ props }) => {
                                                 type='number'
                                                 min={1}
                                                 name="time"
-
+                                                value={time}
+                                                
                                             >
                                             </Form.Control>
                                             <Form.Label className='mb-0 mx-3'>Minutes</Form.Label>

@@ -260,6 +260,7 @@ class lessonController{
             content: req.body.content,
             exam:req.body.exam,
             type: req.body.type,
+            time: req.body.time
         })
         try {
             const temp = await lesson.save()
