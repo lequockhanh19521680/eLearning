@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
@@ -8,7 +8,7 @@ import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import AlertMessage from '../../pages/layout/AlertMessage'
 
-
+import './Lesson.css'
 
 const CreateLesson = ({ props }) => {
     const initialForm = {
@@ -67,19 +67,12 @@ const CreateLesson = ({ props }) => {
 
 
     };
-    useEffect(() => {
-        setlessonForm(initialForm)
-        setAlert(null)
-        setValidated(false)
-
-    }, [props.isShow])
     return (
         <Modal
             show={props.isShow}
             onHide={props.func}
             backdrop="static"
             keyboard={false}
-
 
         >
             <ModalHeader closeButton>
@@ -141,13 +134,14 @@ const CreateLesson = ({ props }) => {
                             </Form.Control.Feedback>
                         </FormGroup>
                         <FormGroup>
-                            <Form.Label>Link youtube:</Form.Label>
+                            <Form.Label>Link Video Lesson:</Form.Label>
                             <Form.Control
                                 required
                                 type="url"
                                 name="header"
                                 onChange={onChangelessonForm}
                                 value={header}
+                           
 
                             />
                             <Form.Control.Feedback type="invalid">

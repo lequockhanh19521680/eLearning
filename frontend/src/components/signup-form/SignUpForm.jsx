@@ -89,8 +89,8 @@ export const SignUpForm = () => {
                         <div className="mb-3"><input className="form-control" valie={confirmPassword} onChange={onChangeRegisterForm} type="password" name="confirmPassword" placeholder="Password (repeat)" /></div>
                         <div className="mb-3">
                             <p>Choose your role for your account:</p>
-                            <div className="form-check"><label className="form-check-label"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Student" checked={radio === "Student"} />Student</label></div>
-                            <div className="form-check"><label className="form-check-label"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Teacher" checked={radio === "Teacher"} />Teacher</label></div>
+                            <div className="form-check"><label className="form-check-label me-2"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Student" checked={radio === "Student"} />Student</label></div>
+                            <div className="form-check"><label className="form-check-label me-2"><input onChange={(e) => setRadio(e.target.value)} name="check" type="radio" value="Teacher" checked={radio === "Teacher"} />Teacher</label></div>
                         </div>
                         <div className="mb-3"><button className="btn btn-primary d-block w-100" type="submit">Sign Up</button></div>
                         <Link className="already" to='/login' >You already have an account?  <em style={{ color: 'blue' }}>Login here</em> </Link>

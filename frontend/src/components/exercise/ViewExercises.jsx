@@ -221,11 +221,14 @@ const ViewExercises = ({ props }) => {
 
     }
 
-    useEffect(async () => {
-        const response = await axios.get(`${apiUrl}/lesson/${props.exercise._id}`);
-        setexerciseForm(response.data)
-        setInputList(response.data.content)
-    }, [props.isShow, add, confirm])
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get(`${apiUrl}/lesson/${props.exercise._id}`);
+            setexerciseForm(response.data)
+            setInputList(response.data.content)
+        }
+        fetchData();
+    }, [props.isShow, add, confirm, props.exercise._id])
     useEffect(() => {
         setTimeout(() => {
             setAlert(null)
@@ -252,7 +255,7 @@ const ViewExercises = ({ props }) => {
                             <div className=' left-content overflow-hidden '>
                                 <div className="container px-0 d-flex flex-column">
                                     <Form>
-                                        <fieldset className='border p-3' disabled={props.User.role == "STUDENT" || props.view} >
+                                        <fieldset className='border p-3' disabled={props.User.role === "STUDENT" || props.view} >
                                             <legend className='float-none w-auto p-1'>Exercise</legend>
                                             <Form.Group controlId='1'>
                                                 <Form.Label>Title</Form.Label>
@@ -271,7 +274,7 @@ const ViewExercises = ({ props }) => {
                                             </Form.Group>
                                             <Form.Group>
                                                 <Form.Label>Subject</Form.Label>
-                                                {(props.User.role == "STUDENT" || props.view) ?
+                                                {(props.User.role === "STUDENT" || props.view) ?
                                                     <>
                                                         <Form.Control
                                                             defaultValue={props.exercise.subjectId.subjectName}
@@ -297,7 +300,7 @@ const ViewExercises = ({ props }) => {
                                             </Form.Group>
                                             <FormGroup>
                                                 <Form.Label>Class</Form.Label>
-                                                {(props.User.role == "STUDENT" || props.view) ?
+                                                {(props.User.role === "STUDENT" || props.view) ?
                                                     <>
                                                         <Form.Control
                                                             defaultValue={props.exercise.classId.className}
@@ -349,7 +352,7 @@ const ViewExercises = ({ props }) => {
                         <div className="col-lg-7 right-content">
                             <div className='container px-0 flex-column  '>
                                 {
-                                    (props.User.role === "TEACHER" && props.view == undefined) ?
+                                    (props.User.role === "TEACHER" && props.view === undefined) ?
                                         inputList.map((item, index) => {
                                             return (
                                                 <div key={uuidv4()} className='row '>
@@ -439,8 +442,7 @@ const ViewExercises = ({ props }) => {
                     </div>
                 </ModalBody>
                 {
-                    (props.User.role === "TEACHER" && props.view == undefined) ?
-
+                    (props.User.role === "TEACHER" && props.view === undefined) ?
                         <ModalFooter>
                             <AlertMessage info={alert}></AlertMessage>
                             <div className='justify-content-start text-secondary'>Save Edit just save only the edited one not Delete and Add Question</div>

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
-import './teacher.css'
 import AlertMessage from '../layout/AlertMessage'
 import NavbarItem from '../../components/navbar/NavbarItem'
 import ListLessonItem from '../../components/table/ListLessonItem'
 import ListExerciseItem from '../../components/table/ListExerciseItem'
-import { useLocation, useNavigate } from 'react-router-dom'
 import CreateLesson from '../../components/lesson/CreateLesson'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import CreateExercises from '../../components/exercise/CreateExercises'
+import CreateExams from '../../components/exam/CreateExams'
 
-
+import './teacher.css'
+import ListExamItem from '../../components/table/ListExamItem'
 
 const Teacher = ({ User }) => {
 
@@ -23,25 +23,31 @@ const Teacher = ({ User }) => {
 
     //getclass
     const [Classes, setClasses] = useState([])
-    useEffect(async () => {
-        try {
-            const result = await axios.get(`${apiUrl}/lesson/class`);
-            setClasses(result.data);
-            return result;
-        } catch (error) {
-            return error;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await axios.get(`${apiUrl}/lesson/class`);
+                setClasses(result.data);
+                return result;
+            } catch (error) {
+                return error;
+            }
         }
+        fetchData()
     }, [])
     //getSubject
     const [Subjects, setSubjects] = useState([])
-    useEffect(async () => {
-        try {
-            const result = await axios.get(`${apiUrl}/lesson/subject`);
-            setSubjects(result.data);
-            return result;
-        } catch (error) {
-            return error;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await axios.get(`${apiUrl}/lesson/subject`);
+                setSubjects(result.data);
+                return result;
+            } catch (error) {
+                return error;
+            }
         }
+        fetchData();
     }, [])
     //create button to open Modal
     const handleCreate = () => {
@@ -52,18 +58,23 @@ const Teacher = ({ User }) => {
         else if (Type === "Exercises") {
             setModal(<CreateExercises props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }} />)
         }
+        else if (Type === "Exams") {
+            setModal(<CreateExams props={{ isShow: true, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }} />)
+        }
     }
     const handleClose = () => {
-        if (Type === "Lectures") {
-            setModal(<CreateLesson props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }}></CreateLesson>)
+        setModal(null)
+    }
+    //Update for create lesson and delete lesson
+      const Update = (bool, type) => {
+        if (type === "delete") {
+            setAlert({ type: 'success', message: `Delete ${Type} successfully!` })
         }
-        else if (Type === "Exercises") {
-            setModal(<CreateExercises props={{ isShow: false, func: handleClose, Classes: Classes, Subjects: Subjects, UserId: User._id, funcUpdate: Update }} />)
-        }
+        setUpdateList(null)
     }
     //Nav click
     const handleExams = () => {
-        setState(<ListLessonItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
+        setState(<ListExamItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} />)
         setType("Exams")
         setUpdateList("Exams")
     }
@@ -77,20 +88,15 @@ const Teacher = ({ User }) => {
         setType("Lectures")
         setUpdateList("Lectures")
     }
-
-    //Update for create lesson and delete lesson
-    const Update = (bool, type) => {
-        if (type == "delete") {
-            setAlert({ type: 'success', message: `Delete ${Type} successfully!` })
-        }
-        setUpdateList(null)
-    }
+  
     useEffect(() => {
-        if (Type == "Lectures")
-            handleLectures()
-        if (Type == "Exercises")
+        if (Type === "Lectures")
+            handleLectures();
+        if (Type === "Exercises")
             handleExercises();
-    }, [onUpdateList])
+        if (Type === "Exams")
+            handleExams();
+    }, [onUpdateList, Type])
     useEffect(() => {
         setTimeout(() => {
             setAlert(null)
