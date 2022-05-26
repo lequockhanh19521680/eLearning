@@ -50,11 +50,7 @@ const lessonDetail = new mongoose.Schema({
                 },
                 correctAnswers:{
                     type: Object
-                },
-                time:{
-                    type: Number,
-                    default: 0,
-                }
+                }               
             },
             default: {}
     },
@@ -67,6 +63,10 @@ const lessonDetail = new mongoose.Schema({
         enum:["LESSON","EXERCISE","EXAM"],
         default: "LESSON",
     },
+    time:{
+        type: Number,
+        default: 0,
+    }
 })
 
 
