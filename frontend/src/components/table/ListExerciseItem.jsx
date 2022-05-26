@@ -1,13 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { apiUrl } from '../../contexts/constants'
-import './listitem.css'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalFooter from 'react-bootstrap/ModalFooter'
 import ViewExercises from '../exercise/ViewExercises'
 import Table from 'react-bootstrap/Table'
+import './listitem.css'
 
 const ListExerciseItem = (props) => {
     const [Exercises, setExercise] = useState([]);
@@ -18,13 +18,13 @@ const ListExerciseItem = (props) => {
     const [EModal, setModal] = useState(<></>)
 
     /*Load Lessons by teacher id or code and sutdent lessons*/
-    useEffect(async () => {
+    useEffect( () => {
 
         const loadLessons = async () => {
             //load Teacher
             if (props.User.role === "TEACHER") {
                 try {
-                    if (props.Code != undefined) {
+                    if (props.Code !== undefined) {
                         const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${props.Code}`)
                         return result.data;
                     }
@@ -54,13 +54,13 @@ const ListExerciseItem = (props) => {
             let tmp = []
             if (props.User.role === "TEACHER") {
                 for (let i = 0; i < response.length; i++) {
-                    if (response[i].type == "EXERCISE")
+                    if (response[i].type === "EXERCISE")
                         tmp.push(response[i])
                 }
             }
             else if (props.User.role === "STUDENT") {
                 for (let i = 0; i < response.length; i++) {
-                    if (response[i].lessonId.type == "EXERCISE")
+                    if (response[i].lessonId.type === "EXERCISE")
                         tmp.push(response[i])
                 }
             }
@@ -71,7 +71,7 @@ const ListExerciseItem = (props) => {
     const handleDelete = async () => {
         if (Type === "delete") {
             try {
-                const result = await axios.delete(`${apiUrl}/lesson/${Id}`);
+                await axios.delete(`${apiUrl}/lesson/${Id}`);
                 onUpdate(true, "delete");
                 handleClose();
             }
@@ -81,7 +81,7 @@ const ListExerciseItem = (props) => {
         }
         else if (Type === "delete2") {
             try {
-                const result = await axios.delete(`${apiUrl}/lesson/save/${Id}`);
+                 await axios.delete(`${apiUrl}/lesson/save/${Id}`);
                 onUpdate(true, "delete");
                 handleClose();
             }
@@ -114,7 +114,7 @@ const ListExerciseItem = (props) => {
     const handleView = (exercise, user, view) => {
         setModal(<ViewExercises props={{ isShow: true, func: handleClose2, exercise: exercise, User: user, view: view, Classes: props.Classes, Subjects: props.Subjects }} />)
     }
-    const handleClose2 = (exercise, user, view) => {
+    const handleClose2 = () => {
         setModal(null)
     }
     //
@@ -134,7 +134,7 @@ const ListExerciseItem = (props) => {
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <ModalHeader>
-                    <Modal.Title>Confirm to delete?</Modal.Title>
+                    <Modal.Title>{`Confirm to ${Type.startsWith("delete") ? "delete":"add"}?`}</Modal.Title>
                 </ModalHeader>
                 <ModalBody>
                     Do you sure to do this ?

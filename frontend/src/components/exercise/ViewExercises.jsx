@@ -9,8 +9,8 @@ import Accordion from '../accordion/Accordion'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import { v4 as uuidv4 } from 'uuid';
-import "./Exercises.css"
 import AlertMessage from '../../pages/layout/AlertMessage'
+import "./Exercises.css"
 const ViewExercises = ({ props }) => {
 
     /*  const initialForm = {

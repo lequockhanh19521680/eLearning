@@ -1,8 +1,16 @@
 import React, { Component, useState } from 'react'
 import Question from './question/Question'
 import Answer from './answer/Answer'
-const Quiz = () => {
+const Quiz = (props) => {
+    console.log(props);
     const form = {
+        ...props.exam.exam,
+        correctAnswer: 0,
+        clickedAnswer: 0,
+        step: 1,
+        score: 0
+    }
+  /*   const form = {
         quiestions: {
             1: 'What US city is known as the "birthplace of jazz"?',
             2: 'What is the capital of Greece?',
@@ -34,7 +42,7 @@ const Quiz = () => {
         clickedAnswer: 0,
         step: 1,
         score: 0
-    }
+    } */
     const [state, setState] = useState(form)
     // the method that checks the correct answer
     const checkAnswer = answer => {
@@ -64,14 +72,14 @@ const Quiz = () => {
             clickedAnswer: 0
         });
     }
-    const { quiestions, answers, correctAnswer, clickedAnswer, step, score } = state;
+    const { questions, answers, correctAnswer, clickedAnswer, step, score } = state;
     return (
         <div className='App'>
             <div className="Content">
-                {step <= Object.keys(quiestions).length ?
+                {step <= Object.keys(questions).length ?
                     (<>
                         <Question
-                            question={quiestions[step]}
+                            question={questions[step]}
                         />
                         <Answer
                             answer={answers[step]}
@@ -83,14 +91,14 @@ const Quiz = () => {
                         <button
                             className="NextStep btn btn-info"
                             disabled={
-                                clickedAnswer && Object.keys(quiestions).length >= step
+                                clickedAnswer && Object.keys(questions).length >= step
                                     ? false : true
                             }
                             onClick={() => { nextStep(step) }}>Next</button>
                     </>) : (
                         <div className="finalPage">
                             <h1>You have completed the quiz!</h1>
-                            <p>Your score is: {score} of {Object.keys(quiestions).length}</p>
+                            <p>Your score is: {score} of {Object.keys(questions).length}</p>
                             <p>Thank you!</p>
                         </div>
                     )
