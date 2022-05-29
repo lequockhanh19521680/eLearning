@@ -7,7 +7,7 @@ const scoreDetail = new mongoose.Schema({
     },
     lessonId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'User',
+        ref:'Lesson',
         required: true,
     },
     scoreTotal:{

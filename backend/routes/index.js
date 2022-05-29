@@ -9,7 +9,7 @@ function route(app) {
     app.use('/lesson',lessonRouter)
     app.use('/comment',commentRouter)
     app.use('/contact',contactRouter)
-    app.use('./score',scoreRouter)
+    app.use('/score',scoreRouter)
 
 }
 
