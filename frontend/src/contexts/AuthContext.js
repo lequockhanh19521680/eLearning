@@ -1,8 +1,6 @@
 import { createContext } from 'react'
 import axios from 'axios'
-
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from './constants'
-
 
 export const AuthContext = createContext()
 

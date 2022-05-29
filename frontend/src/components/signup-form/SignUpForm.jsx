@@ -6,10 +6,11 @@ import { useContext, useState } from 'react'
 import AlertMessage from '../../pages/layout/AlertMessage'
 import axios from 'axios'
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../contexts/constants'
-
+import { Loading } from '../loading/Loading'
 export const SignUpForm = () => {
 
     const Navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
     // Data trong form
     const [registerForm, setRegisterForm] = useState({
         username: '',
@@ -39,45 +40,53 @@ export const SignUpForm = () => {
 
     // khi ấn submit form   
 
-    const handleRegister = async (e) => {
+    const handleRegister = (e) => {
         e.preventDefault()
-
-        if (password !== confirmPassword) {
-            setAlert({ type: 'danger', message: 'Incorrect repeat password!' })
-            //setTimeout(() => setAlert(null), 5000)
-            return
-        }
-
-        try {
-            const registerData = await registerUser(registerForm)
-            if (!registerData.success) {
-                setAlert({ type: 'danger', message: registerData.message })
-                //setTimeout(() => setAlert(null), 5000)            
-
+        setLoading(true)
+        setTimeout(async () => {
+            if (password !== confirmPassword) {
+                setAlert({ type: 'danger', message: 'Incorrect repeat password!' })
+                setLoading(false)
+                //setTimeout(() => setAlert(null), 5000)
+                return
             }
-            else {
-                // xử lý thay đổi role trong khi signup thành công
-                const get = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
-                let data = get.data.user
-                if (radio === "Teacher") {
-                    const change = await axios.patch(`${apiUrl}/user/teacher/${data._id}`)
-                    console.log(change.data)
+            if (nameAccount === "") {
+                setAlert({ type: 'danger', message: 'Missing Name!' })
+                setLoading(false)
+                return
+            }
+            try {
+                const registerData = await registerUser(registerForm)
+                if (!registerData.success) {
+                    setAlert({ type: 'danger', message: registerData.message })
+                    //setTimeout(() => setAlert(null), 5000)            
+
                 }
-                setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page" })
-                setTimeout(
-                    () => { Navigate('/login') }
-                    , 2000);
+                else {
+                    // xử lý thay đổi role trong khi signup thành công
+                    const get = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+                    let data = get.data.user
+                    if (radio === "Teacher") {
+                        const change = await axios.patch(`${apiUrl}/user/teacher/${data._id}`)
+                        console.log(change.data)
+                    }
+                    setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page" })
+                    setTimeout(
+                        () => { Navigate('/login') }
+                        , 2000);
+                }
 
-
+            } catch (error) {
+                console.log(error)
             }
+            setLoading(false)
+        }, 1000)
 
-        } catch (error) {
-            console.log(error)
-        }
     }
+
     return (
         <>
-            <section className="register-photo" style={{ padding: '80px 0' }}>
+            <section className={`register-photo ${loading ? "opacity" : ""}`} style={{ padding: '80px 0' }}>
                 <div className="form-container">
                     <div className="image-holder"></div>
                     <form onSubmit={handleRegister}>
@@ -97,6 +106,7 @@ export const SignUpForm = () => {
                     </form>
                 </div>
             </section>
+            {loading && <Loading />}
         </>
     )
 }

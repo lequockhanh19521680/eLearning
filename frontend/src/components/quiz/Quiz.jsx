@@ -1,6 +1,8 @@
 import React, { Component, useState } from 'react'
 import Question from './question/Question'
 import Answer from './answer/Answer'
+import Countdown from 'react-countdown'
+import './quiz.css'
 const Quiz = (props) => {
     console.log(props);
     const form = {
@@ -10,40 +12,53 @@ const Quiz = (props) => {
         step: 1,
         score: 0
     }
-  /*   const form = {
-        quiestions: {
-            1: 'What US city is known as the "birthplace of jazz"?',
-            2: 'What is the capital of Greece?',
-            3: 'What planet gave birth to Superman?'
-        },
-        answers: {
-            1: {
-                1: 'Chicago',
-                2: 'New Orleans',
-                3: 'New York'
-            },
-            2: {
-                1: 'Athens',
-                2: 'Patras',
-                3: 'Kalamata'
-            },
-            3: {
-                1: 'Krypton',
-                2: 'Mars',
-                3: 'Saturn'
-            }
-        },
-        correctAnswers: {
-            1: '2',
-            2: '1',
-            3: '1'
-        },
-        correctAnswer: 0,
-        clickedAnswer: 0,
-        step: 1,
-        score: 0
-    } */
     const [state, setState] = useState(form)
+    const { questions, answers, correctAnswer, clickedAnswer, step, score } = state;
+    const renderer = ({ hours, minutes, seconds, completed }) => {
+        if (completed) {
+
+            return <span> 0:0:0</span>
+        } else {
+            // Render a countdown
+            return <span>{hours}:{minutes}:{seconds}</span>;
+        }
+    }
+    const [clock, setClock] = useState(<Countdown date={Date.now() + 0.1 * 60000} renderer={renderer} onComplete={() => { nextStep(Object.keys(questions).length) }} />)
+
+    /*   const form = {
+          quiestions: {
+              1: 'What US city is known as the "birthplace of jazz"?',
+              2: 'What is the capital of Greece?',
+              3: 'What planet gave birth to Superman?'
+          },
+          answers: {
+              1: {
+                  1: 'Chicago',
+                  2: 'New Orleans',
+                  3: 'New York'
+              },
+              2: {
+                  1: 'Athens',
+                  2: 'Patras',
+                  3: 'Kalamata'
+              },
+              3: {
+                  1: 'Krypton',
+                  2: 'Mars',
+                  3: 'Saturn'
+              }
+          },
+          correctAnswers: {
+              1: '2',
+              2: '1',
+              3: '1'
+          },
+          correctAnswer: 0,
+          clickedAnswer: 0,
+          step: 1,
+          score: 0
+      } */
+
     // the method that checks the correct answer
     const checkAnswer = answer => {
         const { correctAnswers, step, score } = state;
@@ -61,6 +76,7 @@ const Quiz = (props) => {
                 clickedAnswer: answer
             });
         }
+
     }
 
     // method to move to the next question
@@ -72,39 +88,47 @@ const Quiz = (props) => {
             clickedAnswer: 0
         });
     }
-    const { questions, answers, correctAnswer, clickedAnswer, step, score } = state;
+
     return (
-        <div className='App'>
-            <div className="Content">
-                {step <= Object.keys(questions).length ?
-                    (<>
-                        <Question
-                            question={questions[step]}
-                        />
-                        <Answer
-                            answer={answers[step]}
-                            step={step}
-                            checkAnswer={checkAnswer}
-                            correctAnswer={correctAnswer}
-                            clickedAnswer={clickedAnswer}
-                        />
-                        <button
-                            className="NextStep btn btn-info"
-                            disabled={
-                                clickedAnswer && Object.keys(questions).length >= step
-                                    ? false : true
-                            }
-                            onClick={() => { nextStep(step) }}>Next</button>
-                    </>) : (
-                        <div className="finalPage">
-                            <h1>You have completed the quiz!</h1>
-                            <p>Your score is: {score} of {Object.keys(questions).length}</p>
-                            <p>Thank you!</p>
-                        </div>
-                    )
-                }
+        <React.Fragment>
+            <div className='Title row'>
+
             </div>
-        </div>
+            <div className='Time text-center my-4'>
+                {clock}
+            </div>
+            <div className='App'>
+                <div className="Content">
+                    {step <= Object.keys(questions).length ?
+                        (<>
+                            <Question
+                                question={questions[step]}
+                            />
+                            <Answer
+                                answer={answers[step]}
+                                step={step}
+                                checkAnswer={checkAnswer}
+                                correctAnswer={correctAnswer}
+                                clickedAnswer={clickedAnswer}
+                            />
+                            <button
+                                className="NextStep btn btn-info"
+                                disabled={
+                                    clickedAnswer && Object.keys(questions).length >= step
+                                        ? false : true
+                                }
+                                onClick={() => { nextStep(step) }}>Next</button>
+                        </>) : (
+                            <div className="finalPage">
+                                <h1>You have completed the quiz!</h1>
+                                <p>Your score is: {score} of {Object.keys(questions).length}</p>
+                                <p>Thank you!</p>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+        </React.Fragment>
     )
 }
 
