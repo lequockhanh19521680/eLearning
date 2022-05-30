@@ -29,16 +29,19 @@ class ScoreController {
     async getStudentFromExam(req,res){
         const lessonId = req.body.lessonId
         const userId = req.body.userId
+        console.log(req.body);
         try {
             const score = await scoreSchema.find({'lessonId': lessonId})
             .populate('userId')
             .populate('lessonId')
+          
             for(let i = 0, l = score.length; i < l; i++){
-                if(l == score.length){
+                console.log(score[i]);
+                if(i == score.length){
                     res.send("exam do khong ton tai student")
                     break
                 }
-                else if(score[i].userId._id == userId)
+                else if(score[i].userId == userId)
                 {
                     res.send(score[i])
                     break
