@@ -13,6 +13,7 @@ import AlertMessage from '../../pages/layout/AlertMessage'
 import Quiz from '../quiz/Quiz'
 import Title from '../quiz/title/Title'
 const ViewExams = ({ props }) => {
+
     return (
         <React.Fragment>
             <Modal
@@ -31,7 +32,9 @@ const ViewExams = ({ props }) => {
                 <ModalBody id="exam-body">
                     {
                         props.User.role === "TEACHER" ?
-                            <></>
+                            <React.Fragment>
+
+                            </React.Fragment>
                             :
                             <React.Fragment>
                                 <Title exam={props.exam} user={props.User} />
