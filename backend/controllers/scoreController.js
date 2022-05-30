@@ -26,32 +26,32 @@ class ScoreController {
         }
     }
 
+
     async getStudentFromExam(req,res){
-        const lessonId = req.body.lessonId
-        const userId = req.body.userId
-        console.log(req.body);
-        try {
-            const score = await scoreSchema.find({'lessonId': lessonId})
-            .populate('userId')
-            .populate('lessonId')
-          
-            for(let i = 0, l = score.length; i < l; i++){
-                console.log(score[i]);
-                if(i == score.length){
-                    res.send("exam do khong ton tai student")
-                    break
+            const lessonId = req.params.id
+            const userId = req.query.userId
+            try {
+                const temp = []
+                const score = await scoreSchema.find({'lessonId': lessonId})
+                .populate('userId')
+                .populate('lessonId')
+              
+                for(let i = 0, l = score.length; i < l; i++){
+                    if(score[i].userId.id == userId)
+                    {
+                        temp.push(score[i])
+                    }
                 }
-                else if(score[i].userId == userId)
-                {
-                    res.send(score[i])
-                    break
+                if(temp.length==0){
+                    res.send(false)
                 }
+                else res.send(temp)
+               
+        
+            } catch (err) {
+                throw new Error(err)
             }
-    
-        } catch (err) {
-            throw new Error(err)
         }
-    }
 
 
 
