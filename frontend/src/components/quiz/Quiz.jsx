@@ -1,10 +1,18 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useRef, useState } from 'react'
 import Question from './question/Question'
 import Answer from './answer/Answer'
 import Countdown from 'react-countdown'
+import Title from './title/Title'
+import { apiUrl } from '../../contexts/constants'
+import Modal from 'react-bootstrap/Modal'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalFooter from 'react-bootstrap/ModalFooter'
 import './quiz.css'
+import axios from 'axios'
 const Quiz = (props) => {
-    console.log(props);
+
+    const [Show, setShow] = useState(false)
     const form = {
         ...props.exam.exam,
         correctAnswer: 0,
@@ -12,6 +20,7 @@ const Quiz = (props) => {
         step: 1,
         score: 0
     }
+    const clockRef = useRef(null)
     const [state, setState] = useState(form)
     const { questions, answers, correctAnswer, clickedAnswer, step, score } = state;
     const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -23,7 +32,7 @@ const Quiz = (props) => {
             return <span>{hours}:{minutes}:{seconds}</span>;
         }
     }
-    const [clock, setClock] = useState(<Countdown date={Date.now() + 0.1 * 60000} renderer={renderer} onComplete={() => { nextStep(Object.keys(questions).length) }} />)
+    const [clock, setClock] = useState(<Countdown ref={clockRef} date={Date.now() + props.exam.time * 60000} renderer={renderer} onComplete={() => { nextStep(Object.keys(questions).length) }} />)
 
     /*   const form = {
           quiestions: {
@@ -78,6 +87,21 @@ const Quiz = (props) => {
         }
 
     }
+    //done event
+    const handleDone = async () => {
+        try {
+            let result = {
+                lessonId: props.exam._id,
+                userId: props.User._id,
+                scoreTotal: score
+            }
+            const rs = await axios.post(`${apiUrl}/score/`, result)
+            console.log(rs.data, rs.status);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 
     // method to move to the next question
     const nextStep = (step) => {
@@ -88,12 +112,55 @@ const Quiz = (props) => {
             clickedAnswer: 0
         });
     }
+    const handleClose = () => setShow(false)
+    const handleShow = async (id, type) => {
+        setShow(true);
 
+    }
+    const ConfirmModal =
+        (<div>
+            <Modal
+                show={Show}
+                onHide={handleClose}
+                keyboard={false}
+                size="sm"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
+                <ModalHeader>
+                    <Modal.Title>Confirm to complete the Exam?</Modal.Title>
+                </ModalHeader>
+                <ModalBody>
+                    <span>
+                        Yes and your result will be Saved<br />
+                        No to continue!
+                    </span>
+                </ModalBody>
+                <ModalFooter>
+                    <button className='btn btn-primary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleDone}>Yes</button>
+                    <button className='btn btn-secondary ' style={{ paddingLeft: '30px', paddingRight: '30px', paddingTop: '10px', paddingBottom: '10px' }} onClick={handleClose}>
+                        No
+                    </button>
+                </ModalFooter>
+
+            </Modal>
+        </div >)
+    useEffect(() => {
+        const fetchData = async () => {
+            let f = {
+                lessonId: props.exam._id,
+                userId: props.User._id
+            }
+            console.log(f);
+            const rs = await axios.get(`${apiUrl}/score/exam`, f )
+            console.log(rs.then((res) => res))
+
+
+        }
+        fetchData();
+
+    }, [])
     return (
         <React.Fragment>
-            <div className='Title row'>
-
-            </div>
             <div className='Time text-center my-4'>
                 {clock}
             </div>
@@ -128,6 +195,10 @@ const Quiz = (props) => {
                     }
                 </div>
             </div>
+            <div className='text-end mt-4'>
+                <button className='btn btn-primary px-4' onClick={handleShow}>Done</button>
+            </div>
+            {ConfirmModal}
         </React.Fragment>
     )
 }

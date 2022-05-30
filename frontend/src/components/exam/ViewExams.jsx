@@ -11,8 +11,8 @@ import { apiUrl } from '../../contexts/constants'
 import { v4 as uuidv4 } from 'uuid';
 import AlertMessage from '../../pages/layout/AlertMessage'
 import Quiz from '../quiz/Quiz'
+import Title from '../quiz/title/Title'
 const ViewExams = ({ props }) => {
-    console.log(props);
     return (
         <React.Fragment>
             <Modal
@@ -33,7 +33,11 @@ const ViewExams = ({ props }) => {
                         props.User.role === "TEACHER" ?
                             <></>
                             :
-                            <Quiz exam={props.exam} User={props.User} />
+                            <React.Fragment>
+                                <Title exam={props.exam} user={props.User} />
+                                <Quiz exam={props.exam} User={props.User} />
+                            </React.Fragment>
+
                     }
                 </ModalBody>
             </Modal>
