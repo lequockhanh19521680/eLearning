@@ -40,47 +40,49 @@ export const SignUpForm = () => {
 
     // khi ấn submit form   
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault()
         setLoading(true)
-        setTimeout(async () => {
-            if (password !== confirmPassword) {
-                setAlert({ type: 'danger', message: 'Incorrect repeat password!' })
-                setLoading(false)
-                //setTimeout(() => setAlert(null), 5000)
-                return
-            }
-            if (nameAccount === "") {
-                setAlert({ type: 'danger', message: 'Missing Name!' })
-                setLoading(false)
-                return
-            }
-            try {
-                const registerData = await registerUser(registerForm)
-                if (!registerData.success) {
-                    setAlert({ type: 'danger', message: registerData.message })
-                    //setTimeout(() => setAlert(null), 5000)            
 
-                }
-                else {
-                    // xử lý thay đổi role trong khi signup thành công
-                    const get = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
-                    let data = get.data.user
-                    if (radio === "Teacher") {
-                        const change = await axios.patch(`${apiUrl}/user/teacher/${data._id}`)
-                        console.log(change.data)
-                    }
-                    setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page" })
-                    setTimeout(
-                        () => { Navigate('/login') }
-                        , 2000);
-                }
-
-            } catch (error) {
-                console.log(error)
-            }
+        if (password !== confirmPassword) {
+            setAlert({ type: 'danger', message: 'Incorrect repeat password!' })
             setLoading(false)
-        }, 1000)
+            //setTimeout(() => setAlert(null), 5000)
+            return
+        }
+        if (nameAccount === "") {
+            setAlert({ type: 'danger', message: 'Missing Name!' })
+            setLoading(false)
+            return
+        }
+        try {
+            const registerData = await registerUser(registerForm)
+            if (!registerData.success) {
+                setAlert({ type: 'danger', message: registerData.message })
+                //setTimeout(() => setAlert(null), 5000)            
+                setLoading(false)
+
+            }
+            else {
+                // xử lý thay đổi role trong khi signup thành công
+                const get = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
+                let data = get.data.user
+                if (radio === "Teacher") {
+                     await axios.patch(`${apiUrl}/user/teacher/${data._id}`)
+                }
+                setLoading(false)
+                setAlert({ type: 'success', message: registerData.message + "\nWait 2s to transfer to login page" })
+                setTimeout(
+                    () => { Navigate('/login') }
+                    , 2000);
+            }
+
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
+    
+
 
     }
 

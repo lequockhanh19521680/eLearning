@@ -27,3 +27,21 @@
 #quescreate{
     cursor: pointer;
 }
+.Content h1 {
+    margin: 15px 0;
+    font-size: 25px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    color: #da0f0b;
+    text-transform: none;
+    text-shadow: none;
+    text-align: left;
+}
+.Content {
+    display: table;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+}

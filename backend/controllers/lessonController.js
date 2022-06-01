@@ -279,7 +279,7 @@ class lessonController{
    
         try {
             const lesson = await lessonSchema.findById(_id)
-            if(type=="EXERCISE"){
+            if(lesson.type=="EXERCISE"){
                 lesson.content.push(content)
                 lesson.save()
                 res.send(lesson)
