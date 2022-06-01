@@ -65,7 +65,6 @@ const ViewExercises = ({ props }) => {
             })
         }
         const { header, main } = contentForm
-        console.log(contentForm, props);
 
         const handleSubmit = async () => {
             const form = document.getElementById('view-create-question')
@@ -205,10 +204,8 @@ const ViewExercises = ({ props }) => {
             rs.push(tmp)
         }
         let exerciseform = { ...exerciseForm, 'content': rs }
-        console.log(exerciseform, rs)
         try {
             const response = await axios.patch(`${apiUrl}/lesson/${props.exercise._id}`, exerciseform)
-            console.log(response.data)
             if (response.data !== undefined) {
                 console.log('success', response);
                 setAlert({ type: 'success', message: "Update successfully!" })
@@ -228,7 +225,7 @@ const ViewExercises = ({ props }) => {
             setInputList(response.data.content)
         }
         fetchData();
-    }, [props.isShow, add, confirm, props.exercise._id])
+    }, [props.isShow, add, confirm, props.exercise._id,alert])
     useEffect(() => {
         setTimeout(() => {
             setAlert(null)
@@ -358,35 +355,7 @@ const ViewExercises = ({ props }) => {
                                                 <div key={uuidv4()} className='row '>
                                                     <div className=' col-lg-11'>
                                                         <Accordion Title={`Question ${index + 1}`}
-                                                            State={< Content content={item} />}
-                                                        /* <React.Fragment>
-                                                            <Form.Group >
-                                                                <Form.Label>Question</Form.Label>
-                                                                <Form.Control
-                                                                    style={{ height: "100px" }}
-                                                                    required
-                                                                    as="textarea"
-                                                                    row={3}
-                                                                    name="header"
-                                                                    value={item.header}
-                                                                    onChange={(e) => { onChangeEditContent(e, index) }}
-
-                                                                />
-                                                            </Form.Group>
-                                                            <Form.Group >
-                                                                <Form.Label>Answer</Form.Label>
-                                                                <Form.Control
-                                                                    style={{ height: "150px" }}
-                                                                    required
-                                                                    as="textarea"
-                                                                    row={3}
-                                                                    name="main"
-                                                                    value={item.main}
-                                                                    onChange={(e) => { onChangeEditContent(e, index) }}
-                                                                />
-                                                            </Form.Group>
-                                                        </React.Fragment> */
-
+                                                            State={< Content content={item} func={() => setDis(false)} />}
                                                         />
                                                     </div>
                                                     <div className=' col-lg-1 px-0 pt-2 align-middle' /* onClick={() => { handleDelete(index) }} */>
@@ -473,7 +442,7 @@ const Content = (props) => {
             [e.target.name]: e.target.value,
 
         })
-        console.log(props.content);
+        props.func()
     }
     return (
         <Form className='ques' name='ques'>

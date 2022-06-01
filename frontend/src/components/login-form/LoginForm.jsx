@@ -10,7 +10,6 @@ import { Loading } from '../loading/Loading'
 const LoginForm = () => {
     let navigate = useNavigate();
     const [loading, setLoading] = useState(false)
-    const [t] = useState(<Loading />)
 
     // Data trong form
     const [loginForm, setLoginForm] = useState({
@@ -31,32 +30,31 @@ const LoginForm = () => {
 
 
     // khi ấn submit form   
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
         setLoading(true)
-        setTimeout(async () => {
-            try {
-                const result = await loginUser(loginForm)
-                if (result === undefined) {
-                    console.log(result)
-                    console.log("waiting....")
+        try {
+            const result = await loginUser(loginForm)
+            if (result === undefined) {
+                setLoading(true)
 
-                }
-                if (result.success) {
-                    setAlert(null)
-
-                    navigate('/main')
-                } else {
-
-                    setAlert({ type: 'danger', message: result.message })
-
-                    //setTimeout(() => setAlert(null), 5000)
-                }
-            } catch (error) {
-                console.log(error)
             }
+            if (result.success) {
+                setAlert(null)
+                setLoading(false)
+                navigate('/main')
+            } else {
+
+                setAlert({ type: 'danger', message: result.message })
+                setLoading(false)
+
+                //setTimeout(() => setAlert(null), 5000)
+            }
+        } catch (error) {
+            console.log(error)
             setLoading(false)
-        }, 1000)
+        }
+
 
     }
 

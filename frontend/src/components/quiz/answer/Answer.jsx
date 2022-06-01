@@ -22,7 +22,7 @@ const Answer = (props) => {
                 {answers}
             </ul>
             <div>
-                {
+                {props.check ? "" :
                     props.correctAnswer ?
                         'Correct Answer!' :
                         props.clickedAnswer ? 'Incorrect Answer!' : ''
