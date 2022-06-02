@@ -26,6 +26,17 @@ class ScoreController {
         }
     }
 
+    async getAllStudentFromExam(req,res){
+        try{
+            const _id = req.params.id
+            const score = await scoreSchema.find({'lessonId': _id})
+            .populate('lessonId')
+            .populate('userId')
+            res.send(score)
+        }catch(err){
+            throw new Error(err)
+        }
+    }
 
     async getStudentFromExam(req,res){
             const lessonId = req.params.id
