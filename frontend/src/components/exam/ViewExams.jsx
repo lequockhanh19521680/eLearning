@@ -2,34 +2,33 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import ModalBody from 'react-bootstrap/ModalBody'
 import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalFooter from 'react-bootstrap/ModalFooter'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/esm/FormGroup'
 import Accordion from '../accordion/Accordion'
 import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
-import { v4 as uuidv4 } from 'uuid';
-import AlertMessage from '../../pages/layout/AlertMessage'
 import Quiz from '../quiz/Quiz'
 import Title from '../quiz/title/Title'
 import Question from '../quiz/question/Question'
 import Answer from '../quiz/answer/Answer'
+import ListStudentScore from '../table/ListStudentScore'
 const ViewExams = ({ props }) => {
 
-
+console.log(props);
     const [list, setList] = useState(props.exam.exam)
+    const [studentList, setStudentList] = useState([])
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const rs = axios.get(`${apiUrl}/score/exam/${props.exam._id}`)
-                console.log(rs.data);
+                const rs = await axios.get(`${apiUrl}/score/allStudentInExam/${props.exam._id}`)
+                setStudentList(rs.data)           
+
             }
             catch (error) {
                 console.log(error);
             }
         }
         fetchData();
-        console.log(list);
     }, [])
     return (
         <React.Fragment>
@@ -64,7 +63,6 @@ const ViewExams = ({ props }) => {
                                                                 required
                                                                 as="textarea"
                                                                 row={3}
-                                                                /*   onChange={onChangeexerciseForm} */
                                                                 name="name"
                                                                 defaultValue={props.exam.name}
                                                             />
@@ -78,15 +76,7 @@ const ViewExams = ({ props }) => {
                                                             <Form.Control
                                                                 name="subjectId"
                                                                 defaultValue={props.exam.subjectId.subjectName}
-
-                                                            /* 
-                                                            onChange={onChangeexerciseForm} */
                                                             >
-                                                                {/* {props.Subjects.map((subject, index) => {
-                                                                    return (
-                                                                        <option key={index} value={`${subject._id}`}>{`${subject.subjectName}`}</option>
-                                                                    )
-                                                                })} */}
                                                             </Form.Control>
                                                             <Form.Control.Feedback type="invalid">
                                                                 Please choose a Subject
@@ -97,24 +87,17 @@ const ViewExams = ({ props }) => {
                                                             <Form.Label>Class</Form.Label>
                                                             <Form.Control
                                                                 name="classId"
-                                                                defaultValue={props.exam.classId.className}
-                                                            /*  
-                                                             onChange={onChangeexerciseForm} */
-                                                            >
-                                                                {/*  {props.Classes.map((_class, index) => {
-                                                                    return (
-                                                                        <option key={index} value={`${_class._id}`}>{`${_class.className}`}</option>
-                                                                    )
-                                                                })} */}
+                                                                defaultValue={props.exam.classId.className}                                                         
+                                                            >                                                                
                                                             </Form.Control>
                                                             <Form.Control.Feedback type="invalid">
                                                                 Please choose a Class
                                                             </Form.Control.Feedback>
                                                         </FormGroup>
                                                     </fieldset>
-                                                    <fieldset className='border p-3' disabled >
-                                                        <legend className='float-none w-auto p-1'>Students List</legend>
-
+                                                    <fieldset className='border p-3 ' disabled >
+                                                        <legend className='float-none w-auto p-1 '>Students List</legend>
+                                                            <ListStudentScore students={studentList} length={Object.keys(list.questions).length}/>
                                                     </fieldset>
                                                 </Form>
                                             </div>
