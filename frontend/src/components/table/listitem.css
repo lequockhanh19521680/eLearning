@@ -30,3 +30,8 @@ td {
     height: 280px !important;
 
 }
+.student-table{
+    position: relative !important;
+    overflow: auto;
+    height: 200px !important;
+}
