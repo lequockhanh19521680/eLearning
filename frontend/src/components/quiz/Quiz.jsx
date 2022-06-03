@@ -167,7 +167,7 @@ const Quiz = (props) => {
                 setClock(<span> 0:0:0</span>)
             }
             else {
-                setClock(<Countdown ref={clockRef} date={Date.now() + 0.1 * 60000} renderer={renderer} onComplete={() => {
+                setClock(<Countdown ref={clockRef} date={Date.now() + props.exam.time * 60000} renderer={renderer} onComplete={() => {
                     setStep(Object.keys(questions).length + 1)
                 }} />)
                 setComplete(false)
