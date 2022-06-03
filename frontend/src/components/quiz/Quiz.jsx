@@ -17,13 +17,13 @@ const Quiz = (props) => {
         ...props.exam.exam,
         correctAnswer: 0,
         clickedAnswer: 0,
-        step: 1,
         score: 0
     }
 
     const clockRef = useRef(null)
     const [state, setState] = useState(form)
-    const { questions, answers, correctAnswer, clickedAnswer, step, score } = state;
+    const { questions, answers, correctAnswer, clickedAnswer, score } = state;
+    const [Step, setStep] = useState(1);
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
 
@@ -71,12 +71,12 @@ const Quiz = (props) => {
 
     // the method that checks the correct answer
     const checkAnswer = answer => {
-        const { correctAnswers, step, score } = state;
-        if (answer === correctAnswers[step]) {
+        const { correctAnswers, score } = state;
+        if (answer === correctAnswers[Step]) {
             setState({
                 ...state,
                 score: score + 1,
-                correctAnswer: correctAnswers[step],
+                correctAnswer: correctAnswers[Step],
                 clickedAnswer: answer
             });
         } else {
@@ -90,6 +90,7 @@ const Quiz = (props) => {
     }
     //done event
     const handleDone = async () => {
+
         try {
             let result = {
                 lessonId: props.exam._id,
@@ -97,7 +98,11 @@ const Quiz = (props) => {
                 scoreTotal: score
             }
             const rs = await axios.post(`${apiUrl}/score/`, result)
-            console.log(rs.data, rs.status);
+            setStep(Object.keys(questions).length + 1)
+            setComplete(true)
+            setClock(<span> 0:0:0</span>)
+            handleClose()
+
         }
         catch (error) {
             console.log(error);
@@ -108,13 +113,13 @@ const Quiz = (props) => {
     const nextStep = (step) => {
         setState({
             ...state,
-            step: step + 1,
             correctAnswer: 0,
             clickedAnswer: 0
         });
+        setStep(Step + 1)
     }
     const handleClose = () => setShow(false)
-    const handleShow = async (id, type) => {
+    const handleShow = async () => {
         setShow(true);
 
     }
@@ -154,21 +159,27 @@ const Quiz = (props) => {
             const rs = await axios.get(`${apiUrl}/score/exam/${props.exam._id}`, { params: f })
             if (rs.data) {
                 setComplete(true)
+                setStep(Object.keys(questions).length + 1)
                 setState({
                     ...state,
-                    step: Object.keys(questions).length + 1,
                     score: rs.data[0].scoreTotal
                 })
                 setClock(<span> 0:0:0</span>)
             }
             else {
-                setClock(<Countdown ref={clockRef} date={Date.now() + props.exam.time * 60000} renderer={renderer} onComplete={() => { nextStep(Object.keys(questions).length) }} />)
+                setClock(<Countdown ref={clockRef} date={Date.now() + props.exam.time * 60000} renderer={renderer} onComplete={() => {
+                    setStep(Object.keys(questions).length + 1)
+                }} />)
                 setComplete(false)
             }
         }
         fetchData();
     }, [])
-
+    useEffect(() => {
+        if (Step > Object.keys(questions).length && !complete) {
+            handleDone()
+        }
+    }, [Step])
     return (
         <React.Fragment>
             <div className='Time text-center my-4'>
@@ -176,14 +187,14 @@ const Quiz = (props) => {
             </div>
             <div className='App'>
                 <div className="Content">
-                    {step <= Object.keys(questions).length ?
+                    {Step <= Object.keys(questions).length ?
                         (<>
                             <Question
-                                question={questions[step]}
+                                question={questions[Step]}
                             />
                             <Answer
-                                answer={answers[step]}
-                                step={step}
+                                answer={answers[Step]}
+                                step={Step}
                                 checkAnswer={checkAnswer}
                                 correctAnswer={correctAnswer}
                                 clickedAnswer={clickedAnswer}
@@ -191,10 +202,10 @@ const Quiz = (props) => {
                             <button
                                 className="NextStep btn btn-info"
                                 disabled={
-                                    clickedAnswer && Object.keys(questions).length >= step
+                                    clickedAnswer && Object.keys(questions).length >= Step
                                         ? false : true
                                 }
-                                onClick={() => { nextStep(step) }}>Next</button>
+                                onClick={() => { nextStep(Step) }}>Next</button>
                         </>) : (
                             <div className="finalPage">
                                 <h1>You have completed the quiz!</h1>
