@@ -190,6 +190,7 @@ const CreateExams = ({ props }) => {
                                                 type='number'
                                                 min={1}
                                                 name="time"
+                                                onChange={onChangexamForm}
                                                 value={time}
                                                 
                                             >

@@ -14,14 +14,13 @@ import Answer from '../quiz/answer/Answer'
 import ListStudentScore from '../table/ListStudentScore'
 const ViewExams = ({ props }) => {
 
-console.log(props);
     const [list, setList] = useState(props.exam.exam)
     const [studentList, setStudentList] = useState([])
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const rs = await axios.get(`${apiUrl}/score/allStudentInExam/${props.exam._id}`)
-                setStudentList(rs.data)           
+                setStudentList(rs.data)
 
             }
             catch (error) {
@@ -87,8 +86,8 @@ console.log(props);
                                                             <Form.Label>Class</Form.Label>
                                                             <Form.Control
                                                                 name="classId"
-                                                                defaultValue={props.exam.classId.className}                                                         
-                                                            >                                                                
+                                                                defaultValue={props.exam.classId.className}
+                                                            >
                                                             </Form.Control>
                                                             <Form.Control.Feedback type="invalid">
                                                                 Please choose a Class
@@ -97,7 +96,7 @@ console.log(props);
                                                     </fieldset>
                                                     <fieldset className='border p-3 ' disabled >
                                                         <legend className='float-none w-auto p-1 '>Students List</legend>
-                                                            <ListStudentScore students={studentList} length={Object.keys(list.questions).length}/>
+                                                        <ListStudentScore students={studentList} length={Object.keys(list.questions).length} />
                                                     </fieldset>
                                                 </Form>
                                             </div>
