@@ -103,57 +103,7 @@ const Header = () => {
                     href={"/main/features"}
                   >
                     Teacher <i className="fa-solid fa-angle-down"></i>
-                    <div
-                      className="ks-position"
-                    >
-                      <div className="home-main ks-drop-down">
-                        <div className="home-main  ks-drop-down-main">
-                          <div className="home-main header-btn"></div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-lable">
-                              <a
-                                exact="true"
-                                className="btn-ks-lable log-btn btn-type"
-                                href="/"
-                                style={{ fontSize: '0.9rem' }}
-                              >
-                                Lectures
-                              </a>
-                            </div>
-                          </div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-label">
-                              <a
-                                exact="true"
-                                className="btn-ks-label log-btn btn-type"
-                                href="/"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                              >
-                                Exercises
-                              </a>
-                            </div>
-                          </div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-label">
-                              <a
-                                exact="true"
-                                className="btn-ks-label log-btn btn-type"
-                                href="/"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                              >
-                                Exams
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </a>
 
                   <a
@@ -174,57 +124,7 @@ const Header = () => {
                     href="/"
                   >
                     Class <i className="fa-solid fa-angle-down"></i>
-                    <div
-                      className="ks-position"
-                    >
-                      <div className="home-main ks-drop-down">
-                        <div className="home-main ks-drop-down-main">
-                          <div className="home-main header-btn"></div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-lable">
-                              <a
-                                exact="true"
-                                className="btn-ks-lable log-btn btn-type"
-                                href="/"
-
-                              >
-                                Cấp 1
-                              </a>
-                            </div>
-                          </div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-label">
-                              <a
-                                exact="true"
-                                className="btn-ks-label log-btn btn-type"
-                                href="/"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                              >
-                                Cấp 2
-                              </a>
-                            </div>
-                          </div>
-                          <div className="home-main btn-ks">
-                            <div className="home-main btn-ks-label">
-                              <a
-                                exact="true"
-                                className="btn-ks-label log-btn btn-type"
-                                href="/"
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                              >
-                                Cấp 3
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </a>
 
                 </div>
