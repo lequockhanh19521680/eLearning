@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { book, exercise } from '../../assets/img'
 import AlertMessage from '../layout/AlertMessage'
 import NavbarItem from '../../components/navbar/NavbarItem'
@@ -9,6 +9,7 @@ import axios from 'axios'
 import { apiUrl } from '../../contexts/constants'
 import CreateExercises from '../../components/exercise/CreateExercises'
 import CreateExams from '../../components/exam/CreateExams'
+import Footer from '../../components/footer/Footer'
 
 import './teacher.css'
 import ListExamItem from '../../components/table/ListExamItem'
@@ -66,7 +67,7 @@ const Teacher = ({ User }) => {
         setModal(null)
     }
     //Update for create lesson and delete lesson
-      const Update = (bool, type) => {
+    const Update = (bool, type) => {
         if (type === "delete") {
             setAlert({ type: 'success', message: `Delete ${Type} successfully!` })
         }
@@ -74,7 +75,7 @@ const Teacher = ({ User }) => {
     }
     //Nav click
     const handleExams = () => {
-        setState(<ListExamItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} Classes={Classes} Subjects={Subjects}/>)
+        setState(<ListExamItem Title={"Exams"} User={User} Check Change={onUpdateList} funcUpdate={Update} Classes={Classes} Subjects={Subjects} />)
         setType("Exams")
         setUpdateList("Exams")
     }
@@ -88,7 +89,7 @@ const Teacher = ({ User }) => {
         setType("Lectures")
         setUpdateList("Lectures")
     }
-  
+
     useEffect(() => {
         if (Type === "Lectures")
             handleLectures();
@@ -137,6 +138,7 @@ const Teacher = ({ User }) => {
                 </div>
             </div>
             {Modal}
+            <Footer />
         </React.Fragment >
     )
 }

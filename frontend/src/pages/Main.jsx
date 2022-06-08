@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../contexts/constants'
-import Footer from '../components/footer/Footer'
 import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
 import Home from './home/Home'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 
 const Main = () => {
+ 
   const [body, setBody] = useState(<></>)
   const [User, setUser] = useState({})
   useEffect(async () => {
-
+   
     let result = await axios.get(`${apiUrl}/user/verify`, { headers: { "Authorization": `Bearer ${localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)}` } });
 
     if (result.data.user['role'] === "TEACHER") {
@@ -31,7 +31,7 @@ const Main = () => {
         <Route path='/' element={<Home />}></Route>
         <Route path='/features' element={body}></Route>
       </Routes>
-      <Footer user={User} />
+   
 
     </>
   )
