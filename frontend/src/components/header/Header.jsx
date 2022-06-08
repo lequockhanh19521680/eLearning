@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./header.css";
-import { logo } from '../../assets/img'
+import  logo from '../../Logo/logo_chu.png'
 
 const Header = () => {
   const [show, setShow] = React.useState(false);
@@ -63,7 +63,7 @@ const Header = () => {
                     style={{ cursor: "pointer", marginRight: "200px" }}
                   >
                     <img
-                      src="http://localhost:3000/static/media/logo_chu.03d47cf3ac2a0290e887.png"
+                      src={logo}
                       className="logo"
                       alt="logo"
                     />
