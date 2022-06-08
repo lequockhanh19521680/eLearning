@@ -5,7 +5,10 @@ import Header from '../components/header/Header'
 import Teacher from './role/Teacher'
 import Student from './role/Student'
 import Home from './home/Home'
-import { Route, Routes, useLocation } from 'react-router-dom'
+
+import { Route, Routes } from 'react-router-dom'
+import Banner from '../components/Banner'
+
 
 
 const Main = () => {
@@ -26,6 +29,7 @@ const Main = () => {
   }, [])
   return (
     <>
+    <Banner></Banner>
       <Header user={User} />
       <Routes>
         <Route path='/' element={<Home />}></Route>

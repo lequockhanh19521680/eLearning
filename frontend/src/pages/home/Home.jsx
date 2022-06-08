@@ -1,14 +1,21 @@
 import React from 'react'
 import ImageGallery from '../../components/ImageIntro'
 import Banner from '../../components/Banner'
-const Home = () => {
+import Header from "../../components/header/Header";
+import Footer from "../../components/footer/Footer";
+import FavoriteRoom from '../../components/PopularLesson';
+function Home() {
     return (
-        <React.Fragment>
+      <div className="w-screen overflow-hidden relative home-component home-main">  
+        <main>
+        <Header></Header>
             <Banner />
             <ImageGallery></ImageGallery>
-        </React.Fragment>
-
-    )
-}
-
-export default Home
+            <FavoriteRoom></FavoriteRoom>
+            <Footer></Footer>
+        </main>   
+      </div>
+    );
+  }
+  
+  export default Home;
