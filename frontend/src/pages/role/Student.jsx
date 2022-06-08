@@ -9,7 +9,7 @@ import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 import ListExerciseItem from '../../components/table/ListExerciseItem'
 import ListExamItem from '../../components/table/ListExamItem';
-
+import Footer from '../../components/footer/Footer'
 import "./student.css"
 
 
@@ -119,7 +119,7 @@ const Student = ({ User }) => {
         if (Type === "Exams")
             handleExams();
 
-    }, [onUpdateList,Type])
+    }, [onUpdateList, Type])
     useEffect(() => {
         setTimeout(() => {
             setAlert(null)
@@ -162,7 +162,7 @@ const Student = ({ User }) => {
             fetchData();
         }
 
-    }, [Type,,User,code])
+    }, [Type, , User, code])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -208,6 +208,7 @@ const Student = ({ User }) => {
 
             </div>
             {Modal}
+            <Footer />
         </React.Fragment>
     )
 }
