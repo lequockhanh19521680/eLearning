@@ -9,7 +9,7 @@ function Home() {
       <div className="w-screen overflow-hidden relative home-component home-main">  
         <main>
         <Header></Header>
-            <Banner />
+            {/* <Banner /> */}
             <ImageGallery></ImageGallery>
             <FavoriteRoom></FavoriteRoom>
         </main>   
