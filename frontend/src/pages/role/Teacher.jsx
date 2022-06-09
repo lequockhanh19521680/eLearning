@@ -109,7 +109,7 @@ const Teacher = ({ User }) => {
     { name: 'Exams', func: handleExams, src: exercise }]
     return (
         <React.Fragment>
-            <div className='container-fluid page flex-column text-center d-flex '>
+            <div className='container-fluid page flex-column text-center d-flex pb-5 '>
                 <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
                         return (<NavbarItem key={index} item={Item} type={Type}></NavbarItem>)
@@ -138,7 +138,7 @@ const Teacher = ({ User }) => {
                 </div>
             </div>
             {Modal}
-            <Footer />
+         
         </React.Fragment >
     )
 }

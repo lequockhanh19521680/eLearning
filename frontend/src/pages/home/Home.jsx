@@ -12,7 +12,6 @@ function Home() {
             <Banner />
             <ImageGallery></ImageGallery>
             <FavoriteRoom></FavoriteRoom>
-            <Footer></Footer>
         </main>   
       </div>
     );
