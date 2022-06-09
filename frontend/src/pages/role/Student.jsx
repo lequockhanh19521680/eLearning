@@ -170,7 +170,7 @@ const Student = ({ User }) => {
 
     return (
         <React.Fragment>
-            <div className='container-fluid page flex-column text-center d-flex '>
+            <div className='container-fluid page flex-column text-center d-flex pb-5 '>
                 <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
                         return (
@@ -207,8 +207,7 @@ const Student = ({ User }) => {
                 </div>
 
             </div>
-            {Modal}
-            <Footer />
+            {Modal}       
         </React.Fragment>
     )
 }
