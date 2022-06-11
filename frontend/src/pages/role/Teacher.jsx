@@ -110,6 +110,7 @@ const Teacher = ({ User }) => {
     return (
         <React.Fragment>
             <div className='container-fluid page flex-column text-center d-flex pb-5 '>
+
                 <div className='row justify-content-center' >
                     {navItem.map((Item, index) => {
                         return (<NavbarItem key={index} item={Item} type={Type}></NavbarItem>)
@@ -129,7 +130,16 @@ const Teacher = ({ User }) => {
                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg>
                     </button>
+                    <div className='col-lg-2 aligns-item-center d-flex flex-row'>
+                        <div className='flex-grow-1 m-auto'>
+                            Code:
+                        </div>
+                        <div className='flex-row-1 m-auto fs-3 fw-3'>
+                            {User.code}
+                        </div>
+                    </div>
                 </div>
+
                 <div className=' container mt-3 d-flex mb-0'>
                     <AlertMessage info={alert} />
                 </div>
@@ -138,7 +148,7 @@ const Teacher = ({ User }) => {
                 </div>
             </div>
             {Modal}
-         
+
         </React.Fragment >
     )
 }
