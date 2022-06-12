@@ -55,8 +55,9 @@ const Student = ({ User }) => {
         else {
             try {
                 const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
+                console.log(result);
                 const data = result.data;
-                if (result.data !== undefined) {
+                if (result.data !== undefined && result.data.length >0 ) {
                     handleSubmit(false, "success");
                     setFind(true);
                     setCode(code);
@@ -67,6 +68,9 @@ const Student = ({ User }) => {
                     else if (Type === "Exams")
                         setStateUp(<ListExamItem Title={Type} View Code={code} UserSave={User} User={data[0].userId} Change={Type} funcUpdate={Update} ></ListExamItem>)
                     setNameTeacher("Teacher: " + data[0].userId.nameAccount);
+                }
+                else{
+                    handleSubmit(false,"fail")
                 }
 
             }
@@ -135,9 +139,8 @@ const Student = ({ User }) => {
         if (code !== undefined) {
             const fetchData = async () => {
                 try {
-                    console.log(code);
+        
                     const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
-                    console.log(result);
                     const data = result.data;
                     if (result.data !== undefined) {
                         /* console.log('success', result); */
