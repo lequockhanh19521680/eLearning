@@ -29,8 +29,8 @@ const Main = () => {
     setUser(result.data.user)
   }, [])
   return (
-    <> 
-       <Banner />
+    <>
+
       <Header user={User} />
       <Routes>
         <Route path='/' element={<Home />}></Route>
