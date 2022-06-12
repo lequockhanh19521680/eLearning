@@ -87,7 +87,6 @@ const Header = (props) => {
                   </a>
                   <a
                     className="main-element link-event link-event-delay single-navbar color-main"
-
                     style={{
                       marginRight: "24px",
                       textDecoration: "none",
@@ -101,40 +100,17 @@ const Header = (props) => {
                     }}
                     href={"/main/features"}
                   >
+
                     {props.user ? props.user.role : "Feature"} <i className="fa-solid fa-angle-down"></i>
 
                   </a>
 
-                  <a
-                    className="main-element link-event link-event-delay single-navbar color-main"
-                    target="_blank"
-                    style={{
-                      marginRight: "24px",
-                      textDecoration: "none",
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0 4px",
-                      color: '#ffffff',
-                      padding: "10px 0"
-                    }}
-                    onMouseLeave={() => onHangleState(setShowNg)}
-                    onMouseEnter={() => setShowNg(false)}
-                    href="/"
-                  >
-                    Class <i className="fa-solid fa-angle-down"></i>
-
-                  </a>
-
-                </div>
-                <div className="home main home-navbar-right">
 
                   <a
                     className="main-element link-event link-event-delay home-header-gift color-main icon-main"
                     style={{ textDecoration: "none" }}
                     href="/contact"
                   >
-
                     <svg
                       width="17"
                       height="17"
@@ -152,6 +128,8 @@ const Header = (props) => {
                     </svg>
                     Contact us
                   </a>
+                </div>
+                <div className="home main home-navbar-right">
                   <div className="home-main main-element">
                     <div
                       className="home-main jss1759 home-header-ring"

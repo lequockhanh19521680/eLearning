@@ -6,12 +6,12 @@ export default function Footer() {
     <div className='footer-container' style={{ background: 'antiquewhite' }}>
       <div className="Footer-component">
         <div class="col-md-3 col-sm-6 widget">
-          <div class="Footer-about">
+          {/* <div class="Footer-about">
             <a href="/">
               <img class="logo" src={logo} height="50" alt="Logo"></img>
             </a>
             <p> Education is the most powerful weapon we can use to change the world</p>
-          </div>
+          </div> */}
         </div>
         <div className="Footer-infor">
           <div class="col-md-3 col-sm-6 widget">

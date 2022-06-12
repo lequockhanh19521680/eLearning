@@ -5,6 +5,7 @@ import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import FavoriteRoom from '../../components/PopularLesson';
 function Home() {
+
   return (
     <div className="w-screen overflow-hidden relative home-component home-main">
       <main>
@@ -17,3 +18,4 @@ function Home() {
 }
 
 export default Home;
+
