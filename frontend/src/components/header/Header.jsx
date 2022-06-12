@@ -2,10 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import "./header.css";
-import logo from '../../Logo/logo_chu.png'
+import logo from "../../Logo/logo_chu.png";
 
 const Header = (props) => {
-  const location = useLocation()
+  const location = useLocation();
   console.log(location.pathname);
   const [show, setShow] = React.useState(false);
   const [showKs, setShowKs] = React.useState(true);
@@ -51,11 +51,11 @@ const Header = (props) => {
           <div className="">
             <div
               className={
-                location.pathname === "/main/features" ? 'home-main home-navbar scroll-down' :
-                  show ?
-                    "home-main home-navbar scroll-down"
-                    : "home-main home-navbar"
-
+                location.pathname === "/main/features"
+                  ? "home-main home-navbar scroll-down"
+                  : show
+                  ? "home-main home-navbar scroll-down"
+                  : "home-main home-navbar"
               }
             >
               <div className="home-main home-navbar-inside">
@@ -65,11 +65,7 @@ const Header = (props) => {
                     className="main-element link-event link-event-delay active color-main"
                     style={{ cursor: "pointer", marginRight: "200px" }}
                   >
-                    <img
-                      src={logo}
-                      className="logo"
-                      alt="logo"
-                    />
+                    <img src={logo} className="logo" alt="logo" />
                   </a>
                   <a
                     className="main-element link-event link-event-delay single-navbar color-main"
@@ -81,9 +77,8 @@ const Header = (props) => {
                       display: "flex",
                       alignItems: "center",
                       gap: "0 4px",
-                      color: '#ffffff',
-                      padding: "10px 0"
-
+                      color: "#ffffff",
+                      padding: "10px 0",
                     }}
                     href="/main"
                   >
@@ -99,16 +94,14 @@ const Header = (props) => {
                       display: "flex",
                       alignItems: "center",
                       gap: "0 4px",
-                      color: '#ffffff',
-                      padding: "10px 0"
+                      color: "#ffffff",
+                      padding: "10px 0",
                     }}
                     href={"/main/features"}
                   >
-
-                    {props.user ? props.user.role : "Feature"} <i className="fa-solid fa-angle-down"></i>
-
+                    {props.user ? props.user.role : "Feature"}{" "}
+                    <i className="fa-solid fa-angle-down"></i>
                   </a>
-
 
                   <a
                     className="main-element link-event link-event-delay home-header-gift color-main icon-main"
@@ -202,13 +195,10 @@ const Header = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div onClick={() => onChangeSidebar()}>
-
-                  </div>
+                  <div onClick={() => onChangeSidebar()}></div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -216,4 +206,3 @@ const Header = (props) => {
   );
 };
 export default Header;
-

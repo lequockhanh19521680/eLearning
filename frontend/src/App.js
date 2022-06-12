@@ -5,7 +5,9 @@ import AuthContextProvider from './contexts/AuthContext';
 import Landing from './pages/layout/Landing';
 import SignUp from './pages/auth/SignUp'
 import Contact from './pages/Contact'
-import ListLesson from './pages/ListLesson'
+import ListLessonVL from './pages/ListLessonVL'
+import ListLessonHoa from './pages/ListLessonHoa'
+import ListLessonMath from './pages/ListLessonMath'
 import './assets/fonts/ionicons.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -23,7 +25,9 @@ function App() {
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/main/*' element={<Main />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/ListLesson" element={<ListLesson />} />
+                    <Route path="/ListLessonVL" element={<ListLessonVL />} />
+                    <Route path="/ListLessonHoa" element={<ListLessonHoa />} />
+                    <Route path="/ListLessonMath" element={<ListLessonMath />} />
                 </Routes>
             </BrowserRouter>
         </AuthContextProvider>
