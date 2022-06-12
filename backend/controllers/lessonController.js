@@ -102,12 +102,20 @@ class lessonController{
 
     async getLesson(req,res){
         try {
-            const course = await lessonSchema.find(req.query)
+            const course = await lessonSchema.find({type: req.query.type})
             .populate('userId')
             .populate('classId')
             .populate('subjectId')
             .populate('content._id')
-            res.send(course)
+            const subjectNameTemp = req.query.subjectName
+            const courseOffical = []
+            for(let i = 0, l = course.length; i < l; i++){
+                const obj = course[i]
+                if(obj.subjectId.subjectName == subjectNameTemp)
+                courseOffical.push(obj)
+            }
+            if(subjectNameTemp == null) res.send(course)
+            else res.send(courseOffical)
         }
         catch (err) {
             res.send({ message: err.message })
