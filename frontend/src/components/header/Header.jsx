@@ -2,13 +2,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./header.css";
-import  logo from '../../Logo/logo_chu.png'
+import logo from '../../Logo/logo_chu.png'
 
-const Header = () => {
+const Header = (props) => {
   const [show, setShow] = React.useState(false);
   const [showKs, setShowKs] = React.useState(true);
   const [showNh, setShowNg] = React.useState(true);
-
   const [isSignUp, setIsSignUp] = React.useState(false);
   const handleShow = () => {
     if (typeof window !== "undefined") {
@@ -102,8 +101,8 @@ const Header = () => {
                     }}
                     href={"/main/features"}
                   >
-                    Teacher <i className="fa-solid fa-angle-down"></i>
-                    
+                    {props.user ? props.user.role : "Feature"} <i className="fa-solid fa-angle-down"></i>
+
                   </a>
 
                   <a
@@ -124,7 +123,7 @@ const Header = () => {
                     href="/"
                   >
                     Class <i className="fa-solid fa-angle-down"></i>
-                    
+
                   </a>
 
                 </div>
