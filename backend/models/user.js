@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
     },
     code:{
         type: String,
-        default: shortId.generate()
     }
 })
 

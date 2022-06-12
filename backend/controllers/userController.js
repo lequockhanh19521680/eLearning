@@ -2,6 +2,7 @@ const userModel = require('../models/user')
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 const user = require('../models/user')
+const shortId = require('short-id')
 const { FindCursor } = require('mongodb')
 class UserController {
 
@@ -62,7 +63,7 @@ class UserController {
 
     async Register(req, res) {
         const { username, password, role, nameAccount } = req.body
-
+        const code = shortId.generate()
         // Simple validation
         if (!username || !password) {
             return res
@@ -82,7 +83,7 @@ class UserController {
 
             // All good
             const hashedPassword = await argon2.hash(password)
-            const newUser = new userModel({ username, password: hashedPassword, role, nameAccount })
+            const newUser = new userModel({ username, password: hashedPassword, role, nameAccount ,code})
             await newUser.save()
             // Return token
             const accessToken = jwt.sign(
