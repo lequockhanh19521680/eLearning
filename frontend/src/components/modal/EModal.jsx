@@ -64,7 +64,7 @@ const EModal = ({ props }) => {
                         </Form.Control.Feedback>
                         <div className='px-1'>
                             <Form.Text className='idTeacherHelpBlock' id="idTeacherHelpBlock" muted>
-                                Your Teacher id must be 8-10 numbers, and
+                                Your Teacher code must be at least 6 characters, and
                                 must not contain spaces, special characters, or emoji.
                             </Form.Text>
                         </div>
