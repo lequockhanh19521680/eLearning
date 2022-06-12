@@ -25,6 +25,9 @@ const EModal = ({ props }) => {
         if (type === 'success') {
             setAlert({ type: 'success', message: "Find successfully!" })
         }
+        else{
+            setAlert({ type: 'danger', message: "Find failed!" })
+        }
     }
     useEffect(() => {
         setValidated(false)

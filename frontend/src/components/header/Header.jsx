@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import "./header.css";
 import logo from '../../Logo/logo_chu.png'
 
 const Header = (props) => {
+  const location = useLocation()
+  console.log(location.pathname);
   const [show, setShow] = React.useState(false);
   const [showKs, setShowKs] = React.useState(true);
   const [showNh, setShowNg] = React.useState(true);
@@ -49,9 +51,11 @@ const Header = (props) => {
           <div className="">
             <div
               className={
-                show
-                  ? "home-main home-navbar scroll-down"
-                  : "home-main home-navbar"
+                location.pathname === "/main/features" ? 'home-main home-navbar scroll-down' :
+                  show ?
+                    "home-main home-navbar scroll-down"
+                    : "home-main home-navbar"
+
               }
             >
               <div className="home-main home-navbar-inside">

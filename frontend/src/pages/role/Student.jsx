@@ -9,7 +9,6 @@ import axios from 'axios';
 import { apiUrl } from '../../contexts/constants';
 import ListExerciseItem from '../../components/table/ListExerciseItem'
 import ListExamItem from '../../components/table/ListExamItem';
-import Footer from '../../components/footer/Footer'
 import "./student.css"
 
 
@@ -136,7 +135,9 @@ const Student = ({ User }) => {
         if (code !== undefined) {
             const fetchData = async () => {
                 try {
+                    console.log(code);
                     const result = await axios.get(`${apiUrl}/lesson/fromTeacher/getAll?code=${code}`)
+                    console.log(result);
                     const data = result.data;
                     if (result.data !== undefined) {
                         /* console.log('success', result); */
@@ -162,7 +163,7 @@ const Student = ({ User }) => {
             fetchData();
         }
 
-    }, [Type, , User, code])
+    }, [Type, User, code])
 
     const navItem = [{ name: 'Lectures', func: handleLectures, src: book },
     { name: 'Exercises', func: handleExercises, src: exercise },
@@ -207,7 +208,7 @@ const Student = ({ User }) => {
                 </div>
 
             </div>
-            {Modal}       
+            {Modal}
         </React.Fragment>
     )
 }
